@@ -1,31 +1,34 @@
 
 <!DOCTYPE html>
+
 <html lang="es">
-<head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>MTK | Limpieza</title><link rel="stylesheet" href="estilos_mtk.css"></head>
-<body>
+<head><meta charset="utf-8"/><meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>MTK | Limpieza</title><link href="estilos_mtk.css" rel="stylesheet"/></head>
+<body style=";text-align:center;font-size:18px;padding:10px;">
 <main class="container">
 <h1>Limpieza Profesional en Alturas</h1>
 <form>
-  <label>Área en m²: <input type="number" id="metros" min="0" value="100"/></label>
-  <label>Altura: 
+<label>Área en m²: <input id="metros" min="0" type="number" value="100"/></label>
+<label>Altura: 
     <select id="pisos">
-      <option value="1">1-3 pisos ($40/m²)</option>
-      <option value="2">4-7 pisos ($48/m²)</option>
-      <option value="3">8+ pisos ($55/m²)</option>
-    </select>
-  </label>
-  <button type="button" onclick="cotizarAlturas()">Cotizar</button>
+<option value="1">1-3 pisos ($40/m²)</option>
+<option value="2">4-7 pisos ($48/m²)</option>
+<option value="3">8+ pisos ($55/m²)</option>
+</select>
+</label>
+<button onclick="cotizarAlturas()" type="button">Cotizar</button>
 </form>
 <div id="resultado-alturas"></div>
 <script src="cotizador_alturas.js"></script>
-<button id="descargar-pdf-alturas" style="display:none;" onclick="descargarPDFAlturas()">Descargar cotización en PDF</button>
+<button id="descargar-pdf-alturas" onclick="descargarPDFAlturas()" style="display:none;">Descargar cotización en PDF</button>
 </main>
 <script src="script.js"></script>
-
-<a class="whatsapp-button" href="https://wa.me/5218138474143" target="_blank" style="position: fixed; bottom: 20px; right: 20px; z-index: 1000;">
+<a class="whatsapp-button" href="https://wa.me/5218138474143" style="position: fixed; bottom: 20px; right: 20px; z-index: 1000;" target="_blank">
   📱 WhatsApp
 </a>
-
-</body>
+<div style="position:fixed;bottom:20px;right:20px;z-index:1000;"><a href="https://wa.me/1234567890" target="_blank"><img height="60" src="https://upload.wikimedia.org/wikipedia/commons/6/6b/WhatsApp.svg" style="border-radius:50%;" width="60"/></a></div><button id="cotizarBtn">Cotizar</button><button id="downloadPdfBtn" style="display:none;margin-left:10px;">Descargar PDF</button><script>
+    document.getElementById('cotizarBtn').addEventListener('click', function() {
+        document.getElementById('downloadPdfBtn').style.display = 'inline-block';
+    });
+    </script></body>
 </html>

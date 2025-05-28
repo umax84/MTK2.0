@@ -1,28 +1,31 @@
 
 <!DOCTYPE html>
+
 <html lang="es">
-<head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>MTK | Computo</title><link rel="stylesheet" href="estilos_mtk.css"></head>
-<body>
+<head><meta charset="utf-8"/><meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>MTK | Computo</title><link href="estilos_mtk.css" rel="stylesheet"/></head>
+<body style=";text-align:center;font-size:18px;padding:10px;">
 <main class="container">
 <h1>Soporte Técnico de Cómputo y Redes</h1>
 <form id="formulario-computo">
-  <label>Equipos para diagnóstico ($250 c/u): <input type="number" id="diag" min="0" value="0"/></label>
-  <label>Equipos para limpieza de virus ($480 c/u): <input type="number" id="virus" min="0" value="0"/></label>
-  <label>Equipos para optimización de red ($1500 c/u): <input type="number" id="redes" min="0" value="0"/></label>
-  <label>Equipos con soporte remoto ($200 c/u): <input type="number" id="soporte" min="0" value="0"/></label>
-  <button type="button" onclick="cotizarComputo()">Cotizar</button>
+<label>Equipos para diagnóstico ($250 c/u): <input id="diag" min="0" type="number" value="0"/></label>
+<label>Equipos para limpieza de virus ($480 c/u): <input id="virus" min="0" type="number" value="0"/></label>
+<label>Equipos para optimización de red ($1500 c/u): <input id="redes" min="0" type="number" value="0"/></label>
+<label>Equipos con soporte remoto ($200 c/u): <input id="soporte" min="0" type="number" value="0"/></label>
+<button onclick="cotizarComputo()" type="button">Cotizar</button>
 </form>
 <div id="resultado-computo"></div>
 <script src="cotizador_computo.js"></script>
-<button id="descargar-pdf-computo" style="display:none;" onclick="descargarPDFComputo()">Descargar cotización en PDF</button>
-<button id="descargar-pdf-computo" style="display:none;" onclick="descargarPDFComputo()">Descargar cotización en PDF</button>
+<button id="descargar-pdf-computo" onclick="descargarPDFComputo()" style="display:none;">Descargar cotización en PDF</button>
+<button id="descargar-pdf-computo" onclick="descargarPDFComputo()" style="display:none;">Descargar cotización en PDF</button>
 </main>
 <script src="script.js"></script>
-
-<a class="whatsapp-button" href="https://wa.me/5218138474143" target="_blank" style="position: fixed; bottom: 20px; right: 20px; z-index: 1000;">
+<a class="whatsapp-button" href="https://wa.me/5218138474143" style="position: fixed; bottom: 20px; right: 20px; z-index: 1000;" target="_blank">
   📱 WhatsApp
 </a>
-
-</body>
+<div style="position:fixed;bottom:20px;right:20px;z-index:1000;"><a href="https://wa.me/1234567890" target="_blank"><img height="60" src="https://upload.wikimedia.org/wikipedia/commons/6/6b/WhatsApp.svg" style="border-radius:50%;" width="60"/></a></div><button id="cotizarBtn">Cotizar</button><button id="downloadPdfBtn" style="display:none;margin-left:10px;">Descargar PDF</button><script>
+    document.getElementById('cotizarBtn').addEventListener('click', function() {
+        document.getElementById('downloadPdfBtn').style.display = 'inline-block';
+    });
+    </script></body>
 </html>

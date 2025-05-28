@@ -40,3 +40,5 @@ button {
   border-radius: 8px;
   text-decoration: none;
 }
+
+body { font-size: 18px; text-align: center; padding: 10px; }

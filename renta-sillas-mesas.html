@@ -1,55 +1,58 @@
 
 <!DOCTYPE html>
+
 <html lang="es">
-<head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>MTK | Eventos</title><link rel="stylesheet" href="estilos_mtk.css"></head>
-<body>
+<head><meta charset="utf-8"/><meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>MTK | Eventos</title><link href="estilos_mtk.css" rel="stylesheet"/></head>
+<body style=";text-align:center;font-size:18px;padding:10px;">
 <main class="container">
 <h1>Cotizador de Eventos</h1>
 <form>
-  <label>Mesas (8 sillas c/u): 
+<label>Mesas (8 sillas c/u): 
     <select id="mesas">
-      <option value='2'>2 mesas</option>
-<option value='4'>4 mesas</option>
-<option value='6'>6 mesas</option>
-<option value='8'>8 mesas</option>
-<option value='10'>10 mesas</option>
-<option value='12'>12 mesas</option>
-<option value='14'>14 mesas</option>
-<option value='16'>16 mesas</option>
-<option value='18'>18 mesas</option>
-<option value='20'>20 mesas</option>
-<option value='22'>22 mesas</option>
-<option value='24'>24 mesas</option>
-<option value='26'>26 mesas</option>
-<option value='28'>28 mesas</option>
-<option value='30'>30 mesas</option>
-<option value='32'>32 mesas</option>
-<option value='34'>34 mesas</option>
-<option value='36'>36 mesas</option>
-<option value='38'>38 mesas</option>
-<option value='40'>40 mesas</option>
-<option value='42'>42 mesas</option>
-<option value='44'>44 mesas</option>
-<option value='46'>46 mesas</option>
-<option value='48'>48 mesas</option>
-<option value='50'>50 mesas</option>
-    </select>
-  </label>
-  <label>Sillas extra: <input type="number" id="sillas" value="0" min="0"/></label>
-  <label>Toldos: <input type="number" id="toldos" value="0" min="0"/></label>
-  <label>Hieleras: <input type="number" id="hieleras" value="0" min="0"/></label>
-  <button type="button" onclick="cotizarEvento()">Cotizar</button>
+<option value="2">2 mesas</option>
+<option value="4">4 mesas</option>
+<option value="6">6 mesas</option>
+<option value="8">8 mesas</option>
+<option value="10">10 mesas</option>
+<option value="12">12 mesas</option>
+<option value="14">14 mesas</option>
+<option value="16">16 mesas</option>
+<option value="18">18 mesas</option>
+<option value="20">20 mesas</option>
+<option value="22">22 mesas</option>
+<option value="24">24 mesas</option>
+<option value="26">26 mesas</option>
+<option value="28">28 mesas</option>
+<option value="30">30 mesas</option>
+<option value="32">32 mesas</option>
+<option value="34">34 mesas</option>
+<option value="36">36 mesas</option>
+<option value="38">38 mesas</option>
+<option value="40">40 mesas</option>
+<option value="42">42 mesas</option>
+<option value="44">44 mesas</option>
+<option value="46">46 mesas</option>
+<option value="48">48 mesas</option>
+<option value="50">50 mesas</option>
+</select>
+</label>
+<label>Sillas extra: <input id="sillas" min="0" type="number" value="0"/></label>
+<label>Toldos: <input id="toldos" min="0" type="number" value="0"/></label>
+<label>Hieleras: <input id="hieleras" min="0" type="number" value="0"/></label>
+<button onclick="cotizarEvento()" type="button">Cotizar</button>
 </form>
 <div id="resultado-evento"></div>
 <script src="cotizador_renta_sillas_mesas.js"></script>
-<button id="descargar-pdf-evento" style="display:none;" onclick="descargarPDFEvento()">Descargar cotización en PDF</button>
+<button id="descargar-pdf-evento" onclick="descargarPDFEvento()" style="display:none;">Descargar cotización en PDF</button>
 </main>
 <script src="script.js"></script>
-
-<a class="whatsapp-button" href="https://wa.me/5218138474143" target="_blank" style="position: fixed; bottom: 20px; right: 20px; z-index: 1000;">
+<a class="whatsapp-button" href="https://wa.me/5218138474143" style="position: fixed; bottom: 20px; right: 20px; z-index: 1000;" target="_blank">
   📱 WhatsApp
 </a>
-
-</body>
+<div style="position:fixed;bottom:20px;right:20px;z-index:1000;"><a href="https://wa.me/1234567890" target="_blank"><img height="60" src="https://upload.wikimedia.org/wikipedia/commons/6/6b/WhatsApp.svg" style="border-radius:50%;" width="60"/></a></div><button id="cotizarBtn">Cotizar</button><button id="downloadPdfBtn" style="display:none;margin-left:10px;">Descargar PDF</button><script>
+    document.getElementById('cotizarBtn').addEventListener('click', function() {
+        document.getElementById('downloadPdfBtn').style.display = 'inline-block';
+    });
+    </script></body>
 </html>
