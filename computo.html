@@ -1,20 +1,21 @@
+
 <!DOCTYPE html>
 <html lang="es">
 <head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>MTK | Computo</title><link rel="stylesheet" href="styles.css"><script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
-</head>
+<title>MTK | Computo</title><link rel="stylesheet" href="estilos_mtk.css"></head>
 <body>
-<main class="calculator">
-<h1>Cotizador de Soporte de Cómputo</h1>
-<label>Cantidad de equipos para diagnóstico ($250 c/u): <input type="number" id="diag" min="0" value="0"></label>
-<label>Cantidad de equipos con virus ($480 c/u): <input type="number" id="virus" min="0" value="0"></label>
-<label>Optimización de red ($1500 c/u): <input type="number" id="redes" min="0" value="0"></label>
-<label>Soporte remoto ($200 c/u): <input type="number" id="soporte" min="0" value="0"></label>
-<button onclick="cotizarComputo()">Cotizar</button>
+<main class="container">
+<h1>Soporte Técnico de Cómputo y Redes</h1>
+<form id="formulario-computo">
+  <label>Equipos para diagnóstico ($250 c/u): <input type="number" id="diag" min="0" value="0"/></label>
+  <label>Equipos para limpieza de virus ($480 c/u): <input type="number" id="virus" min="0" value="0"/></label>
+  <label>Equipos para optimización de red ($1500 c/u): <input type="number" id="redes" min="0" value="0"/></label>
+  <label>Equipos con soporte remoto ($200 c/u): <input type="number" id="soporte" min="0" value="0"/></label>
+  <button type="button" onclick="cotizarComputo()">Cotizar</button>
+</form>
 <div id="resultado-computo"></div>
-<button onclick="window.print()">Descargar Cotización</button>
+<script src="cotizador_computo.js"></script>
+<button id="descargar-pdf-computo" style="display:none;" onclick="descargarPDFComputo()">Descargar cotización en PDF</button>
 </main>
-<script src="script.js"></script>
-<button id="descargar-pdf-computo" style="display:none;" onclick="descargarPDFComputo()">Descargar Cotización en PDF</button>
 </body>
 </html>

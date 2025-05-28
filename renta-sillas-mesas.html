@@ -1,71 +1,48 @@
+
 <!DOCTYPE html>
 <html lang="es">
 <head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>MTK | Eventos</title><link rel="stylesheet" href="styles.css"></head>
+<title>MTK | Eventos</title><link rel="stylesheet" href="estilos_mtk.css"></head>
 <body>
-<main class="calculator">
-<h1>Cotizador para Eventos</h1>
-<label>Número de mesas (8 sillas por mesa): 
-  <select id="mesas">
-    <option value='1'>1</option>
-<option value='2'>2</option>
-<option value='3'>3</option>
-<option value='4'>4</option>
-<option value='5'>5</option>
-<option value='6'>6</option>
-<option value='7'>7</option>
-<option value='8'>8</option>
-<option value='9'>9</option>
-<option value='10'>10</option>
-<option value='11'>11</option>
-<option value='12'>12</option>
-<option value='13'>13</option>
-<option value='14'>14</option>
-<option value='15'>15</option>
-<option value='16'>16</option>
-<option value='17'>17</option>
-<option value='18'>18</option>
-<option value='19'>19</option>
-<option value='20'>20</option>
-<option value='21'>21</option>
-<option value='22'>22</option>
-<option value='23'>23</option>
-<option value='24'>24</option>
-<option value='25'>25</option>
-<option value='26'>26</option>
-<option value='27'>27</option>
-<option value='28'>28</option>
-<option value='29'>29</option>
-<option value='30'>30</option>
-<option value='31'>31</option>
-<option value='32'>32</option>
-<option value='33'>33</option>
-<option value='34'>34</option>
-<option value='35'>35</option>
-<option value='36'>36</option>
-<option value='37'>37</option>
-<option value='38'>38</option>
-<option value='39'>39</option>
-<option value='40'>40</option>
-<option value='41'>41</option>
-<option value='42'>42</option>
-<option value='43'>43</option>
-<option value='44'>44</option>
-<option value='45'>45</option>
-<option value='46'>46</option>
-<option value='47'>47</option>
-<option value='48'>48</option>
-<option value='49'>49</option>
-<option value='50'>50</option>
-  </select>
-</label>
-<label>Sillas adicionales: <input type="number" id="sillas" min="0" value="0"></label>
-<label>Toldos: <input type="number" id="toldos" min="0" value="0"></label>
-<label>Hieleras: <input type="number" id="hieleras" min="0" value="0"></label>
-<button onclick="cotizarEvento()">Cotizar</button>
+<main class="container">
+<h1>Cotizador de Eventos</h1>
+<form>
+  <label>Mesas (8 sillas c/u): 
+    <select id="mesas">
+      <option value='2'>2 mesas</option>
+<option value='4'>4 mesas</option>
+<option value='6'>6 mesas</option>
+<option value='8'>8 mesas</option>
+<option value='10'>10 mesas</option>
+<option value='12'>12 mesas</option>
+<option value='14'>14 mesas</option>
+<option value='16'>16 mesas</option>
+<option value='18'>18 mesas</option>
+<option value='20'>20 mesas</option>
+<option value='22'>22 mesas</option>
+<option value='24'>24 mesas</option>
+<option value='26'>26 mesas</option>
+<option value='28'>28 mesas</option>
+<option value='30'>30 mesas</option>
+<option value='32'>32 mesas</option>
+<option value='34'>34 mesas</option>
+<option value='36'>36 mesas</option>
+<option value='38'>38 mesas</option>
+<option value='40'>40 mesas</option>
+<option value='42'>42 mesas</option>
+<option value='44'>44 mesas</option>
+<option value='46'>46 mesas</option>
+<option value='48'>48 mesas</option>
+<option value='50'>50 mesas</option>
+    </select>
+  </label>
+  <label>Sillas extra: <input type="number" id="sillas" value="0" min="0"/></label>
+  <label>Toldos: <input type="number" id="toldos" value="0" min="0"/></label>
+  <label>Hieleras: <input type="number" id="hieleras" value="0" min="0"/></label>
+  <button type="button" onclick="cotizarEvento()">Cotizar</button>
+</form>
 <div id="resultado-evento"></div>
-<button onclick="window.print()">Descargar Cotización</button>
+<script src="cotizador_renta_sillas_mesas.js"></script>
 </main>
-<script src="script.js"></script>
 </body>
 </html>
