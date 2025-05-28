@@ -1,1 +1,20 @@
-<!-- Calculadora por servicio (diagnóstico, virus, redes, soporte) -->
+
+<!DOCTYPE html>
+<html lang="es">
+<head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>MTK | Computo</title><link rel="stylesheet" href="estilos_mtk.css"></head>
+<body>
+<main class="container">
+<h1>Soporte Técnico de Cómputo y Redes</h1>
+<form id="formulario-computo">
+  <label>Equipos para diagnóstico ($250 c/u): <input type="number" id="diag" min="0" value="0"/></label>
+  <label>Equipos para limpieza de virus ($480 c/u): <input type="number" id="virus" min="0" value="0"/></label>
+  <label>Equipos para optimización de red ($1500 c/u): <input type="number" id="redes" min="0" value="0"/></label>
+  <label>Equipos con soporte remoto ($200 c/u): <input type="number" id="soporte" min="0" value="0"/></label>
+  <button type="button" onclick="cotizarComputo()">Cotizar</button>
+</form>
+<div id="resultado-computo"></div>
+<script src="cotizador_computo.js"></script>
+</main>
+</body>
+</html>

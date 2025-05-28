@@ -1,1 +1,24 @@
-<!-- Limpieza por m² y nivel de piso con subtotales -->
+
+<!DOCTYPE html>
+<html lang="es">
+<head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>MTK | Limpieza</title><link rel="stylesheet" href="estilos_mtk.css"></head>
+<body>
+<main class="container">
+<h1>Limpieza Profesional en Alturas</h1>
+<form>
+  <label>Área en m²: <input type="number" id="metros" min="0" value="100"/></label>
+  <label>Altura: 
+    <select id="pisos">
+      <option value="1">1-3 pisos ($40/m²)</option>
+      <option value="2">4-7 pisos ($48/m²)</option>
+      <option value="3">8+ pisos ($55/m²)</option>
+    </select>
+  </label>
+  <button type="button" onclick="cotizarAlturas()">Cotizar</button>
+</form>
+<div id="resultado-alturas"></div>
+<script src="cotizador_alturas.js"></script>
+</main>
+</body>
+</html>
