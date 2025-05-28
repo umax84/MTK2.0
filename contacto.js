@@ -1,1 +1,1 @@
-// Validación y envío de formulario a ventas@macrotek.com.mx
+// Formulario conectado a ventas@macrotek.com.mx con validación
