@@ -11,7 +11,7 @@
 <label>Soporte remoto ($200 c/u): <input type="number" id="soporte" min="0" value="0"></label>
 <button onclick="cotizarComputo()">Cotizar</button>
 <div id="resultado-computo"></div>
-<button onclick="window.print()">Descargar Cotización</button>
+<button id="descargar-pdf-computo" style="display:none;" onclick="descargarPDFComputo()">Descargar Cotización en PDF</button>
 </main>
 <script src="script.js"></script>
 </body>
