@@ -1,1 +1,5 @@
-/* Estilos generales unificados para MTK */
+
+body { font-family: sans-serif; padding: 2rem; background: #f0f0f0; }
+h1 { color: #003366; }
+.button-container { display: flex; flex-direction: column; gap: 1rem; }
+.btn { padding: 1rem; background: #0077cc; color: white; text-decoration: none; border-radius: 5px; }
