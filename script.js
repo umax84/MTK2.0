@@ -108,3 +108,102 @@ function descargarPDFComputo() {
 
     doc.save("cotizacion_computo.pdf");
 }
+
+
+function cotizarAlturas() {
+  const metros = +document.getElementById("metros").value;
+  const pisos = +document.getElementById("pisos").value;
+  const precio = pisos === 3 ? 55 : pisos === 2 ? 48 : 40;
+  const total = metros * precio;
+  document.getElementById("resultado-alturas").innerHTML = `<p>Total: $${total} MXN (${metros} m² x $${precio}/m²)</p>`;
+  document.getElementById("descargar-pdf-alturas").style.display = "inline-block";
+}
+
+function descargarPDFAlturas() {
+    const { jsPDF } = window.jspdf;
+    const doc = new jsPDF();
+    const vendedor = Math.random() > 0.5 ? "Raúl García" : "Diego Luna";
+    const fecha = new Date();
+    const vigencia = new Date(fecha);
+    vigencia.setDate(fecha.getDate() + 7);
+
+    const metros = +document.getElementById("metros").value;
+    const pisos = +document.getElementById("pisos").value;
+    const precio = pisos === 3 ? 55 : pisos === 2 ? 48 : 40;
+    const total = metros * precio;
+
+    doc.setFont("Arial", "bold");
+    doc.setFontSize(20);
+    doc.text("MTK", 10, 20);
+    doc.setFontSize(10);
+    doc.text("Macro Tecnologías Kernel S.A.S de C.V.", 10, 30);
+    doc.text("ventas@macrotek.com.mx", 10, 35);
+    doc.text(`Fecha: ${fecha.toLocaleDateString()}`, 10, 40);
+    doc.text(`Vigencia: ${vigencia.toLocaleDateString()}`, 10, 45);
+    doc.text(`Vendedor: ${vendedor}`, 10, 50);
+    doc.setFontSize(16);
+    doc.text("Macro Tecnologías Kernel S.A.S de C.V.", 105, 30, null, null, "center");
+    doc.setFontSize(14);
+    doc.text("Cotización", 105, 38, null, null, "center");
+
+    let y = 70;
+    doc.text(`Limpieza en Alturas: ${metros} m² x $${precio}/m² = $${total}`, 10, y);
+    y += 15;
+    doc.text(`Total: $${total}`, 10, y);
+
+    doc.save("cotizacion_alturas.pdf");
+}
+
+
+function cotizarEvento() {
+  const mesas = +document.getElementById("mesas").value;
+  const sillas = +document.getElementById("sillas").value;
+  const toldos = +document.getElementById("toldos").value;
+  const hieleras = +document.getElementById("hieleras").value;
+  const total = mesas*200 + sillas*15 + toldos*300 + hieleras*300;
+  document.getElementById("resultado-evento").innerHTML = `
+    <p>Mesas: $${mesas*200}<br>Sillas: $${sillas*15}<br>
+    Toldos: $${toldos*300}<br>Hieleras: $${hieleras*300}<br>
+    <strong>Total: $${total}</strong></p>`;
+  document.getElementById("descargar-pdf-evento").style.display = "inline-block";
+}
+
+function descargarPDFEvento() {
+    const { jsPDF } = window.jspdf;
+    const doc = new jsPDF();
+    const vendedor = Math.random() > 0.5 ? "Raúl García" : "Diego Luna";
+    const fecha = new Date();
+    const vigencia = new Date(fecha);
+    vigencia.setDate(fecha.getDate() + 7);
+
+    const mesas = +document.getElementById("mesas").value;
+    const sillas = +document.getElementById("sillas").value;
+    const toldos = +document.getElementById("toldos").value;
+    const hieleras = +document.getElementById("hieleras").value;
+    const total = mesas*200 + sillas*15 + toldos*300 + hieleras*300;
+
+    doc.setFont("Arial", "bold");
+    doc.setFontSize(20);
+    doc.text("MTK", 10, 20);
+    doc.setFontSize(10);
+    doc.text("Macro Tecnologías Kernel S.A.S de C.V.", 10, 30);
+    doc.text("ventas@macrotek.com.mx", 10, 35);
+    doc.text(`Fecha: ${fecha.toLocaleDateString()}`, 10, 40);
+    doc.text(`Vigencia: ${vigencia.toLocaleDateString()}`, 10, 45);
+    doc.text(`Vendedor: ${vendedor}`, 10, 50);
+    doc.setFontSize(16);
+    doc.text("Macro Tecnologías Kernel S.A.S de C.V.", 105, 30, null, null, "center");
+    doc.setFontSize(14);
+    doc.text("Cotización", 105, 38, null, null, "center");
+
+    let y = 70;
+    if (mesas > 0) doc.text(`Mesas: ${mesas} x $200 = $${mesas*200}`, 10, y += 10);
+    if (sillas > 0) doc.text(`Sillas: ${sillas} x $15 = $${sillas*15}`, 10, y += 10);
+    if (toldos > 0) doc.text(`Toldos: ${toldos} x $300 = $${toldos*300}`, 10, y += 10);
+    if (hieleras > 0) doc.text(`Hieleras: ${hieleras} x $300 = $${hieleras*300}`, 10, y += 10);
+
+    y += 10;
+    doc.text(`Total: $${total}`, 10, y += 10);
+
+    doc.save("cotizacion_evento.pdf");
+}
