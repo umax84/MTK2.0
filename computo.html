@@ -1,7 +1,8 @@
 <!DOCTYPE html>
 <html lang="es">
 <head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>MTK | Computo</title><link rel="stylesheet" href="styles.css"></head>
+<title>MTK | Computo</title><link rel="stylesheet" href="styles.css"><script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+</head>
 <body>
 <main class="calculator">
 <h1>Cotizador de Soporte de Cómputo</h1>
@@ -11,8 +12,9 @@
 <label>Soporte remoto ($200 c/u): <input type="number" id="soporte" min="0" value="0"></label>
 <button onclick="cotizarComputo()">Cotizar</button>
 <div id="resultado-computo"></div>
-<button id="descargar-pdf-computo" style="display:none;" onclick="descargarPDFComputo()">Descargar Cotización en PDF</button>
+<button onclick="window.print()">Descargar Cotización</button>
 </main>
 <script src="script.js"></script>
+<button id="descargar-pdf-computo" style="display:none;" onclick="descargarPDFComputo()">Descargar Cotización en PDF</button>
 </body>
 </html>
