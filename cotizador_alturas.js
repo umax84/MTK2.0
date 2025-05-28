@@ -1,6 +1,1 @@
-
-function cotizarAltura() {
-  const metros = parseInt(document.getElementById("metros").value);
-  const total = metros * 40;
-  document.getElementById("resultado-altura").innerText = `Total: $${total} MXN por ${metros} m²`;
-}
+function calcularAlturas(){const metros=parseInt(document.getElementById('metros').value);const pisos=parseInt(document.getElementById('pisos').value);let precio=pisos===3?55:pisos===2?48:40;const total=metros*precio;document.getElementById('resultado-alturas').innerText=`Total: $${total} MXN (${metros} m² a $${precio})`}
