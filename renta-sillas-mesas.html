@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Renta de Sillas y Mesas</title>
+  <link rel="stylesheet" href="estilos_mtk.css" />
+</head>
+<body>
+  <h1>Renta de Sillas, Mesas, Toldos e Hieleras</h1>
+  <p class="intro">Calcula tu presupuesto al instante y descarga tu cotización</p>
+
+  <div class="card">
+    <h2>Cotizador</h2>
+    <label for="paquete">Elige paquete de mesas (cada una con 8 sillas):</label>
+    <select id="paquete">
+      <option value="2">2 Mesas</option>
+      <option value="4">4 Mesas</option>
+      <option value="6">6 Mesas</option>
+      <option value="8">8 Mesas</option>
+      <option value="10">10 Mesas</option>
+    </select>
+
+    <label for="sillasExtra">¿Cuántas sillas extra necesitas?</label>
+    <input type="number" id="sillasExtra" value="0" min="0" />
+
+    <label for="toldos">¿Cuántos toldos necesitas?</label>
+    <input type="number" id="toldos" value="0" min="0" max="10" />
+
+    <label for="hieleras">¿Cuántas hieleras necesitas?</label>
+    <input type="number" id="hieleras" value="0" min="0" max="10" />
+
+    <button onclick="calcularCosto()">Calcular Costo</button>
+
+    <div class="resultado" id="resultado"></div>
+
+    <button onclick="descargarPDF()">Descargar Cotización en PDF</button>
+  </div>
+
+  <div class="whatsapp">
+    <a href="https://w.app/eventosexpress" target="_blank">
+      <img src="https://img.icons8.com/color/48/000000/whatsapp--v1.png" alt="WhatsApp" />
+      Contáctanos por WhatsApp
+    </a>
+  </div>
+
+  <div class="volver">
+    <a href="index.html">&#8592; Regresar a opciones</a>
+  </div>
+
+  <script src="cotizador_renta_sillas_mesas.js"></script>
+</body>
+</html>
