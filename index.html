@@ -1,25 +1,103 @@
 
 <!DOCTYPE html>
-
 <html lang="es">
 <head>
-<meta charset="utf-8"/>
-<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
-<title>MTK | Inicio</title>
-<link href="estilos_mtk.css" rel="stylesheet"/>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>MTK | Inicio</title>
+  <link rel="stylesheet" href="estilos_mtk.css">
+  <style>
+    body {
+      background: url('logo_mtk.png') no-repeat center center fixed;
+      background-size: contain;
+      background-color: #f9f9f9;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      text-align: center;
+      margin: 0;
+      padding: 0;
+    }
+
+    .overlay {
+      background-color: rgba(255,255,255,0.95);
+      padding: 20px;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
+
+    .section {
+      max-width: 600px;
+      margin: auto;
+      padding: 20px;
+    }
+
+    .section h1 {
+      font-size: 28px;
+      color: #1a1a1a;
+    }
+
+    .section p {
+      font-size: 16px;
+      line-height: 1.6;
+      color: #444;
+    }
+
+    .buttons {
+      margin-top: 30px;
+    }
+
+    .btn {
+      display: block;
+      background-color: #385738;
+      color: white;
+      text-decoration: none;
+      margin: 10px auto;
+      padding: 15px;
+      border-radius: 10px;
+      width: 90%;
+      max-width: 300px;
+      font-size: 18px;
+    }
+
+    .whatsapp {
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      z-index: 999;
+    }
+
+    .whatsapp img {
+      width: 70px;
+      height: 70px;
+    }
+  </style>
 </head>
-<body style=";text-align:center;font-size:18px;padding:10px;">
-<main class="container">
-<h1>Servicios Profesionales MTK</h1>
-<p>Selecciona un servicio:</p>
-<a class="btn" href="renta-sillas-mesas.html">🎉 Renta de Sillas y Mesas</a>
-<a class="btn" href="computo.html">💻 Cómputo y Redes</a>
-<a class="btn" href="alturas.html">🧼 Limpieza en Alturas</a>
-<a class="btn" href="https://umax84.github.io/MTK/" target="_blank">⚡ Paneles Solares</a>
-</main>
-<a class="whatsapp-button" href="https://wa.me/5218138474143" style="position: fixed; bottom: 20px; right: 20px; z-index: 1000;" target="_blank">
+<body>
+  <div class="overlay">
+    <div class="section">
+      <h1>¿Quiénes somos?</h1>
+      <p>En Macro Tecnologías Kernel S.A.S. de C.V. nos dedicamos con pasión a brindar soluciones profesionales en energía solar, mantenimiento tecnológico, limpieza industrial y renta de mobiliario para eventos.</p>
 
-</a>
+      <p>No somos solo una empresa: somos una respuesta confiable, profesional y honesta. Lo que nos distingue no son fotos, sino resultados.</p>
 
-    </script></body>
+      <p>¿Por qué no mostramos demasiadas imágenes? Porque preferimos hablar con hechos. Nuestro servicio, atención y puntualidad son nuestra mejor carta de presentación. Cada cliente es una historia de éxito que no necesita adornos, solo soluciones.</p>
+
+      <p>Elegirnos es confiar en un equipo que te orienta como el mejor vendedor del mundo: claro, directo y pensando en lo que tú necesitas. Y siempre con precios justos.</p>
+    </div>
+
+    <div class="buttons">
+      <a href="computo.html" class="btn">Soporte Técnico y Redes</a>
+      <a href="alturas.html" class="btn">Limpieza en Alturas y Cristales</a>
+      <a href="renta-sillas-mesas.html" class="btn">Renta de Mesas y Sillas</a>
+      <a href="index.html" class="btn">Cotizador Solar</a>
+    </div>
+  </div>
+
+  <div class="whatsapp">
+    <a href="https://wa.me/5218138474143" target="_blank">
+      <img src="https://img.icons8.com/ios-filled/100/25D366/whatsapp.png" alt="WhatsApp">
+    </a>
+  </div>
+</body>
 </html>
