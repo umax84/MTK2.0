@@ -1,0 +1,133 @@
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Cotizador Solar | MTK</title>
+  <link rel="stylesheet" href="styles.css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+  <script>
+    window.jsPDF = window.jspdf.jsPDF;
+  </script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.23/jspdf.plugin.autotable.min.js"></script>
+  <style>
+    .logo-header {
+      text-align: center;
+      padding: 10px;
+    }
+
+    .logo-header img {
+      width: 120px;
+      max-width: 80%;
+    }
+
+    .panel-container {
+      max-width: 600px;
+      margin: auto;
+      background-color: rgba(255, 255, 255, 0.96);
+      padding: 20px;
+      border-radius: 12px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    }
+
+    label {
+      display: block;
+      margin: 10px 0 5px;
+      font-weight: bold;
+    }
+
+    input, select {
+      width: 100%;
+      padding: 10px;
+      margin-bottom: 15px;
+      border-radius: 6px;
+      border: 1px solid #ccc;
+    }
+
+    .boton {
+      background-color: #385738;
+      color: white;
+      padding: 12px;
+      width: 100%;
+      border: none;
+      border-radius: 8px;
+      font-size: 16px;
+      cursor: pointer;
+    }
+
+    .boton:hover {
+      background-color: #2a402a;
+    }
+
+    #resultado {
+      margin-top: 20px;
+      padding: 10px;
+      background-color: #f0f7f0;
+      border-left: 4px solid #385738;
+    }
+
+    #boton-descarga {
+      margin-top: 15px;
+      text-align: center;
+    }
+
+    .whatsapp {
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      z-index: 999;
+    }
+
+    .whatsapp img {
+      width: 70px;
+      height: 70px;
+    }
+  </style>
+</head>
+<body>
+  <div class="logo-header">
+    <img src="logo_mtk.png" alt="MTK Logo">
+  </div>
+
+  <div class="panel-container">
+    <h2 style="text-align:center;">Cotizador Solar</h2>
+
+    <label for="recibo">Monto de tu recibo (MXN)</label>
+    <input type="number" id="recibo" placeholder="Ej. 2500">
+
+    <label for="horas">Horas solares pico por día</label>
+    <input type="number" id="horas" value="4.5">
+
+    <label for="tipoPanel">Tipo de panel</label>
+    <select id="tipoPanel">
+      <option value="550">550 W</option>
+      <option value="620" selected>620 W</option>
+    </select>
+
+    <label for="periodo">Periodo del recibo</label>
+    <select id="periodo">
+      <option value="mensual">Mensual</option>
+      <option value="bimestral" selected>Bimestral</option>
+      <option value="semestral">Semestral</option>
+      <option value="anual">Anual</option>
+    </select>
+
+    <button class="boton" onclick="calcularPaneles()">Calcular</button>
+
+    <div id="resultado"></div>
+
+    <div id="boton-descarga" style="display:none;">
+      <button class="boton" onclick="descargarPDF()">Descargar Cotización en PDF</button>
+    </div>
+  </div>
+
+  <div class="whatsapp">
+    <a href="https://wa.me/5218138474143" target="_blank">
+      <img src="https://img.icons8.com/ios-filled/100/25D366/whatsapp.png" alt="WhatsApp">
+    </a>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>
