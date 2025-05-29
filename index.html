@@ -4,121 +4,57 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>MTK | Inicio</title>
-  <style>
-    html, body {
-      margin: 0;
-      padding: 0;
-      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-      background: url('logo_mtk.png') no-repeat center center fixed;
-      background-size: contain;
-    }
-
-    .wrapper {
-      background-color: rgba(255, 255, 255, 0.96);
-      min-height: 100vh;
-      padding: 20px;
-      box-sizing: border-box;
-    }
-
-    .content {
-      max-width: 480px;
-      margin: auto;
-      background-color: #ffffff;
-      padding: 20px;
-      border-radius: 12px;
-      box-shadow: 0 0 10px rgba(0,0,0,0.1);
-    }
-
-    h1 {
-      text-align: center;
-      color: #2b2b2b;
-      font-size: 24px;
-    }
-
-    .section {
-      margin-bottom: 30px;
-    }
-
-    .section h2 {
-      font-size: 18px;
-      color: #333;
-      margin-bottom: 8px;
-    }
-
-    .section p {
-      font-size: 15px;
-      color: #555;
-      line-height: 1.5;
-    }
-
-    .btn {
-      display: block;
-      width: 100%;
-      margin-top: 10px;
-      padding: 12px;
-      text-align: center;
-      background-color: #385738;
-      color: white;
-      border-radius: 8px;
-      text-decoration: none;
-      font-weight: bold;
-    }
-
-    .whatsapp {
-      position: fixed;
-      bottom: 20px;
-      right: 20px;
-      z-index: 999;
-    }
-
-    .whatsapp img {
-      width: 70px;
-      height: 70px;
-    }
-
-    @media (max-width: 480px) {
-      .content { padding: 15px; }
-      .section h2 { font-size: 16px; }
-      .section p { font-size: 14px; }
-    }
-  </style>
+  <title>Calculadora de Paneles Solares</title>
+  <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-  <div class="wrapper">
-    <div class="content">
-      <h1>Bienvenido a MTK</h1>
+  <header class="header">
+    <h1>MTK Energía Solar - ¡Haz que el Sol trabaje para ti!</h1>
+    <p>Expertos en soluciones solares personalizadas para hogares y negocios.</p>
+  </header>
 
-      <div class="section">
-        <h2>Soporte Técnico y Redes</h2>
-        <p>Especialistas en reparación de computadoras, redes, impresoras y más. Atención técnica profesional a domicilio o en sitio. Resolvemos rápido.</p>
-        <a href="computo.html" class="btn">Ver servicios de cómputo</a>
-      </div>
+  <div class="calculator">
+    <h2>Calculadora de Paneles Solares</h2>
 
-      <div class="section">
-        <h2>Limpieza en Alturas y Cristales</h2>
-        <p>Contamos con personal capacitado para limpieza de cristales en alturas y estructuras difíciles. Seguridad, puntualidad y resultados visibles.</p>
-        <a href="alturas.html" class="btn">Ver limpieza profesional</a>
-      </div>
+    <label for="recibo">Costo del recibo CFE (MXN)</label>
+    <input type="number" id="recibo" placeholder="$" />
 
-      <div class="section">
-        <h2>Renta de Mesas y Sillas</h2>
-        <p>Equipamos tu evento con mobiliario de calidad, limpio, cómodo y puntual. Servicio confiable para cualquier ocasión especial.</p>
-        <a href="renta-sillas-mesas.html" class="btn">Ver renta de mobiliario</a>
-      </div>
+    <label for="periodo">Selecciona el periodo del recibo</label>
+    <select id="periodo">
+      <option value="mensual">Mensual</option>
+      <option value="bimestral" selected>Bimestral</option>
+      <option value="semestral">Semestral</option>
+      <option value="anual">Anual</option>
+    </select>
 
-      <div class="section">
-        <h2>Cotizador de Paneles Solares</h2>
-        <p>Calcula cuántos paneles necesitas, cuánto puedes ahorrar y descarga tu cotización profesional en PDF. Energía limpia y personalizada.</p>
-        <a href="index.html" class="btn">Cotizar sistema solar</a>
-      </div>
+    <label for="tipoPanel">Selecciona el tipo de panel (W)</label>
+    <select id="tipoPanel">
+      <option value="550">550 W</option>
+      <option value="620" selected>620 W</option>
+    </select>
+
+    <label for="horas">Horas solares pico por día</label>
+    <input type="number" id="horas" value="4.5" step="0.1"/>
+
+    <button onclick="calcularPaneles()">Calcular</button>
+
+    <div id="resultado"></div>
+    <div id="botonPDF" style="display:none; margin-top: 20px;">
+      <button onclick="descargarPDF()">Descargar Cotización en PDF</button>
     </div>
   </div>
 
-  <div class="whatsapp">
-    <a href="https://wa.me/5218138474143" target="_blank">
-      <img src="https://img.icons8.com/ios-filled/100/25D366/whatsapp.png" alt="WhatsApp">
-    </a>
+  <div class="cta">
+    <p>¿Tienes dudas? ¡Habla con un asesor ahora!</p>
+    <a href="https://w.app/mtk2025" target="_blank" class="whatsapp-button">Contáctanos por WhatsApp</a>
   </div>
+
+  <!-- Scripts adaptados para GitHub Pages -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+  <script>
+    window.jsPDF = window.jspdf.jsPDF;
+  </script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.23/jspdf.plugin.autotable.min.js"></script>
+  <script src="script.js"></script>
 </body>
 </html>
