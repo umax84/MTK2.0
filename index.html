@@ -12,11 +12,11 @@
       padding: 0;
       font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
       background: url('logo_mtk.png') no-repeat center center fixed;
-      background-size: contain;
+      background-size: 1200px;
     }
 
     .overlay {
-      background-color: rgba(255, 255, 255, 0.95);
+      background-color: rgba(255, 255, 255, 0.96);
       min-height: 100vh;
       padding: 20px;
       box-sizing: border-box;
@@ -33,11 +33,11 @@
 
     .logo {
       text-align: center;
-      margin-bottom: 10px;
+      margin-bottom: 20px;
     }
 
     .logo img {
-      width: 120px;
+      width: 250px;
     }
 
     h1, h2 {
@@ -45,25 +45,37 @@
       color: #2b2b2b;
     }
 
-    p {
-      text-align: justify;
-      color: #444;
+    .section {
+      margin-top: 40px;
+    }
+
+    .section h2 {
+      margin-bottom: 10px;
+      font-size: 22px;
+      color: #2b2b2b;
+    }
+
+    .section p {
       font-size: 15px;
+      color: #444;
       line-height: 1.6;
+      margin-bottom: 15px;
+      text-align: justify;
     }
 
     .btn {
       display: block;
       width: 100%;
-      margin: 12px 0;
-      padding: 14px;
+      margin: 10px 0 30px;
+      padding: 20px;
       text-align: center;
       background-color: #385738;
       color: white;
       border: none;
-      border-radius: 8px;
-      font-size: 16px;
+      border-radius: 10px;
+      font-size: 32px;
       text-decoration: none;
+      font-weight: bold;
     }
 
     .btn:hover {
@@ -91,22 +103,30 @@
       </div>
 
       <h1>Bienvenido a MTK</h1>
-      <p>
-        En <strong>Macro Tecnologías Kernel</strong> nos especializamos en soluciones integrales: soporte técnico de cómputo y redes, limpieza profesional en alturas, renta de mobiliario para eventos y sistemas de energía solar.
-      </p>
-      <p>
-        No usamos imágenes decorativas porque nuestros resultados hablan por nosotros. Preferimos ofrecer información clara, útil y directa. Creemos que la transparencia y profesionalismo son la mejor carta de presentación.
-      </p>
-      <p>
-        Nuestro compromiso es contigo: puntualidad, precios justos, atención inmediata y asesoría como si te atendiera el mejor vendedor del mundo.
-      </p>
 
-      <h2>¿Qué estás buscando?</h2>
+      <div class="section">
+        <h2>Soporte Técnico y Redes</h2>
+        <p>En MTK ofrecemos soporte técnico para computadoras, impresoras, redes y servidores. Damos mantenimiento preventivo y correctivo a domicilio o empresa. Siempre con precios justos, atención rápida y la confianza que te da el mejor vendedor del mundo.</p>
+        <a href="computo.html" class="btn">Soporte Técnico</a>
+      </div>
 
-      <a href="computo.html" class="btn">Soporte Técnico y Redes</a>
-      <a href="alturas.html" class="btn">Limpieza en Alturas y Cristales</a>
-      <a href="renta-sillas-mesas.html" class="btn">Renta de Mesas y Sillas</a>
-      <a href="paneles.html" class="btn">Cotizador de Paneles Solares</a>
+      <div class="section">
+        <h2>Limpieza en Alturas y Cristales</h2>
+        <p>Contamos con personal capacitado para realizar limpieza profesional de vidrios, cristales y estructuras elevadas. Usamos equipo seguro, certificado y adaptado para cada tipo de proyecto. Te garantizamos un trabajo limpio, puntual y sin riesgos.</p>
+        <a href="alturas.html" class="btn">Limpieza Profesional</a>
+      </div>
+
+      <div class="section">
+        <h2>Renta de Mesas y Sillas</h2>
+        <p>Rentamos sillas y mesas limpias, resistentes y en perfecto estado para todo tipo de eventos: fiestas, reuniones, juntas o eventos masivos. Entregamos a tiempo y nos encargamos de que tu mobiliario llegue listo para usarse.</p>
+        <a href="renta-sillas-mesas.html" class="btn">Eventos y Renta</a>
+      </div>
+
+      <div class="section">
+        <h2>Cotizador de Paneles Solares</h2>
+        <p>Calculamos el número de paneles que necesitas según tu recibo de luz. Obtén al instante una cotización profesional en PDF con ahorro estimado, retorno de inversión y descripción completa de tu sistema solar personalizado.</p>
+        <a href="paneles.html" class="btn">Paneles Solares</a>
+      </div>
     </div>
   </div>
 
