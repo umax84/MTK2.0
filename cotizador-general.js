@@ -2,6 +2,9 @@ document.addEventListener('DOMContentLoaded', () => {
     // Variable para contar los ítems y asignar ID único
     let itemCounter = 0;
 
+    // Se establece como cadena vacía para NO cargar ninguna imagen del logo en el PDF
+    const logoBase64 = ''; // O se podría usar null; esto asegura que no se intentará cargar una imagen.
+
     // Función para generar un número de cotización aleatorio (6 dígitos)
     function generateQuoteNumber() {
         return Math.floor(100000 + Math.random() * 900000); // Genera un número entre 100000 y 999999
@@ -109,7 +112,6 @@ document.addEventListener('DOMContentLoaded', () => {
         const total = subtotal + iva;
 
         // Actualizar los valores en la sección de resumen
-        // Se añaden verificaciones para asegurar que los elementos existan antes de intentar actualizar su contenido.
         const subtotalAmountSpan = document.getElementById('subtotalAmount');
         const ivaAmountSpan = document.getElementById('ivaAmount');
         const totalAmountSpan = document.getElementById('totalAmount');
@@ -182,115 +184,108 @@ document.addEventListener('DOMContentLoaded', () => {
         const emissionDate = today.toLocaleDateString('es-MX', { year: 'numeric', month: '2-digit', day: '2-digit' });
         const quoteNumber = generateQuoteNumber();
 
-        // Cargar logo de forma asíncrona
-        fetch('logo_mtk.png')
-            .then(response => response.blob())
-            .then(blob => {
-                return new Promise((resolve, reject) => {
-                    const reader = new FileReader();
-                    reader.onloadend = () => resolve(reader.result);
-                    reader.onerror = reject;
-                    reader.readAsDataURL(blob);
-                });
-            })
-            .then(logoDataUrl => {
-                // Configuración del PDF
-                doc.setFontSize(10);
-                doc.setFont('helvetica', 'normal');
+        // Configuración del PDF
+        doc.setFontSize(10);
+        doc.setFont('helvetica', 'normal');
 
-                // Encabezado
-                doc.addImage(logoDataUrl, 'PNG', 15, 10, 40, 20); // Logo MTK
+        // Encabezado
+        // Si logoBase64 es una cadena vacía, se ejecutará el 'else' y se dibujará el texto "MTK"
+        if (logoBase64) { // Esta condición ahora será false porque logoBase64 está vacío
+            doc.addImage(logoBase64, 'PNG', 15, 10, 40, 20); // Código que ya no se ejecutará
+        } else {
+            // Dibuja el texto "MTK" en lugar del logo
+            doc.setFontSize(18);
+            doc.setFont('helvetica', 'bold');
+            doc.text('MTK', 15, 25); // Posición del texto "MTK"
+            doc.setFontSize(10); // Restablecer tamaño de fuente
+            doc.setFont('helvetica', 'normal'); // Restablecer estilo de fuente
+        }
 
-                doc.text('MTK Macro Tecnologías Kernel', 200, 15, { align: 'right' });
-                doc.text('Av. Paseo de los Leones #123', 200, 20, { align: 'right' });
-                doc.text('Monterrey, N.L., México', 200, 25, { align: 'right' });
-                doc.text('Tel: +52 81 1234 5678', 200, 30, { align: 'right' });
-                doc.text('Email: soporte@mtkenergia.com', 200, 35, { align: 'right' });
+        doc.text('MTK Macro Tecnologías Kernel', 200, 15, { align: 'right' });
+        doc.text('Av. Paseo de los Leones #123', 200, 20, { align: 'right' });
+        doc.text('Monterrey, N.L., México', 200, 25, { align: 'right' });
+        doc.text('Tel: +52 81 1234 5678', 200, 30, { align: 'right' });
+        doc.text('Email: soporte@mtkenergia.com', 200, 35, { align: 'right' });
 
-                doc.setFontSize(18);
-                doc.setFont('helvetica', 'bold');
-                doc.text('COTIZACIÓN DE SERVICIOS', 105, 50, { align: 'center' });
+        doc.setFontSize(18);
+        doc.setFont('helvetica', 'bold');
+        doc.text('COTIZACIÓN DE SERVICIOS', 105, 50, { align: 'center' });
 
-                // Información de la cotización
-                doc.setFontSize(10);
-                doc.setFont('helvetica', 'normal');
-                doc.text(`Fecha de Emisión: ${emissionDate}`, 15, 65);
-                doc.text(`Número de Cotización: ${quoteNumber}`, 15, 70);
+        // Información de la cotización
+        doc.setFontSize(10);
+        doc.setFont('helvetica', 'normal');
+        doc.text(`Fecha de Emisión: ${emissionDate}`, 15, 65);
+        doc.text(`Número de Cotización: ${quoteNumber}`, 15, 70);
 
-                // Información del Cliente
-                doc.setFontSize(12);
-                doc.setFont('helvetica', 'bold');
-                doc.text('Información del Cliente:', 15, 80);
-                doc.setFontSize(10);
-                doc.setFont('helvetica', 'normal');
-                doc.text(`Nombre: ${clientName}`, 15, 87);
-                if (clientCompany) doc.text(`Empresa: ${clientCompany}`, 15, 92);
-                if (clientEmail) doc.text(`Correo: ${clientEmail}`, 15, 97);
-                if (clientPhone) doc.text(`Teléfono: ${clientPhone}`, 15, 102);
+        // Información del Cliente
+        doc.setFontSize(12);
+        doc.setFont('helvetica', 'bold');
+        doc.text('Información del Cliente:', 15, 80);
+        doc.setFontSize(10);
+        doc.setFont('helvetica', 'normal');
+        doc.text(`Nombre: ${clientName}`, 15, 87);
+        if (clientCompany) doc.text(`Empresa: ${clientCompany}`, 15, 92);
+        if (clientEmail) doc.text(`Correo: ${clientEmail}`, 15, 97);
+        if (clientPhone) doc.text(`Teléfono: ${clientPhone}`, 15, 102);
 
-                // Tabla de ítems
-                const startY = 115;
-                doc.autoTable({
-                    startY: startY,
-                    head: [['Código', 'Descripción', 'Unidad', 'Cantidad', 'Precio Unitario', 'Total']],
-                    body: items,
-                    theme: 'striped',
-                    styles: {
-                        font: 'helvetica',
-                        fontSize: 8,
-                        cellPadding: 3,
-                        valign: 'middle',
-                        halign: 'left'
-                    },
-                    headStyles: {
-                        fillColor: [47, 79, 79], // dark-metal RGB
-                        textColor: [255, 255, 255],
-                        fontStyle: 'bold',
-                        halign: 'center'
-                    },
-                    columnStyles: {
-                        4: { halign: 'right' },
-                        5: { halign: 'right' }
-                    },
-                    didDrawPage: function (data) {
-                        // Footer para cada página (ej. número de página)
-                        doc.setFontSize(8);
-                        doc.text(`Página ${data.pageNumber} de ${doc.internal.pages.length - 1}`, data.settings.margin.left, doc.internal.pageSize.height - 10);
-                    }
-                });
+        // Tabla de ítems
+        const startY = 115;
+        doc.autoTable({
+            startY: startY,
+            head: [['Código', 'Descripción', 'Unidad', 'Cantidad', 'Precio Unitario', 'Total']],
+            body: items,
+            theme: 'striped',
+            styles: {
+                font: 'helvetica',
+                fontSize: 8,
+                cellPadding: 3,
+                valign: 'middle',
+                halign: 'left'
+            },
+            headStyles: {
+                fillColor: [47, 79, 79], // dark-metal RGB
+                textColor: [255, 255, 255],
+                fontStyle: 'bold',
+                halign: 'center'
+            },
+            columnStyles: {
+                4: { halign: 'right' },
+                5: { halign: 'right' }
+            },
+            didDrawPage: function (data) {
+                // Footer para cada página (ej. número de página)
+                doc.setFontSize(8);
+                doc.text(`Página ${data.pageNumber} de ${doc.internal.pages.length - 1}`, data.settings.margin.left, doc.internal.pageSize.height - 10);
+            }
+        });
 
-                // Resumen de totales
-                let finalY = doc.autoTable.previous.finalY;
-                finalY = finalY > (doc.internal.pageSize.height - 70) ? (doc.internal.pageSize.height - 70) : finalY; // Asegura espacio si la tabla es corta
+        // Resumen de totales
+        let finalY = doc.autoTable.previous.finalY;
+        finalY = finalY > (doc.internal.pageSize.height - 70) ? (doc.internal.pageSize.height - 70) : finalY; // Asegura espacio si la tabla es corta
 
-                const totalLabelX = doc.autoTable.previous.columns[4].x + doc.autoTable.previous.columns[4].width - 15; // Ajusta la posición de las etiquetas de total
-                const totalValueX = doc.autoTable.previous.columns[5].x + doc.autoTable.previous.columns[5].width;
+        const totalLabelX = doc.autoTable.previous.columns[4].x + doc.autoTable.previous.columns[4].width - 15; // Ajusta la posición de las etiquetas de total
+        const totalValueX = doc.autoTable.previous.columns[5].x + doc.autoTable.previous.columns[5].width;
 
-                doc.setFontSize(10);
-                doc.setFont('helvetica', 'normal');
-                doc.text(`Subtotal:`, totalLabelX, finalY + 7, { align: 'right' });
-                doc.text(`$${subtotal.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`, totalValueX, finalY + 7, { align: 'right' });
+        doc.setFontSize(10);
+        doc.setFont('helvetica', 'normal');
+        doc.text(`Subtotal:`, totalLabelX, finalY + 7, { align: 'right' });
+        doc.text(`$${subtotal.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`, totalValueX, finalY + 7, { align: 'right' });
 
-                doc.text(`IVA (16%):`, totalLabelX, finalY + 13, { align: 'right' });
-                doc.text(`$${iva.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`, totalValueX, finalY + 13, { align: 'right' });
+        doc.text(`IVA (16%):`, totalLabelX, finalY + 13, { align: 'right' });
+        doc.text(`$${iva.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`, totalValueX, finalY + 13, { align: 'right' });
 
-                doc.setFontSize(12);
-                doc.setFont('helvetica', 'bold');
-                doc.text(`TOTAL:`, totalLabelX, finalY + 22, { align: 'right' });
-                doc.text(`$${total.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`, totalValueX, finalY + 22, { align: 'right' });
-                doc.setFont('helvetica', 'normal'); // Restablecer la fuente
+        doc.setFontSize(12);
+        doc.setFont('helvetica', 'bold');
+        doc.text(`TOTAL:`, totalLabelX, finalY + 22, { align: 'right' });
+        doc.text(`$${total.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`, totalValueX, finalY + 22, { align: 'right' });
+        doc.setFont('helvetica', 'normal'); // Restablecer la fuente
 
-                // Firma y notas (opcional)
-                doc.setFontSize(9);
-                doc.text("Gracias por su interés en MTK Energía Solar. ¡Estamos para servirle!", 15, finalY + 35);
-                doc.text("Este documento es una cotización y no un compromiso de compra.", 15, finalY + 40);
+        // Firma y notas (opcional)
+        doc.setFontSize(9);
+        doc.text("Gracias por su interés en MTK Energía Solar. ¡Estamos para servirle!", 15, finalY + 35);
+        doc.text("Este documento es una cotización y no un compromiso de compra.", 15, finalY + 40);
 
-                doc.save(`Cotizacion_MTK_Servicios_${emissionDate.replace(/\//g, '-')}_${quoteNumber}.pdf`);
-
-            }).catch(error => {
-                console.error("Error al cargar la imagen o generar el PDF:", error);
-                alert("Hubo un error al generar la cotización. Por favor, asegúrese de que el archivo 'logo_mtk.png' esté disponible y que los datos sean válidos.");
-            });
+        doc.save(`Cotizacion_MTK_Servicios_${emissionDate.replace(/\//g, '-')}_${quoteNumber}.pdf`);
     }
 
     // Event Listeners for the Cotizador
