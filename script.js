@@ -15,16 +15,13 @@ document.addEventListener('DOMContentLoaded', () => {
         'DiegoL': 'DiegoLuna$'
     };
 
-    // Función para mostrar mensaje de error/éxito
+    // Función para mostrar mensaje de error
     function showLoginMessage(message, isError = true) {
         loginMessage.textContent = message;
-        loginMessage.classList.remove('error-message', 'success-message');
+        loginMessage.classList.remove('error-message');
+        loginMessage.classList.remove('success-message');
         loginMessage.classList.add(isError ? 'error-message' : 'success-message');
         loginMessage.classList.add('show');
-        setTimeout(() => {
-            loginMessage.classList.remove('show');
-            loginMessage.textContent = '';
-        }, 3000);
     }
 
     // Función para intentar el login
@@ -40,127 +37,115 @@ document.addEventListener('DOMContentLoaded', () => {
         if (USERS[username] && USERS[username] === password) {
             // Credenciales correctas
             showLoginMessage('¡Acceso concedido! Redireccionando...', false);
-            localStorage.setItem('isLoggedIn', 'true'); // Guardar estado de login
-            body.classList.add('logged-in');
-            loginOverlay.style.display = 'none';
-            showSection('inicio'); // Mostrar la sección de inicio al loguearse
-            updateNavLinks(); // Actualizar el estado de los enlaces de navegación
+            sessionStorage.setItem('loggedIn', 'true'); // Marcar como logueado
+            setTimeout(() => {
+                loginOverlay.style.display = 'none';
+                body.classList.add('logged-in');
+                showSection('inicio'); // Mostrar la sección de inicio después del login
+            }, 1000);
         } else {
             // Credenciales incorrectas
             showLoginMessage('Usuario o contraseña incorrectos.');
-            loginPasswordInput.value = ''; // Limpiar contraseña
         }
     }
 
-    // --- GESTIÓN DE SECCIONES Y NAVEGACIÓN ---
+    // Event listener para el botón de login
+    if (loginBtn) {
+        loginBtn.addEventListener('click', attemptLogin);
+        // Permitir login con Enter en los campos de usuario/contraseña
+        loginUsernameInput.addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') attemptLogin();
+        });
+        loginPasswordInput.addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') attemptLogin();
+        });
+    }
+
+    // --- MANEJO DE SECCIONES Y NAVEGACIÓN ---
     const navLinks = document.querySelectorAll('.nav-links a');
-    const logoutBtn = document.getElementById('logoutBtn');
-    const hamburgerMenu = document.querySelector('.hamburger-menu');
-    const mobileNavLinks = document.querySelector('.nav-links');
+    const sections = document.querySelectorAll('.main-content > div');
 
-    // Función para mostrar la sección correcta
     function showSection(sectionId) {
-        document.querySelectorAll('.main-content > div').forEach(section => {
+        sections.forEach(section => {
             section.style.display = 'none';
-            section.classList.remove('active-section'); // Asegurarse de remover la clase
         });
-        const targetSection = document.getElementById(sectionId);
-        if (targetSection) {
-            targetSection.style.display = 'block';
-            targetSection.classList.add('active-section'); // Añadir clase active
+        const activeSection = document.getElementById(sectionId);
+        if (activeSection) {
+            activeSection.style.display = 'block';
+            // Desplazar al inicio de la sección si no es "inicio" y es necesario
+            if (sectionId !== 'inicio') {
+                 activeSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            }
         }
 
-        // Actualizar estado 'active' en la navegación
+        // Actualizar clase 'active' en los enlaces de navegación
         navLinks.forEach(link => {
             link.classList.remove('active');
-            if (link.dataset.section === sectionId) {
+            if (link.getAttribute('data-section') === sectionId || (link.href && link.href.includes(sectionId))) {
                 link.classList.add('active');
             }
         });
+
+        // Cerrar menú de hamburguesa si está abierto
+        const hamburgerMenu = document.querySelector('.hamburger-menu');
+        const mainNavLinks = document.querySelector('.nav-links');
+        if (hamburgerMenu && mainNavLinks && mainNavLinks.classList.contains('active')) {
+            hamburgerMenu.classList.remove('active');
+            mainNavLinks.classList.remove('active');
+            body.classList.remove('menu-open');
+        }
     }
 
-    // Función para actualizar los enlaces de navegación al cargar la página
-    function updateNavLinks() {
-        const currentPath = window.location.pathname;
-        const currentHash = window.location.hash;
-
-        navLinks.forEach(link => {
-            link.classList.remove('active');
-            const linkHref = link.getAttribute('href');
-
-            if (linkHref === 'clientes.html' && currentPath.includes('clientes.html')) {
-                link.classList.add('active');
-            } else if (linkHref.startsWith('index.html') && currentPath.includes('index.html')) {
-                if (linkHref.split('#')[1] === currentHash.substring(1)) {
-                    link.classList.add('active');
-                } else if (!currentHash && link.dataset.section === 'inicio') {
-                    link.classList.add('active'); // Por defecto, 'inicio' si no hay hash
-                }
-            }
-        });
-    }
-
-    // --- EVENT LISTENERS ---
-    loginBtn.addEventListener('click', attemptLogin);
-
-    // Permitir login con Enter en los campos
-    loginUsernameInput.addEventListener('keypress', (e) => {
-        if (e.key === 'Enter') attemptLogin();
-    });
-    loginPasswordInput.addEventListener('keypress', (e) => {
-        if (e.key === 'Enter') attemptLogin();
-    });
-
-    logoutBtn.addEventListener('click', (e) => {
-        e.preventDefault();
-        localStorage.removeItem('isLoggedIn'); // Eliminar estado de login
-        body.classList.remove('logged-in');
-        loginOverlay.style.display = 'flex'; // Mostrar overlay de login
-        window.location.hash = ''; // Limpiar el hash de la URL
-        document.querySelectorAll('.main-content > div').forEach(section => {
-            section.style.display = 'none'; // Ocultar todas las secciones
-        });
-        showLoginMessage('Has cerrado sesión.', false);
-    });
-
-    // Manejo de la navegación entre secciones
+    // Event listeners para los enlaces de navegación
     navLinks.forEach(link => {
-        // Para enlaces internos de index.html
-        if (link.getAttribute('href').startsWith('#')) {
-            link.addEventListener('click', (e) => {
-                e.preventDefault();
-                const sectionId = link.dataset.section;
-                history.pushState(null, '', `#${sectionId}`); // Cambia el hash de la URL sin recargar
+        link.addEventListener('click', (e) => {
+            const sectionId = link.getAttribute('data-section') || link.href.split('#')[1];
+            if (sectionId) {
+                e.preventDefault(); // Prevenir el comportamiento predeterminado del enlace
                 showSection(sectionId);
-            });
-        }
-        // Para el enlace a clientes.html, la gestión de la clase 'active' se hace en updateNavLinks
+            }
+        });
     });
 
-    // Manejo del botón de hamburguesa para menú móvil
-    hamburgerMenu.addEventListener('click', () => {
-        mobileNavLinks.classList.toggle('active');
-    });
-
-    // Manejar el estado de login al cargar la página
-    const isLoggedIn = localStorage.getItem('isLoggedIn') === 'true';
-    if (isLoggedIn) {
-        body.classList.add('logged-in');
-        loginOverlay.style.display = 'none';
-
-        // Determinar la sección a mostrar al cargar
-        const initialSectionId = window.location.hash.substring(1) || 'inicio';
-        showSection(initialSectionId);
-    } else {
-        body.classList.remove('logged-in');
-        loginOverlay.style.display = 'flex';
-        // Oculta todas las secciones del contenido principal si no está logeado
-        document.querySelectorAll('.main-content > div').forEach(section => {
-            section.style.display = 'none';
+    // --- CERRAR SESIÓN ---
+    const logoutBtn = document.getElementById('logoutBtn');
+    if (logoutBtn) {
+        logoutBtn.addEventListener('click', (e) => {
+            e.preventDefault();
+            sessionStorage.removeItem('loggedIn'); // Eliminar el estado de logueado
+            loginOverlay.style.display = 'flex'; // Mostrar overlay de login
+            body.classList.remove('logged-in'); // Eliminar clase de logueado del body
+            loginUsernameInput.value = ''; // Limpiar campos
+            loginPasswordInput.value = '';
+            showLoginMessage('', false); // Limpiar mensajes de login
+            showSection(''); // Ocultar todas las secciones del contenido principal
+            window.location.hash = ''; // Limpiar hash de URL
+            console.log('Sesión cerrada.');
         });
     }
 
-    // Actualizar el estado de los enlaces de navegación en la carga inicial y en cambios de hash
-    updateNavLinks();
-    window.addEventListener('hashchange', updateNavLinks);
+    // --- MENÚ HAMBURGUESA (MÓVIL) ---
+    const hamburgerMenu = document.querySelector('.hamburger-menu');
+    const mainNavLinks = document.querySelector('.nav-links');
+
+    if (hamburgerMenu) {
+        hamburgerMenu.addEventListener('click', () => {
+            hamburgerMenu.classList.toggle('active');
+            mainNavLinks.classList.toggle('active');
+            body.classList.toggle('menu-open');
+        });
+    }
+
+    // --- INICIALIZACIÓN AL CARGAR LA PÁGINA ---
+    // Verificar estado de login al cargar la página
+    if (sessionStorage.getItem('loggedIn') === 'true') {
+        loginOverlay.style.display = 'none';
+        body.classList.add('logged-in');
+        // Mantener la sección activa si hay un hash en la URL, de lo contrario mostrar inicio
+        const initialSection = window.location.hash.substring(1) || 'inicio';
+        showSection(initialSection);
+    } else {
+        loginOverlay.style.display = 'flex';
+        body.classList.remove('logged-in');
+    }
 });
