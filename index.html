@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>MTK</title>
+  <title>MTK | Gestión de Cotizaciones</title>
   <link rel="stylesheet" href="styles.css">
 </head>
 <body>
@@ -27,7 +27,7 @@
   <header class="main-header">
     <nav class="navbar">
       <div class="logo-container">
-        <a href="index.html" class="brand-logo">
+        <a href="index.html#inicio" class="brand-logo">
           <img src="logo_mtk.png" alt="MTK" class="logo-nav">
           MTK Energía Solar
         </a>
@@ -38,9 +38,9 @@
         <span class="bar"></span>
       </button>
       <ul class="nav-links">
-        <li><a href="#inicio" class="active" data-section="inicio">Inicio</a></li>
+        <li><a href="#inicio" data-section="inicio">Inicio</a></li>
         <li><a href="#cotizador" data-section="cotizador">Cotizador</a></li>
-        <li><a href="clientes.html">Clientes</a></li>
+        <li><a href="clientes.html" data-section="clientes">Clientes</a></li>
         <li><a href="#contacto" data-section="contacto">Contacto</a></li>
       </ul>
       <div class="logout-container">
@@ -50,145 +50,107 @@
   </header>
 
   <main class="main-content">
-    <div class="section-inicio active-section" id="inicio">
+    <div class="section-inicio" id="inicio">
       <div class="inicio-content">
-        <img src="logo_mtk.png" alt="MTK Logo" class="logo-inicio">
-        <h1>MTK Macro Tecnologías Kernel</h1>
-        <p class="eslogan">¡Tu aliado estratégico en tecnología y energía solar!</p>
-
-        <div class="nosotros">
-          <h2>Quiénes Somos</h2>
-          <p>En MTK Macro Tecnologías Kernel, somos una empresa líder en soluciones integrales de tecnología y energía solar. Nos especializamos en ofrecer productos y servicios de vanguardia que impulsan la eficiencia, la sostenibilidad y el crecimiento de nuestros clientes. Con un enfoque en la innovación y la calidad, nos comprometemos a proporcionar soluciones personalizadas que se adapten a las necesidades específicas de cada proyecto.</p>
-        </div>
-
-        <div class="que-hacemos">
-          <h2>Qué Hacemos</h2>
-          <p>Nuestra experiencia abarca diversas áreas, incluyendo:</p>
-          <ul>
-            <li><strong>Desarrollo de Software a Medida:</strong> Creamos soluciones de software personalizadas para optimizar tus procesos empresariales.</li>
-            <li><strong>Instalaciones Solares Fotovoltaicas:</strong> Diseñamos e instalamos sistemas de energía solar para hogares y empresas, reduciendo costos y promoviendo un futuro más verde.</li>
-            <li><strong>Sistemas de Seguridad Electrónica:</strong> Implementamos soluciones avanzadas de vigilancia y control de acceso para proteger tus activos.</li>
-            <li><strong>Mantenimiento y Soporte Técnico:</strong> Ofrecemos servicios de mantenimiento preventivo y correctivo, asegurando el óptimo funcionamiento de tus sistemas.</li>
-          </ul>
-        </div>
-
-        <div class="donde-vamos">
-          <h2>Hacia Dónde Vamos</h2>
-          <p>En MTK, miramos hacia el futuro con la visión de seguir siendo referentes en el mercado. Nos esforzamos por:</p>
-          <ul>
-            <li><strong>Innovar Constantemente:</strong> Investigar y desarrollar nuevas tecnologías para mantenernos a la vanguardia.</li>
-            <li><strong>Expandir Nuestro Alcance:</strong> Llegar a más clientes y mercados, ofreciendo soluciones accesibles y de alto impacto.</li>
-            <li><strong>Compromiso Sostenible:</strong> Contribuir activamente al desarrollo de energías renovables y tecnologías que beneficien al planeta.</li>
-            <li><strong>Excelencia en el Servicio:</strong> Superar las expectativas de nuestros clientes con un soporte técnico excepcional y una atención personalizada.</li>
-          </ul>
+        <h2>Bienvenido al Sistema de Gestión de Cotizaciones MTK</h2>
+        <p>Utiliza el menú de navegación para acceder a las diferentes funciones del sistema.</p>
+        <div class="quick-access-buttons">
+          <a href="#cotizador" class="quick-btn">Generar Nueva Cotización</a>
+          <a href="clientes.html" class="quick-btn">Gestionar Clientes</a>
+          <a href="#contacto" class="quick-btn">Contactar Soporte</a>
         </div>
       </div>
     </div>
 
     <div class="section-cotizador" id="cotizador">
       <div class="cotizador-content">
-        <h2>Cotizador de Servicios</h2>
-        <div class="client-selection">
-          <button id="newClientBtn" class="client-new-btn">Cliente Nuevo</button>
-          <button id="existingClientBtn" class="client-existing-btn">Cliente Existente</button>
-        </div>
+        <h2>Generador de Cotizaciones</h2>
         <form id="quoteForm">
-          <h3>Datos del Cliente</h3>
-          <div class="form-group" id="clientNumberGroup" style="display: none;">
-              <label for="clientNumberInput">Número de Cliente:</label>
-              <input type="text" id="clientNumberInput" placeholder="Buscar por número de cliente">
-          </div>
-          <div class="form-group">
-            <label for="clientName">Nombre del Cliente:</label>
-            <input type="text" id="clientName" placeholder="Nombre completo" required>
-          </div>
-          <div class="form-group">
-            <label for="clientEmail">Correo Electrónico:</label>
-            <input type="email" id="clientEmail" placeholder="correo@ejemplo.com">
-          </div>
-          <div class="form-group">
-            <label for="clientCompany">Empresa (Opcional):</label>
-            <input type="text" id="clientCompany" placeholder="Nombre de la empresa">
-          </div>
-          <div class="form-group">
-            <label for="clientPhone">Teléfono (Opcional):</label>
-            <input type="tel" id="clientPhone" placeholder="123-456-7890">
+          <div class="client-selection-buttons">
+            <button type="button" id="newClientBtn" class="client-action-btn new-client-btn">Nuevo Cliente</button>
+            <button type="button" id="existingClientBtn" class="client-action-btn existing-client-btn">Cliente Existente</button>
           </div>
 
-          <h3>Detalle de Servicios/Productos</h3>
-          <div class="table-container">
-            <table id="itemsTable">
-              <thead>
-                <tr>
-                  <th>Código</th>
-                  <th>Descripción</th>
-                  <th>Unidad</th>
-                  <th>Cantidad</th>
-                  <th>Precio Unitario</th>
-                  <th>Total</th>
-                  <th>Acción</th>
-                </tr>
-              </thead>
-              <tbody>
-                </tbody>
-            </table>
+          <div class="input-group" id="clientNumberGroup" style="display: none;">
+            <label for="clientNumber">Número de Cliente:</label>
+            <input type="text" id="clientNumber" placeholder="Ej: CL001">
+            <button type="button" id="loadClientBtn" class="load-client-btn">Cargar Cliente</button>
           </div>
-          <button type="button" id="addItemBtn">Añadir Ítem</button>
 
-          <div class="totals-summary">
-            <div class="total-row">
-              <span>Subtotal:</span>
-              <span id="subtotalAmount">$0.00</span>
+          <div class="client-info">
+            <h3>Información del Cliente</h3>
+            <div class="form-row">
+              <div class="input-group">
+                <label for="clientName">Nombre del Cliente:</label>
+                <input type="text" id="clientName" placeholder="Nombre completo" required>
+              </div>
+              <div class="input-group">
+                <label for="clientCompany">Empresa:</label>
+                <input type="text" id="clientCompany" placeholder="Nombre de la empresa">
+              </div>
             </div>
-            <div class="total-row">
-              <span>IVA (16%):</span>
-              <span id="ivaAmount">$0.00</span>
-            </div>
-            <div class="total-row total-final">
-              <span>TOTAL:</span>
-              <span id="totalAmount">$0.00</span>
+            <div class="form-row">
+              <div class="input-group">
+                <label for="clientEmail">Correo Electrónico:</label>
+                <input type="email" id="clientEmail" placeholder="correo@ejemplo.com">
+              </div>
+              <div class="input-group">
+                <label for="clientPhone">Teléfono:</label>
+                <input type="tel" id="clientPhone" placeholder="+52 81 1234 5678">
+              </div>
             </div>
           </div>
 
-          <div class="buttons-container">
-            <button type="submit" id="generateQuoteBtn">Generar Cotización</button>
+          <hr>
+
+          <h3>Detalles de la Cotización</h3>
+          <table id="itemsTable">
+            <thead>
+              <tr>
+                <th>Código</th>
+                <th>Descripción</th>
+                <th>Unidad</th>
+                <th>Cantidad</th>
+                <th>Precio Unitario</th>
+                <th>Total</th>
+                <th>Acción</th>
+              </tr>
+            </thead>
+            <tbody>
+              </tbody>
+          </table>
+          <button type="button" id="addItemBtn" class="add-item-btn">Añadir Ítem</button>
+
+          <div class="summary-section">
+            <p>Subtotal: <span id="subtotalAmount">$0.00</span></p>
+            <p>IVA (16%): <span id="ivaAmount">$0.00</span></p>
+            <p class="total-amount">TOTAL: <span id="totalAmount">$0.00</span></p>
+          </div>
+
+          <div class="form-buttons-container">
+            <button type="submit" id="generateQuoteBtn" class="generate-quote-btn">Generar Cotización PDF</button>
           </div>
         </form>
       </div>
     </div>
 
+    <div class="section-clientes" id="clientes">
+        <h2>Gestión de Clientes</h2>
+        <p>Aquí podrías listar y gestionar tus clientes guardados. Para una gestión completa de clientes, visita la página de <a href="clientes.html">Clientes</a>.</p>
+    </div>
+
     <div class="section-contacto" id="contacto">
-      <div class="contacto-content">
         <h2>Contacto</h2>
         <p>Para más información o soporte, por favor contáctanos:</p>
-        <address>
-          <strong>MTK Macro Tecnologías Kernel</strong><br>
-          Av. Paseo de los Leones #123,<br>
-          Col. Cumbres 1er Sector, Monterrey, N.L.<br>
-          C.P. 64610, México<br>
-          Email: <a href="mailto:soporte@mtkenergia.com">soporte@mtkenergia.com</a><br>
-          Teléfono: +52 81 1234 5678
-        </address>
-        <p>También puedes seguirnos en nuestras redes sociales:</p>
-        <ul>
-          <li><a href="#" target="_blank">Facebook</a></li>
-          <li><a href="#" target="_blank">LinkedIn</a></li>
-        </ul>
-      </div>
+        <p>Email: <a href="mailto:soporte@mtkenergia.com">soporte@mtkenergia.com</a></p>
+        <p>Teléfono: +52 81 1234 5678</p>
     </div>
   </main>
 
-  <footer class="main-footer">
-      <p>&copy; 2024 MTK Macro Tecnologías Kernel. Todos los derechos reservados.</p>
-  </footer>
-
-  <a href="https://wa.me/528138474143" target="_blank" class="whatsapp-floating-btn" aria-label="Contactar por WhatsApp">
-      <img src="whatsapp_icon.png" alt="WhatsApp Icon">
-  </a>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.8.0/jspdf.autotable.min.js"></script>
 
   <script src="script.js"></script>
   <script src="cotizador-general.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.25/jspdf.autotable.min.js"></script>
 </body>
 </html>
