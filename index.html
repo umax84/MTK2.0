@@ -1,139 +1,194 @@
-
 <!DOCTYPE html>
 <html lang="es">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Inicio | MTK</title>
+  <title>MTK</title>
   <link rel="stylesheet" href="styles.css">
-  <style>
-    body {
-      margin: 0;
-      padding: 0;
-      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-      background: url('logo_mtk.png') no-repeat center center fixed;
-      background-size: 1200px;
-    }
-
-    .overlay {
-      background-color: rgba(255, 255, 255, 0.96);
-      min-height: 100vh;
-      padding: 20px;
-      box-sizing: border-box;
-    }
-
-    .container {
-      max-width: 750px;
-      margin: auto;
-      background-color: rgba(255,255,255,0.96);
-      padding: 25px;
-      border-radius: 12px;
-      box-shadow: 0 0 10px rgba(0,0,0,0.1);
-    }
-
-    .logo {
-      text-align: center;
-      margin-bottom: 20px;
-    }
-
-    .logo img {
-      width: 260px;
-    }
-
-    h1, h2 {
-      text-align: center;
-      color: #2b2b2b;
-    }
-
-    .section {
-      margin-top: 40px;
-    }
-
-    .section h2 {
-      margin-bottom: 10px;
-      font-size: 24px;
-      color: #2b2b2b;
-    }
-
-    .section p {
-      font-size: 17px;
-      color: #333;
-      line-height: 1.7;
-      margin-bottom: 15px;
-      text-align: justify;
-    }
-
-    .btn {
-      display: block;
-      width: 100%;
-      margin: 15px 0 30px;
-      padding: 28px;
-      text-align: center;
-      background-color: #385738;
-      color: white;
-      border: none;
-      border-radius: 10px;
-      font-size: 36px;
-      text-decoration: none;
-      font-weight: bold;
-    }
-
-    .btn:hover {
-      background-color: #2a402a;
-    }
-
-    .whatsapp {
-      position: fixed;
-      bottom: 20px;
-      right: 20px;
-      z-index: 999;
-    }
-
-    .whatsapp img {
-      width: 70px;
-      height: 70px;
-    }
-  </style>
 </head>
 <body>
-  <div class="overlay">
-    <div class="container">
-      <div class="logo">
-        <img src="logo_mtk.png" alt="MTK Logo">
+  <div class="login-overlay" id="loginOverlay">
+    <div class="login-container">
+      <img src="logo_mtk.png" alt="MTK" class="login-logo">
+      <h2>Iniciar Sesión</h2>
+      <div class="input-group">
+        <label for="loginUsername">Usuario:</label>
+        <input type="text" id="loginUsername" placeholder="Ingresa tu usuario" required>
       </div>
-
-      <h1>Bienvenido a MTK</h1>
-
-      <div class="section">
-        <h2>Cotizador de Paneles Solares</h2>
-        <p>Calculamos el número de paneles que necesitas según tu recibo de luz. Obtén al instante una cotización profesional en PDF con ahorro estimado, retorno de inversión y descripción completa de tu sistema solar personalizado.</p>
-        <a href="https://umax84.github.io/MTK/" target="_blank" class="btn">Paneles Solares</a>
+      <div class="input-group">
+        <label for="loginPassword">Contraseña:</label>
+        <input type="password" id="loginPassword" placeholder="Ingresa tu contraseña" required>
       </div>
-
-      <div class="section">
-        <h2>Soporte Técnico y Redes</h2>
-        <p>En MTK ofrecemos soporte técnico para computadoras, impresoras, redes y servidores. Damos mantenimiento preventivo y correctivo a domicilio o empresa. Siempre con precios justos, atención rápida y la confianza que te da el mejor vendedor del mundo.</p>
-        <a href="computo.html" class="btn">Soporte Técnico</a>
-      </div>
-
-      <div class="section">
-        <h2>Limpieza en Alturas y Cristales</h2>
-        <p>Contamos con personal capacitado para realizar limpieza profesional de vidrios, cristales y estructuras elevadas. Usamos equipo seguro, certificado y adaptado para cada tipo de proyecto. Te garantizamos un trabajo limpio, puntual y sin riesgos.</p>
-        <a href="alturas.html" class="btn">Limpieza Profesional</a>
-      </div>
-
-      <div class="section">
-        <h2>Renta de Mesas y Sillas</h2>
-        <p>Rentamos sillas y mesas limpias, resistentes y en perfecto estado para todo tipo de eventos: fiestas, reuniones, juntas o eventos masivos. Entregamos a tiempo y nos encargamos de que tu mobiliario llegue listo para usarse.</p>
-        <a href="renta-sillas-mesas.html" class="btn">Eventos y Renta</a>
-      </div>
+      <button id="loginBtn" class="login-button">Acceder</button>
+      <p id="loginMessage" class="error-message"></p>
     </div>
   </div>
 
-  <div class="whatsapp">
-    <a href="https://wa.me/5218138474143" target="_blank">
-      <img src="https://img.icons8.com/ios-filled/100/25D366/whatsapp.png" alt="WhatsApp">
-    </a>
-  </div>
+  <header class="main-header">
+    <nav class="navbar">
+      <div class="logo-container">
+        <a href="index.html" class="brand-logo">
+          <img src="logo_mtk.png" alt="MTK" class="logo-nav">
+          MTK Energía Solar
+        </a>
+      </div>
+      <button class="hamburger-menu" aria-label="Abrir menú de navegación">
+        <span class="bar"></span>
+        <span class="bar"></span>
+        <span class="bar"></span>
+      </button>
+      <ul class="nav-links">
+        <li><a href="#inicio" class="active" data-section="inicio">Inicio</a></li>
+        <li><a href="#cotizador" data-section="cotizador">Cotizador</a></li>
+        <li><a href="clientes.html">Clientes</a></li>
+        <li><a href="#contacto" data-section="contacto">Contacto</a></li>
+      </ul>
+      <div class="logout-container">
+        <a href="#" id="logoutBtn">Cerrar Sesión</a>
+      </div>
+    </nav>
+  </header>
+
+  <main class="main-content">
+    <div class="section-inicio active-section" id="inicio">
+      <div class="inicio-content">
+        <img src="logo_mtk.png" alt="MTK Logo" class="logo-inicio">
+        <h1>MTK Macro Tecnologías Kernel</h1>
+        <p class="eslogan">¡Tu aliado estratégico en tecnología y energía solar!</p>
+
+        <div class="nosotros">
+          <h2>Quiénes Somos</h2>
+          <p>En MTK Macro Tecnologías Kernel, somos una empresa líder en soluciones integrales de tecnología y energía solar. Nos especializamos en ofrecer productos y servicios de vanguardia que impulsan la eficiencia, la sostenibilidad y el crecimiento de nuestros clientes. Con un enfoque en la innovación y la calidad, nos comprometemos a proporcionar soluciones personalizadas que se adapten a las necesidades específicas de cada proyecto.</p>
+        </div>
+
+        <div class="que-hacemos">
+          <h2>Qué Hacemos</h2>
+          <p>Nuestra experiencia abarca diversas áreas, incluyendo:</p>
+          <ul>
+            <li><strong>Desarrollo de Software a Medida:</strong> Creamos soluciones de software personalizadas para optimizar tus procesos empresariales.</li>
+            <li><strong>Instalaciones Solares Fotovoltaicas:</strong> Diseñamos e instalamos sistemas de energía solar para hogares y empresas, reduciendo costos y promoviendo un futuro más verde.</li>
+            <li><strong>Sistemas de Seguridad Electrónica:</strong> Implementamos soluciones avanzadas de vigilancia y control de acceso para proteger tus activos.</li>
+            <li><strong>Mantenimiento y Soporte Técnico:</strong> Ofrecemos servicios de mantenimiento preventivo y correctivo, asegurando el óptimo funcionamiento de tus sistemas.</li>
+          </ul>
+        </div>
+
+        <div class="donde-vamos">
+          <h2>Hacia Dónde Vamos</h2>
+          <p>En MTK, miramos hacia el futuro con la visión de seguir siendo referentes en el mercado. Nos esforzamos por:</p>
+          <ul>
+            <li><strong>Innovar Constantemente:</strong> Investigar y desarrollar nuevas tecnologías para mantenernos a la vanguardia.</li>
+            <li><strong>Expandir Nuestro Alcance:</strong> Llegar a más clientes y mercados, ofreciendo soluciones accesibles y de alto impacto.</li>
+            <li><strong>Compromiso Sostenible:</strong> Contribuir activamente al desarrollo de energías renovables y tecnologías que beneficien al planeta.</li>
+            <li><strong>Excelencia en el Servicio:</strong> Superar las expectativas de nuestros clientes con un soporte técnico excepcional y una atención personalizada.</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <div class="section-cotizador" id="cotizador">
+      <div class="cotizador-content">
+        <h2>Cotizador de Servicios</h2>
+        <div class="client-selection">
+          <button id="newClientBtn" class="client-new-btn">Cliente Nuevo</button>
+          <button id="existingClientBtn" class="client-existing-btn">Cliente Existente</button>
+        </div>
+        <form id="quoteForm">
+          <h3>Datos del Cliente</h3>
+          <div class="form-group" id="clientNumberGroup" style="display: none;">
+              <label for="clientNumberInput">Número de Cliente:</label>
+              <input type="text" id="clientNumberInput" placeholder="Buscar por número de cliente">
+          </div>
+          <div class="form-group">
+            <label for="clientName">Nombre del Cliente:</label>
+            <input type="text" id="clientName" placeholder="Nombre completo" required>
+          </div>
+          <div class="form-group">
+            <label for="clientEmail">Correo Electrónico:</label>
+            <input type="email" id="clientEmail" placeholder="correo@ejemplo.com">
+          </div>
+          <div class="form-group">
+            <label for="clientCompany">Empresa (Opcional):</label>
+            <input type="text" id="clientCompany" placeholder="Nombre de la empresa">
+          </div>
+          <div class="form-group">
+            <label for="clientPhone">Teléfono (Opcional):</label>
+            <input type="tel" id="clientPhone" placeholder="123-456-7890">
+          </div>
+
+          <h3>Detalle de Servicios/Productos</h3>
+          <div class="table-container">
+            <table id="itemsTable">
+              <thead>
+                <tr>
+                  <th>Código</th>
+                  <th>Descripción</th>
+                  <th>Unidad</th>
+                  <th>Cantidad</th>
+                  <th>Precio Unitario</th>
+                  <th>Total</th>
+                  <th>Acción</th>
+                </tr>
+              </thead>
+              <tbody>
+                </tbody>
+            </table>
+          </div>
+          <button type="button" id="addItemBtn">Añadir Ítem</button>
+
+          <div class="totals-summary">
+            <div class="total-row">
+              <span>Subtotal:</span>
+              <span id="subtotalAmount">$0.00</span>
+            </div>
+            <div class="total-row">
+              <span>IVA (16%):</span>
+              <span id="ivaAmount">$0.00</span>
+            </div>
+            <div class="total-row total-final">
+              <span>TOTAL:</span>
+              <span id="totalAmount">$0.00</span>
+            </div>
+          </div>
+
+          <div class="buttons-container">
+            <button type="submit" id="generateQuoteBtn">Generar Cotización</button>
+          </div>
+        </form>
+      </div>
+    </div>
+
+    <div class="section-contacto" id="contacto">
+      <div class="contacto-content">
+        <h2>Contacto</h2>
+        <p>Para más información o soporte, por favor contáctanos:</p>
+        <address>
+          <strong>MTK Macro Tecnologías Kernel</strong><br>
+          Av. Paseo de los Leones #123,<br>
+          Col. Cumbres 1er Sector, Monterrey, N.L.<br>
+          C.P. 64610, México<br>
+          Email: <a href="mailto:soporte@mtkenergia.com">soporte@mtkenergia.com</a><br>
+          Teléfono: +52 81 1234 5678
+        </address>
+        <p>También puedes seguirnos en nuestras redes sociales:</p>
+        <ul>
+          <li><a href="#" target="_blank">Facebook</a></li>
+          <li><a href="#" target="_blank">LinkedIn</a></li>
+        </ul>
+      </div>
+    </div>
+  </main>
+
+  <footer class="main-footer">
+      <p>&copy; 2024 MTK Macro Tecnologías Kernel. Todos los derechos reservados.</p>
+  </footer>
+
+  <a href="https://wa.me/528138474143" target="_blank" class="whatsapp-floating-btn" aria-label="Contactar por WhatsApp">
+      <img src="whatsapp_icon.png" alt="WhatsApp Icon">
+  </a>
+
+  <script src="script.js"></script>
+  <script src="cotizador-general.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.25/jspdf.autotable.min.js"></script>
 </body>
 </html>

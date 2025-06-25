@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Clientes | MTK Macro Tecnologías Kernel</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <header class="main-header">
+        <nav class="navbar">
+            <div class="logo-container">
+                <a href="index.html" class="brand-logo">
+                    <img src="logo_mtk.png" alt="MTK Logo" class="logo-nav">
+                    MTK Energía Solar
+                </a>
+            </div>
+            <button class="hamburger-menu" aria-label="Abrir menú de navegación">
+                <span class="bar"></span>
+                <span class="bar"></span>
+                <span class="bar"></span>
+            </button>
+            <ul class="nav-links">
+                <li><a href="index.html#inicio">Inicio</a></li>
+                <li><a href="index.html#cotizador">Cotizador</a></li>
+                <li><a href="clientes.html" class="active">Clientes</a></li>
+                <li><a href="index.html#contacto">Contacto</a></li>
+            </ul>
+            <div class="logout-container">
+                <a href="#" id="logoutBtn">Cerrar Sesión</a>
+            </div>
+        </nav>
+    </header>
+
+    <main class="main-content">
+        <div class="section-clientes-page" id="clientes-page">
+            <div class="clientes-content">
+                <h2>Gestión de Clientes</h2>
+                <p>Aquí puede agregar, editar, eliminar y descargar la información de sus clientes.</p>
+
+                <form id="addClientForm">
+                    <h3>Agregar/Actualizar Cliente</h3>
+                    <div class="form-group" style="display: none;">
+                        <label for="clientNumberInput">Número de Cliente:</label>
+                        <input type="text" id="clientNumberInput" placeholder="Asignado automáticamente o para edición" readonly>
+                    </div>
+                    <div class="form-group">
+                        <label for="clientName">Nombre:</label>
+                        <input type="text" id="clientName" placeholder="Nombre completo del cliente" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="clientEmail">Correo Electrónico:</label>
+                        <input type="email" id="clientEmail" placeholder="correo@ejemplo.com">
+                    </div>
+                    <div class="form-group">
+                        <label for="clientCompany">Empresa (Opcional):</label>
+                        <input type="text" id="clientCompany" placeholder="Nombre de la empresa">
+                    </div>
+                    <div class="form-group">
+                        <label for="clientPhone">Teléfono (Opcional):</label>
+                        <input type="tel" id="clientPhone" placeholder="Ej. 123-456-7890">
+                    </div>
+                    <button type="submit" class="button">Agregar/Actualizar Cliente</button>
+                </form>
+
+                <div id="clientList">
+                    <h3>Listado de Clientes</h3>
+                    <div class="table-container">
+                        <table id="clientsTable">
+                            <thead>
+                                <tr>
+                                    <th>Número</th>
+                                    <th>Nombre</th>
+                                    <th>Correo</th>
+                                    <th>Empresa</th>
+                                    <th>Teléfono</th>
+                                    <th>Acciones</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                </tbody>
+                        </table>
+                    </div>
+                    <button id="downloadClientsCsvBtn" class="button" style="margin-top: 15px;">Descargar Clientes (CSV)</button>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <footer class="main-footer">
+        <p>&copy; 2024 MTK Macro Tecnologías Kernel. Todos los derechos reservados.</p>
+    </footer>
+
+    <a href="https://wa.me/528138474143" target="_blank" class="whatsapp-floating-btn" aria-label="Contactar por WhatsApp">
+        <img src="whatsapp_icon.png" alt="WhatsApp Icon">
+    </a>
+
+    <script src="script.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const addClientForm = document.getElementById('addClientForm');
+            const clientNumberInput = document.getElementById('clientNumberInput');
+            const clientNameInput = document.getElementById('clientName');
+            const clientEmailInput = document.getElementById('clientEmail');
+            const clientCompanyInput = document.getElementById('clientCompany');
+            const clientPhoneInput = document.getElementById('clientPhone');
+            const clientsTableBody = document.querySelector('#clientsTable tbody');
+            const downloadClientsCsvBtn = document.getElementById('downloadClientsCsvBtn');
+
+            let clients = JSON.parse(localStorage.getItem('clients')) || [];
+            let nextClientNumber = parseInt(localStorage.getItem('nextClientNumber')) || 1;
+
+            // Función para guardar clientes en localStorage
+            function saveClients() {
+                localStorage.setItem('clients', JSON.stringify(clients));
+                localStorage.setItem('nextClientNumber', nextClientNumber);
+                renderClientsTable();
+            }
+
+            // Función para cargar clientes del localStorage
+            function loadClients() {
+                clients = JSON.parse(localStorage.getItem('clients')) || [];
+                nextClientNumber = parseInt(localStorage.getItem('nextClientNumber')) || 1;
+                renderClientsTable();
+            }
+
+            // Función para renderizar la tabla de clientes
+            function renderClientsTable() {
+                clientsTableBody.innerHTML = ''; // Limpiar la tabla
+                clients.forEach(client => {
+                    const row = clientsTableBody.insertRow();
+                    row.innerHTML = `
+                        <td>${client.number}</td>
+                        <td>${client.name}</td>
+                        <td>${client.email || ''}</td>
+                        <td>${client.company || ''}</td>
+                        <td>${client.phone || ''}</td>
+                        <td>
+                            <button class="edit-btn" data-number="${client.number}">Editar</button>
+                            <button class="delete-btn" data-number="${client.number}">Eliminar</button>
+                        </td>
+                    `;
+                });
+            }
+
+            // Función para agregar o actualizar un cliente
+            function addOrUpdateClient(event) {
+                event.preventDefault();
+
+                const number = clientNumberInput.value.trim();
+                const name = clientNameInput.value.trim();
+                const email = clientEmailInput.value.trim();
+                const company = clientCompanyInput.value.trim();
+                const phone = clientPhoneInput.value.trim();
+
+                if (!name) {
+                    alert('El nombre del cliente es obligatorio.');
+                    return;
+                }
+
+                if (number) {
+                    // Actualizar cliente existente
+                    const clientIndex = clients.findIndex(c => c.number === number);
+                    if (clientIndex !== -1) {
+                        clients[clientIndex] = { number, name, email, company, phone };
+                        alert('Cliente actualizado exitosamente.');
+                    } else {
+                        alert('Error: Cliente no encontrado para actualizar.');
+                    }
+                } else {
+                    // Agregar nuevo cliente
+                    const newClient = {
+                        number: String(nextClientNumber++).padStart(4, '0'), // Formato 0001
+                        name,
+                        email,
+                        company,
+                        phone
+                    };
+                    clients.push(newClient);
+                    alert('Cliente agregado exitosamente.');
+                }
+                saveClients();
+                addClientForm.reset();
+                clientNumberInput.value = ''; // Limpiar número de cliente oculto
+            }
+
+            // Delegación de eventos para editar y eliminar
+            clientsTableBody.addEventListener('click', (event) => {
+                if (event.target.classList.contains('edit-btn')) {
+                    const clientNumberToEdit = event.target.dataset.number;
+                    const clientToEdit = clients.find(c => c.number === clientNumberToEdit);
+                    if (clientToEdit) {
+                        clientNumberInput.value = clientToEdit.number;
+                        clientNameInput.value = clientToEdit.name;
+                        clientEmailInput.value = clientToEdit.email;
+                        clientCompanyInput.value = clientToEdit.company;
+                        clientPhoneInput.value = clientToEdit.phone;
+                    }
+                } else if (event.target.classList.contains('delete-btn')) {
+                    const clientNumberToDelete = event.target.dataset.number;
+                    if (confirm(`¿Estás seguro de que quieres eliminar al cliente con número ${clientNumberToDelete}?`)) {
+                        clients = clients.filter(c => c.number !== clientNumberToDelete);
+                        saveClients();
+                        alert('Cliente eliminado exitosamente.');
+                    }
+                }
+            });
+
+            // Función para descargar clientes como CSV
+            function downloadClientsCsv() {
+                if (clients.length === 0) {
+                    alert('No hay clientes para descargar.');
+                    return;
+                }
+
+                const headers = ['Numero_Cliente', 'Nombre', 'Correo', 'Empresa', 'Telefono'];
+                let csvContent = headers.join(',') + '\n';
+
+                clients.forEach(client => {
+                    const row = [
+                        `"${client.number.replace(/"/g, '""')}"`,
+                        `"${client.name.replace(/"/g, '""')}"`,
+                        `"${(client.email || '').replace(/"/g, '""')}"`,
+                        `"${(client.company || '').replace(/"/g, '""')}"`,
+                        `"${(client.phone || '').replace(/"/g, '""')}"`
+                    ];
+                    csvContent += row.join(',') + '\n';
+                });
+
+                const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+                const url = URL.createObjectURL(blob);
+                const link = document.createElement('a');
+                link.setAttribute('href', url);
+                link.setAttribute('download', 'clientes_mtk.csv');
+                document.body.appendChild(link);
+                link.click();
+                document.body.removeChild(link);
+                URL.revokeObjectURL(url);
+            }
+
+            // Event Listeners
+            addClientForm.addEventListener('submit', addOrUpdateClient);
+            downloadClientsCsvBtn.addEventListener('click', downloadClientsCsv);
+
+            // Inicialización
+            loadClients();
+        });
+    </script>
+</body>
+</html>
