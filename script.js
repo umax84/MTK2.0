@@ -620,6 +620,151 @@ document.addEventListener('DOMContentLoaded', () => {
         calculateTotals();
     }
 
+    // Function to handle PDF generation, adapted for the cotizador
+    window.generarPDFGeneral = function() {
+        const { jsPDF } = window.jspdf;
+        const doc = new jsPDF();
+
+        const clienteNombre = document.getElementById('clienteNombre')?.value || 'N/A';
+        const clienteEmpresa = document.getElementById('clienteEmpresa')?.value || 'N/A';
+        const clienteDireccion = document.getElementById('clienteDireccion')?.value || 'N/A';
+        const clienteTelefono = document.getElementById('clienteTelefono')?.value || 'N/A';
+        const clienteCorreo = document.getElementById('clienteCorreo')?.value || 'N/A';
+        const cotizacionFecha = document.getElementById('cotizacionFecha')?.value || new Date().toISOString().slice(0, 10);
+        const quoteNumber = generateQuoteNumber();
+
+        const items = [];
+        document.querySelectorAll('#itemsTable tbody tr').forEach(row => {
+            const code = row.querySelector('.item-code')?.value || '';
+            const description = row.querySelector('.item-desc')?.value || '';
+            const unit = row.querySelector('.item-unit')?.value || '';
+            const quantity = parseFloat(row.querySelector('.item-quantity')?.value) || 0;
+            const price = parseFloat(row.querySelector('.item-price')?.value) || 0;
+            const total = quantity * price;
+            items.push({ code, description, unit, quantity, price, total });
+        });
+
+        const subtotal = parseFloat(document.getElementById('subtotalDisplay')?.textContent.replace('$', '').replace(/,/g, '')) || 0;
+        const iva = parseFloat(document.getElementById('ivaDisplay')?.textContent.replace('$', '').replace(/,/g, '')) || 0;
+        const total = parseFloat(document.getElementById('totalDisplay')?.textContent.replace('$', '').replace(/,/g, '')) || 0;
+
+        // Load images
+        const loadImage = (src) => {
+            return new Promise((resolve, reject) => {
+                const img = new Image();
+                img.src = src;
+                img.onload = () => resolve(img);
+                img.onerror = reject;
+            });
+        };
+
+        Promise.all([
+            loadImage('logo_mtk.png'),
+            loadImage('whatsapp_icon.png')
+        ]).then(([logoImg, whatsappImg]) => {
+            // Add Logo (top left)
+            doc.addImage(logoImg, 'PNG', 10, 10, 50, 20); // Adjust position and size as needed
+
+            // Add WhatsApp icon (bottom right)
+            doc.addImage(whatsappImg, 'PNG', doc.internal.pageSize.width - 30, doc.internal.pageSize.height - 30, 20, 20);
+
+            // Header and Company Info
+            doc.setFontSize(16);
+            doc.setFont('helvetica', 'bold');
+            doc.text('COTIZACIÓN DE SERVICIOS', doc.internal.pageSize.width / 2, 20, { align: 'center' });
+            doc.setFontSize(10);
+            doc.setFont('helvetica', 'normal');
+            doc.text('Macro Tecnologías Kernel', doc.internal.pageSize.width / 2, 28, { align: 'center' });
+            doc.text('RFC: MTK010101ABC', doc.internal.pageSize.width / 2, 34, { align: 'center' });
+            doc.text('Tel: +52 81 3847 4143', doc.internal.pageSize.width / 2, 40, { align: 'center' });
+            doc.text('Email: contacto@mtkernel.com', doc.internal.pageSize.width / 2, 46, { align: 'center' });
+            doc.text('Dirección: Monterrey, Nuevo León, México', doc.internal.pageSize.width / 2, 52, { align: 'center' });
+
+            // Quote Details
+            doc.setFontSize(10);
+            doc.text(`No. de Cotización: ${quoteNumber}`, 150, 65);
+            doc.text(`Fecha de Emisión: ${cotizacionFecha}`, 150, 70);
+
+            // Client Details
+            let clientY = 80;
+            doc.setFontSize(11);
+            doc.setFont('helvetica', 'bold');
+            doc.text('Datos del Cliente:', 14, clientY);
+            doc.setFont('helvetica', 'normal');
+            doc.text(`Nombre: ${clienteNombre}`, 14, clientY + 7);
+            if (clienteEmpresa !== 'N/A') doc.text(`Empresa: ${clienteEmpresa}`, 14, clientY + 14);
+            if (clienteDireccion !== 'N/A') doc.text(`Dirección: ${clienteDireccion}`, 14, clientY + 21);
+            if (clienteTelefono !== 'N/A') doc.text(`Teléfono: ${clienteTelefono}`, 14, clientY + 28);
+            if (clienteCorreo !== 'N/A') doc.text(`Correo: ${clienteCorreo}`, 14, clientY + 35);
+
+
+            // Items Table
+            const startY = clientY + 45 + (clienteEmpresa !== 'N/A' ? 0 : -7) + (clienteDireccion !== 'N/A' ? 0 : -7) + (clienteTelefono !== 'N/A' ? 0 : -7) + (clienteCorreo !== 'N/A' ? 0 : -7) ;
+            const headers = [['CÓDIGO', 'DESCRIPCIÓN', 'UNIDAD', 'CANTIDAD', 'P. UNITARIO', 'TOTAL']];
+            const data = items.map(item => [
+                item.code,
+                item.description,
+                item.unit,
+                item.quantity.toLocaleString(),
+                `$${item.price.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`,
+                `$${item.total.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`
+            ]);
+
+            doc.autoTable({
+                startY: startY,
+                head: headers,
+                body: data,
+                theme: 'striped',
+                headStyles: { fillColor: [58, 58, 58], textColor: [255, 255, 255], fontStyle: 'bold' },
+                styles: { fontSize: 9, cellPadding: 3, overflow: 'linebreak' },
+                columnStyles: {
+                    0: { cellWidth: 20 },
+                    1: { cellWidth: 'auto' },
+                    2: { cellWidth: 20 },
+                    3: { cellWidth: 20, halign: 'right' },
+                    4: { cellWidth: 25, halign: 'right' },
+                    5: { cellWidth: 25, halign: 'right' }
+                },
+                didDrawPage: function (data) {
+                    // Footer (page number)
+                    let str = "Página " + doc.internal.getNumberOfPages();
+                    doc.setFontSize(10);
+                    doc.text(str, data.settings.margin.left, doc.internal.pageSize.height - 10);
+                }
+            });
+
+            // Totals
+            const finalY = doc.autoTable.previous.finalY + 10; // Position below the table
+            const totalLabelX = doc.internal.pageSize.width - 70; // X position for labels
+            const totalValueX = doc.internal.pageSize.width - 15; // X position for values
+
+            doc.setFontSize(10);
+            doc.text(`Subtotal:`, totalLabelX, finalY, { align: 'right' });
+            doc.text(`$${subtotal.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`, totalValueX, finalY, { align: 'right' });
+
+            doc.text(`IVA (16%):`, totalLabelX, finalY + 7, { align: 'right' });
+            doc.text(`$${iva.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`, totalValueX, finalY + 7, { align: 'right' });
+
+            doc.setFontSize(12);
+            doc.setFont('helvetica', 'bold');
+            doc.text(`TOTAL:`, totalLabelX, finalY + 14, { align: 'right' });
+            doc.text(`$${total.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`, totalValueX, finalY + 14, { align: 'right' });
+            doc.setFont('helvetica', 'normal'); // Reset font
+
+            doc.save(`Cotizacion_Macro_Tecnologias_Kernel_Servicios_${cotizacionFecha.replace(/\//g, '-')}_${quoteNumber}.pdf`);
+
+        }).catch(error => {
+            console.error("Error al cargar logos o generar el PDF:", error);
+            alert("Hubo un error al generar el PDF. Por favor, revisa la consola para más detalles.");
+            // If logos fail, try to generate PDF without them
+            // This part could be more robust to generate a basic PDF even if images fail
+            const doc = new jsPDF(); // Re-initialize if error happened before doc was created
+            doc.text("Error al cargar logos. Cotización generada sin imágenes.", 10, 10);
+            // ... (add basic cotizacion content here if necessary)
+            doc.save(`Cotizacion_Macro_Tecnologias_Kernel_Servicios_${cotizacionFecha.replace(/\//g, '-')}_${quoteNumber}_NoImages.pdf`);
+        });
+    };
+
     function initializeCotizadorFunctions() {
         const addItemBtn = document.getElementById('addItemBtn');
         const downloadPdfBtn = document.getElementById('downloadPdfBtn');
@@ -791,12 +936,15 @@ document.addEventListener('DOMContentLoaded', () => {
         const clientFormTelefono = document.getElementById('clientFormTelefono');
         const clientFormCorreo = document.getElementById('clientFormCorreo');
 
-        if (!formContainer || !formTitle || !clientIdInput || !clientFormNombre || !clientFormEmpresa || !clientFormDireccion || !clientFormTelefono || !clientFormCorreo) return;
+        if (!formContainer || !formTitle || !clientIdInput || !clientFormNombre || !clientFormEmpresa || !clientFormDireccion || !clientFormTelefono || !clientFormCorreo) {
+            console.error('One or more client form elements not found.');
+            return;
+        }
 
-        formContainer.style.display = 'block';
+        formContainer.style.display = 'block'; // Show the form
 
         if (client) {
-            formTitle.textContent = 'Editar';
+            formTitle.textContent = 'Editar Cliente';
             clientIdInput.value = client.id;
             clientFormNombre.value = client.nombre;
             clientFormEmpresa.value = client.empresa || '';
@@ -804,7 +952,7 @@ document.addEventListener('DOMContentLoaded', () => {
             clientFormTelefono.value = client.telefono || '';
             clientFormCorreo.value = client.correo || '';
         } else {
-            formTitle.textContent = 'Añadir';
+            formTitle.textContent = 'Añadir Cliente';
             clientIdInput.value = '';
             clientFormNombre.value = '';
             clientFormEmpresa.value = '';
@@ -816,39 +964,57 @@ document.addEventListener('DOMContentLoaded', () => {
 
     function hideClientForm() {
         const formContainer = document.getElementById('clientFormContainer');
-        if (formContainer) formContainer.style.display = 'none';
+        if (formContainer) {
+            formContainer.style.display = 'none';
+        }
     }
 
-    function addOrUpdateClientFromForm() {
+    function saveClientForm() {
         const clientId = document.getElementById('clientId').value;
-        const nombre = document.getElementById('clientFormNombre').value.trim();
-        const empresa = document.getElementById('clientFormEmpresa').value.trim();
-        const direccion = document.getElementById('clientFormDireccion').value.trim();
-        const telefono = document.getElementById('clientFormTelefono').value.trim();
-        const correo = document.getElementById('clientFormCorreo').value.trim();
+        const clientFormNombre = document.getElementById('clientFormNombre').value.trim();
+        const clientFormEmpresa = document.getElementById('clientFormEmpresa').value.trim();
+        const clientFormDireccion = document.getElementById('clientFormDireccion').value.trim();
+        const clientFormTelefono = document.getElementById('clientFormTelefono').value.trim();
+        const clientFormCorreo = document.getElementById('clientFormCorreo').value.trim();
 
-        if (!nombre) {
+        if (!clientFormNombre) {
             alert('El nombre del cliente es obligatorio.');
             return;
         }
 
-        if (clientId) { // Editing existing client
-            const index = clients.findIndex(c => c.id === parseInt(clientId));
+        if (clientId) {
+            // Editing existing client
+            const index = clients.findIndex(c => c.id == clientId);
             if (index !== -1) {
-                clients[index] = { ...clients[index], nombre, empresa, direccion, telefono, correo };
+                clients[index] = {
+                    id: parseInt(clientId),
+                    nombre: clientFormNombre,
+                    empresa: clientFormEmpresa,
+                    direccion: clientFormDireccion,
+                    telefono: clientFormTelefono,
+                    correo: clientFormCorreo
+                };
                 alert('Cliente actualizado exitosamente.');
             }
-        } else { // Adding new client
-            const newClient = { id: Date.now(), nombre, empresa, direccion, telefono, correo };
+        } else {
+            // Adding new client
+            const newClient = {
+                id: Date.now(), // Unique ID
+                nombre: clientFormNombre,
+                empresa: clientFormEmpresa,
+                direccion: clientFormDireccion,
+                telefono: clientFormTelefono,
+                correo: clientFormCorreo
+            };
             clients.push(newClient);
-            alert('Nuevo cliente guardado exitosamente.');
+            alert('Nuevo cliente añadido exitosamente.');
         }
         saveClients();
         hideClientForm();
     }
 
     function editClient(id) {
-        const client = clients.find(c => c.id === parseInt(id));
+        const client = clients.find(c => c.id == id);
         if (client) {
             showClientForm(client);
         }
@@ -856,79 +1022,82 @@ document.addEventListener('DOMContentLoaded', () => {
 
     function deleteClient(id) {
         if (confirm('¿Estás seguro de que quieres eliminar este cliente?')) {
-            clients = clients.filter(client => client.id !== parseInt(id));
+            clients = clients.filter(client => client.id != id);
             saveClients();
-            alert('Cliente eliminado exitosamente.');
+            alert('Cliente eliminado.');
         }
     }
 
     function handleCsvUploadClients(event) {
         const file = event.target.files[0];
-        if (file) {
-            const reader = new FileReader();
-            reader.onload = function(e) {
-                const text = e.target.result;
-                const lines = text.split('\n').filter(line => line.trim() !== '');
-                const newClients = [];
-                for (let i = 1; i < lines.length; i++) { // Asume que la primera fila es el encabezado
-                    const data = lines[i].split(',');
-                    if (data.length >= 5) {
-                        newClients.push({
-                            nombre: data[0].trim(),
-                            empresa: data[1].trim(),
-                            direccion: data[2].trim(),
-                            telefono: data[3].trim(),
-                            correo: data[4].trim()
-                        });
-                    }
+        if (!file) return;
+
+        const reader = new FileReader();
+        reader.onload = function(e) {
+            const text = e.target.result;
+            const lines = text.split('\n').filter(line => line.trim() !== ''); // Filter out empty lines
+            const newClients = [];
+            let headers = [];
+
+            // Determine if the first line is a header
+            let startIndex = 0;
+            if (lines.length > 0 && (lines[0].includes('nombre') || lines[0].includes('empresa'))) {
+                headers = lines[0].split(',').map(h => h.trim().toLowerCase());
+                startIndex = 1;
+            } else {
+                // Assume default order if no clear header is present
+                headers = ['nombre', 'empresa', 'direccion', 'telefono', 'correo'];
+            }
+
+            for (let i = startIndex; i < lines.length; i++) {
+                const values = lines[i].split(',').map(v => v.trim());
+                if (values.some(v => v !== '')) { // Only process non-empty lines
+                    const client = {};
+                    headers.forEach((header, index) => {
+                        client[header] = values[index] || '';
+                    });
+                    client.id = Date.now() + i; // Unique ID
+                    newClients.push(client);
                 }
-                newClients.forEach(newClient => {
-                    // Check for existing by name and email (simple check)
-                    const existing = clients.find(client =>
-                        client.nombre.toLowerCase() === newClient.nombre.toLowerCase() ||
-                        (newClient.correo && client.correo && client.correo.toLowerCase() === newClient.correo.toLowerCase())
-                    );
-                    if (!existing) {
-                        clients.push({ id: Date.now(), ...newClient }); // Add unique ID for new clients
-                    } else {
-                        // Update existing fields (simple update, might need more robust merge logic)
-                        existing.empresa = newClient.empresa || existing.empresa;
-                        existing.direccion = newClient.direccion || existing.direccion;
-                        existing.telefono = newClient.telefono || existing.telefono;
-                        existing.correo = newClient.correo || existing.correo;
-                    }
-                });
-                saveClients();
-                alert(`Se han cargado/actualizado ${newClients.length} clientes desde el CSV.`);
-                event.target.value = ''; // Clear input
-            };
-            reader.readAsText(file);
-        }
+            }
+            clients = [...clients, ...newClients.filter(nc => !findClient(nc.nombre, nc.correo))]; // Add only new clients
+            saveClients();
+            alert('Clientes cargados desde CSV.');
+            event.target.value = ''; // Clear file input
+        };
+        reader.readAsText(file);
     }
 
+
     function downloadClientsCsv() {
-        let csvContent = "data:text/csv;charset=utf-8,";
-        csvContent += "Nombre,Empresa,Direccion,Telefono,Correo\n";
+        if (clients.length === 0) {
+            alert('No hay clientes para descargar.');
+            return;
+        }
+
+        const headers = ['id', 'nombre', 'empresa', 'direccion', 'telefono', 'correo'];
+        const csvRows = [];
+        csvRows.push(headers.join(',')); // Add header row
 
         clients.forEach(client => {
-            const row = [
-                `"${client.nombre.replace(/"/g, '""')}"`,
-                `"${(client.empresa || '').replace(/"/g, '""')}"`,
-                `"${(client.direccion || '').replace(/"/g, '""')}"`,
-                `"${(client.telefono || '').replace(/"/g, '""')}"`,
-                `"${(client.correo || '').replace(/"/g, '""')}"`
-            ].join(',');
-            csvContent += row + "\n";
+            const row = headers.map(header => {
+                const value = client[header] || '';
+                // Enclose values with commas or newlines in quotes
+                return `"${String(value).replace(/"/g, '""')}"`;
+            });
+            csvRows.push(row.join(','));
         });
 
-        const encodedUri = encodeURI(csvContent);
-        const link = document.createElement("a");
-        link.setAttribute("href", encodedUri);
-        link.setAttribute("download", "clientes_macro_tecnologias_kernel.csv");
+        const csvString = csvRows.join('\n');
+        const blob = new Blob([csvString], { type: 'text/csv;charset=utf-8;' });
+        const link = document.createElement('a');
+        link.href = URL.createObjectURL(blob);
+        link.setAttribute('download', 'clientes_macro_tecnologias_kernel.csv');
         document.body.appendChild(link);
         link.click();
         document.body.removeChild(link);
     }
+
 
     function initializeClientBaseFunctions() {
         loadClients();
@@ -942,160 +1111,16 @@ document.addEventListener('DOMContentLoaded', () => {
         const clientSearchInput = document.getElementById('clientSearchInput');
 
         if (addClientBtn) addClientBtn.addEventListener('click', () => showClientForm());
-        if (saveClientFormBtn) saveClientFormBtn.addEventListener('click', addOrUpdateClientFromForm);
+        if (saveClientFormBtn) saveClientFormBtn.addEventListener('click', saveClientForm);
         if (cancelClientFormBtn) cancelClientFormBtn.addEventListener('click', hideClientForm);
         if (csvFileInputClients) csvFileInputClients.addEventListener('change', handleCsvUploadClients);
         if (downloadCsvClientsBtn) downloadCsvClientsBtn.addEventListener('click', downloadClientsCsv);
         if (clientSearchInput) {
-            clientSearchInput.addEventListener('input', (e) => renderClientsTable(e.target.value));
+            clientSearchInput.addEventListener('input', (e) => {
+                renderClientsTable(e.target.value.trim());
+            });
         }
     }
-
-
-    // *******************************************************************
-    // GENERACIÓN DE PDF (ADMIN)
-    // *******************************************************************
-
-    // Hacer la función global o accesible desde el JS dinámico
-    window.generarPDFGeneral = function () {
-        // Ensure jsPDF is available - it should be if loaded globally in index.html
-        if (typeof window.jspdf === 'undefined' || typeof window.jspdf.jsPDF === 'undefined') {
-            console.error('jsPDF library not loaded. Cannot generate PDF.');
-            alert('Error: La librería jsPDF no está cargada correctamente. Por favor, recarga la página o contacta a soporte.');
-            return;
-        }
-
-        const { jsPDF } = window.jspdf;
-        const doc = new jsPDF();
-
-        const clienteNombre = document.getElementById('clienteNombre')?.value || 'N/A';
-        const clienteEmpresa = document.getElementById('clienteEmpresa')?.value || 'N/A';
-        const clienteDireccion = document.getElementById('clienteDireccion')?.value || 'N/A';
-        const clienteTelefono = document.getElementById('clienteTelefono')?.value || 'N/A';
-        const clienteCorreo = document.getElementById('clienteCorreo')?.value || 'N/A';
-        const cotizacionFecha = document.getElementById('cotizacionFecha')?.value || 'N/A';
-
-        const quoteNumber = generateQuoteNumber();
-
-        function getBase64Image(imgUrl, callback) {
-            const img = new Image();
-            img.onload = function () {
-                const canvas = document.createElement('canvas');
-                canvas.width = img.width;
-                canvas.height = img.height;
-                const ctx = canvas.getContext('2d');
-                ctx.drawImage(img, 0, 0);
-                const dataURL = canvas.toDataURL('image/png'); // Usar PNG para el logo
-                callback(dataURL);
-            };
-            img.onerror = function () {
-                console.error('No se pudo cargar la imagen para el PDF:', imgUrl);
-                callback(null);
-            };
-            img.src = imgUrl;
-        }
-
-        getBase64Image('logo_mtk.png', (logoBase64) => {
-            doc.setFont('helvetica', 'bold');
-            doc.setFontSize(22);
-            doc.setTextColor('#DAA520'); // Color dorado principal
-
-            if (logoBase64) {
-                doc.addImage(logoBase64, 'PNG', 15, 10, 40, 20); // Usar PNG y tamaño
-            } else {
-                doc.text('Macro Tecnologías Kernel', 15, 20); // Texto de fallback
-            }
-
-            doc.text('Cotización de Servicios', 200 - 15, 20, { align: 'right' });
-
-            doc.setFont('helvetica', 'normal');
-            doc.setFontSize(10);
-            doc.setTextColor('#333333');
-            doc.text(`Fecha: ${cotizacionFecha}`, 200 - 15, 30, { align: 'right' });
-            doc.text(`No. Cotización: ${quoteNumber}`, 200 - 15, 35, { align: 'right' });
-
-            doc.setFontSize(12);
-            doc.setTextColor('#000000');
-            doc.text('Datos del Cliente:', 15, 45);
-            doc.setFontSize(10);
-            doc.text(`Nombre: ${clienteNombre}`, 15, 52);
-            doc.text(`Empresa: ${clienteEmpresa}`, 15, 57);
-            doc.text(`Dirección: ${clienteDireccion}`, 15, 62);
-            doc.text(`Teléfono: ${clienteTelefono}`, 15, 67);
-            doc.text(`Correo: ${clienteCorreo}`, 15, 72);
-
-            const items = [];
-            const tableRows = document.querySelectorAll('#itemsTable tbody tr');
-            tableRows.forEach(row => {
-                const code = row.querySelector('.item-code')?.value || '';
-                const desc = row.querySelector('.item-desc')?.value || '';
-                const unit = row.querySelector('.item-unit')?.value || '';
-                const quantity = parseFloat(row.querySelector('.item-quantity')?.value) || 0;
-                const price = parseFloat(row.querySelector('.item-price')?.value) || 0;
-                const total = quantity * price;
-                items.push([
-                    code,
-                    desc,
-                    unit,
-                    quantity.toLocaleString(),
-                    `$${price.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`,
-                    `$${total.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`
-                ]);
-            });
-
-            doc.autoTable({
-                startY: 80,
-                head: [['Código', 'Descripción', 'Unidad', 'Cantidad', 'Precio Unitario', 'Total']],
-                body: items,
-                styles: {
-                    fontSize: 9,
-                    cellPadding: 3,
-                    valign: 'middle'
-                },
-                headStyles: {
-                    fillColor: [47, 79, 79], // dark-metal
-                    textColor: [255, 215, 0], // gold-accent
-                    fontStyle: 'bold'
-                },
-                alternateRowStyles: {
-                    fillColor: [240, 240, 240]
-                },
-                bodyStyles: {
-                    textColor: [0, 0, 0]
-                },
-                didDrawPage: function (data) {
-                    let str = 'Página ' + doc.internal.getNumberOfPages();
-                    doc.setFontSize(8);
-                    doc.setTextColor(100);
-                    doc.text(str, data.settings.margin.left, doc.internal.pageSize.height - 10);
-                }
-            });
-
-            const subtotal = parseFloat(document.getElementById('subtotalDisplay')?.textContent.replace('$', '').replace(/,/g, '')) || 0;
-            const iva = parseFloat(document.getElementById('ivaDisplay')?.textContent.replace('$', '').replace(/,/g, '')) || 0;
-            const total = parseFloat(document.getElementById('totalDisplay')?.textContent.replace('$', '').replace(/,/g, '')) || 0;
-
-            const finalY = doc.autoTable.previous.finalY;
-            const totalLabelX = doc.autoTable.previous.columns[4].x + doc.autoTable.previous.columns[4].width;
-            const totalValueX = doc.autoTable.previous.columns[5].x + doc.autoTable.previous.columns[5].width;
-
-            doc.setFontSize(10);
-            doc.setFont('helvetica', 'normal');
-            doc.text(`Subtotal:`, totalLabelX, finalY + 7, { align: 'right' });
-            doc.text(`$${subtotal.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`, totalValueX, finalY + 7, { align: 'right' });
-
-            doc.text(`IVA (16%):`, totalLabelX, finalY + 13, { align: 'right' });
-            doc.text(`$${iva.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`, totalValueX, finalY + 13, { align: 'right' });
-
-            doc.setFontSize(12);
-            doc.setFont('helvetica', 'bold');
-            doc.text(`TOTAL:`, totalLabelX, finalY + 22, { align: 'right' });
-            doc.text(`$${total.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`, totalValueX, finalY + 22, { align: 'right' });
-            doc.setFont('helvetica', 'normal');
-
-            doc.save(`Cotizacion_Macro_Tecnologias_Kernel_Servicios_${cotizacionFecha.replace(/\//g, '-')}_${quoteNumber}.pdf`);
-        });
-    };
 
 
     // *******************************************************************
@@ -1115,5 +1140,22 @@ document.addEventListener('DOMContentLoaded', () => {
     const storedRole = sessionStorage.getItem('userRole');
     if (storedRole) {
         showAppContent(storedRole);
+        // Special handling for admin sections to initialize their specific functions
+        if (storedRole === 'admin') {
+            const dynamicContentArea = document.getElementById('dynamicContentArea');
+            // Re-inject the correct admin section and initialize if user returns to admin sections
+            // This assumes the admin user might land on a specific admin section directly
+            // For now, it will default to welcome, but if user navigated, we need to re-render
+            const currentPath = window.location.hash; // Or some other way to track where they were
+            if (currentPath.includes('cotizador')) {
+                dynamicContentArea.innerHTML = cotizadorAdminHTML;
+                initializeCotizadorFunctions();
+            } else if (currentPath.includes('clientes')) {
+                dynamicContentArea.innerHTML = baseClientesHTML;
+                initializeClientBaseFunctions();
+            } else {
+                dynamicContentArea.innerHTML = adminWelcomeHTML;
+            }
+        }
     }
 });

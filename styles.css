@@ -18,60 +18,52 @@
     /* Nuevos colores para el botón de cliente */
     --client-new-btn: #E53935; /* Rojo para cliente nuevo */
     --client-new-btn-hover: #C62828;
-    --client-existing-btn: #4CAF50; /* Verde para cliente existente */
-    --client-existing-btn-hover: #388E3C; /* Verde oscuro para hover */
-    --pdf-download-btn: #007bff; /* Azul para el botón de descargar PDF */
-    --pdf-download-btn-hover: #0056b3;
+    --client-existing-btn: #2196F3; /* Azul para cliente existente */
+    --client-existing-btn-hover: #1976D2;
+}
+
+/* Reset y estilos base */
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
 }
 
 body {
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     background-color: var(--dark-background);
-    color: var(--light-text-gold);
-    margin: 0;
-    padding: 0;
+    color: var(--white-text);
+    line-height: 1.6;
     display: flex;
     justify-content: center;
-    align-items: center;
+    align-items: flex-start; /* Alinea al inicio verticalmente */
     min-height: 100vh;
-    box-sizing: border-box; /* Asegura que el padding no cause desbordamiento */
+    padding: 20px;
+    position: relative; /* Para el WhatsApp float */
 }
 
-/* Contenedor principal de login */
+/* Contenedor de Login */
 .login-container {
-    background-color: #2a2a2a; /* Fondo más claro que el body para contraste */
+    background-color: #2a2a2a; /* Un gris un poco más claro que el fondo */
     padding: 40px;
-    border-radius: 12px;
-    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.5);
+    border-radius: 10px;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
     text-align: center;
     width: 100%;
-    max-width: 400px; /* Ancho máximo para el formulario de login */
-    border: 1px solid var(--medium-grey-border);
-    animation: fadeIn 1s ease-out;
-}
-
-/* Animación de entrada */
-@keyframes fadeIn {
-    from { opacity: 0; transform: translateY(-20px); }
-    to { opacity: 1; transform: translateY(0); }
+    max-width: 400px;
+    animation: fadeIn 1s ease-in-out;
+    margin-top: 50px; /* Espacio desde arriba */
 }
 
 .login-container .logo-login {
-    width: 120px;
-    margin-bottom: 25px;
-    animation: rotateIn 1s ease-out;
-}
-
-@keyframes rotateIn {
-    from { transform: rotateY(90deg) scale(0.8); opacity: 0; }
-    to { transform: rotateY(0deg) scale(1); opacity: 1; }
+    width: 150px;
+    margin-bottom: 30px;
 }
 
 h2 {
     color: var(--gold-accent);
     margin-bottom: 25px;
     font-size: 2em;
-    letter-spacing: 1px;
 }
 
 .input-group {
@@ -89,195 +81,380 @@ h2 {
 .input-group input[type="text"],
 .input-group input[type="password"],
 .input-group input[type="email"],
-.input-group input[type="date"] {
-    width: calc(100% - 20px); /* Resta el padding para que no se desborde */
-    padding: 12px 10px;
+.input-group input[type="date"],
+.input-group input[type="number"] {
+    width: 100%;
+    padding: 12px;
     border: 1px solid var(--medium-grey-border);
-    border-radius: 6px;
+    border-radius: 5px;
     background-color: #333;
     color: var(--white-text);
     font-size: 1em;
-    transition: border-color 0.3s ease, box-shadow 0.3s ease;
+    transition: border-color 0.3s ease;
 }
 
 .input-group input[type="text"]:focus,
 .input-group input[type="password"]:focus,
 .input-group input[type="email"]:focus,
-.input-group input[type="date"]:focus {
+.input-group input[type="date"]:focus,
+.input-group input[type="number"]:focus {
     border-color: var(--gold-primary);
-    box-shadow: 0 0 8px rgba(var(--gold-primary), 0.5);
     outline: none;
 }
 
 button {
     background-color: var(--button-bg);
     color: var(--white-text);
-    padding: 14px 25px;
+    padding: 12px 20px;
     border: none;
-    border-radius: 6px;
+    border-radius: 5px;
     cursor: pointer;
     font-size: 1.1em;
-    font-weight: bold;
-    transition: background-color 0.3s ease, transform 0.2s ease, box-shadow 0.3s ease;
+    transition: background-color 0.3s ease, transform 0.2s ease;
     width: 100%;
-    margin-bottom: 10px; /* Espacio entre botones en contenedores */
+    margin-top: 10px;
 }
 
 button:hover {
     background-color: var(--button-hover);
     transform: translateY(-2px);
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.4);
 }
 
 .error-message {
     color: var(--error-red);
     margin-top: 15px;
-    font-size: 0.9em;
-    display: none; /* Oculto por defecto, se muestra con JS */
+    font-weight: bold;
+    display: none; /* Oculto por defecto */
 }
 
-/* Estilos para el contenido principal de la aplicación */
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(-20px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+/* Contenido Principal de la Aplicación */
 #appContent {
-    display: none; /* Oculto por defecto, se muestra después del login */
     width: 100%;
-    min-height: 100vh;
-    display: flex;
-    flex-direction: column;
-    position: relative; /* Necesario para posicionar el logo fijo */
+    max-width: 1200px; /* Ancho máximo para el contenido principal */
+    background-color: #2a2a2a;
+    border-radius: 10px;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
+    padding: 20px; /* Padding general */
+    margin-top: 20px; /* Espacio desde el borde superior del body */
 }
 
-/* Header (cabecera con navegación y botón de logout) */
+/* Header (para el contenido logeado) */
 .header {
-    background-color: #222;
-    padding: 15px 20px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    box-shadow: 0 2px 5px rgba(0,0,0,0.3);
-    position: sticky; /* Sticky header */
-    top: 0;
     width: 100%;
-    z-index: 999; /* Asegura que el header esté sobre el contenido */
+    background-color: #333;
+    padding: 10px 20px;
+    border-bottom: 1px solid var(--medium-grey-border);
+    border-radius: 10px 10px 0 0; /* Bordes redondeados solo arriba */
+    margin-bottom: 20px; /* Espacio entre header y contenido dinámico */
 }
 
 .navbar {
-    flex-grow: 1; /* Permite que la barra de navegación ocupe espacio */
     display: flex;
-    justify-content: center;
+    justify-content: space-between;
+    align-items: center;
 }
 
 .nav-links {
     list-style: none;
-    padding: 0;
-    margin: 0;
     display: flex;
-    gap: 25px;
+    gap: 20px; /* Espacio entre los elementos del menú */
 }
 
 .nav-links li a {
     color: var(--light-text-gold);
     text-decoration: none;
     font-weight: bold;
-    padding: 10px 15px;
+    padding: 5px 10px;
+    transition: color 0.3s ease, background-color 0.3s ease;
     border-radius: 5px;
-    transition: background-color 0.3s ease, color 0.3s ease;
 }
 
-.nav-links li a:hover,
-.nav-links li a.active {
-    background-color: var(--gold-primary);
-    color: var(--black-text);
-}
-
-/* Estilos para el elemento "Cerrar Sesión" dentro del menú */
-.nav-links li a.logout-menu-item {
-    background-color: var(--error-red); /* Color de botón de peligro */
+.nav-links li a:hover {
     color: var(--white-text);
-    padding: 10px 15px; /* Ajustado para ser un enlace de menú */
-    border-radius: 5px;
+    background-color: var(--gold-primary);
+}
+
+.nav-links li a.logout-menu-item {
+    color: var(--error-red); /* Color distintivo para cerrar sesión */
 }
 
 .nav-links li a.logout-menu-item:hover {
-    background-color: #B00020;
+    background-color: var(--error-red);
     color: var(--white-text);
 }
 
 
-/* Contenedor para el contenido dinámico de la aplicación */
-.content-area {
-    flex-grow: 1;
-    padding: 20px;
-    overflow-y: auto; /* Permite scroll si el contenido es largo */
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: flex-start; /* Alinea el contenido al inicio verticalmente */
-    width: 100%;
-}
-
-/* Estilos específicos para la sección de bienvenida del admin */
-.admin-welcome, .admin-section {
-    background-color: #2a2a2a;
-    padding: 30px;
-    border-radius: 12px;
-    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.4);
-    text-align: center;
-    max-width: 900px; /* Aumentado para la tabla de clientes */
-    margin: 20px auto;
-    border: 1px solid var(--medium-grey-border);
-}
-
-.admin-welcome h2, .admin-section h2 {
-    color: var(--gold-accent);
-    margin-bottom: 15px;
-}
-
-.admin-welcome p, .admin-section p {
+/* Hamburger Menu (visible solo en móvil) */
+.hamburger {
+    display: none; /* Oculto por defecto en desktop */
+    font-size: 1.8em;
+    background: none;
+    border: none;
     color: var(--light-text-gold);
-    line-height: 1.6;
+    cursor: pointer;
+    padding: 5px;
 }
 
-/* Estilos para el dashboard del cliente */
-.client-info {
-    background-color: #2a2a2a;
+/* Fixed Logo (visible en todas las pantallas cuando se está logeado) */
+.fixed-logo {
+    position: absolute;
+    top: 20px; /* Ajusta según sea necesario */
+    right: 20px; /* Ajusta según sea necesario */
+    width: 80px; /* Tamaño del logo fijo */
+    z-index: 1000; /* Asegura que esté por encima de otros elementos */
+    border-radius: 5px; /* Pequeño borde para que no se vea cortado si la imagen tiene fondo */
+}
+
+
+/* Contenido de Bienvenida del Admin */
+.admin-welcome {
     padding: 30px;
-    border-radius: 12px;
-    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.4);
     text-align: center;
-    max-width: 900px; /* Ancho máximo para el contenido del cliente */
-    margin: 20px auto;
-    border: 1px solid var(--medium-grey-border);
 }
 
-.client-info h2 {
+.admin-welcome p {
+    font-size: 1.1em;
+    color: var(--light-text-gold);
+    margin-top: 15px;
+}
+
+/* Base de Clientes y Cotizador (estilos compartidos y específicos) */
+.admin-section, .cotizador, .client-info {
+    padding: 20px;
+    background-color: #1a1a1a;
+    border-radius: 8px;
+    box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.3);
+    margin-top: 20px;
+}
+
+.admin-section h2, .cotizador h2, .client-info h2 {
     color: var(--gold-accent);
+    text-align: center;
+    margin-bottom: 25px;
+    font-size: 1.8em;
+}
+
+.admin-section h3, .cotizador h3, .client-info h3 {
+    color: var(--light-text-gold);
+    margin-top: 20px;
+    margin-bottom: 15px;
+    border-bottom: 1px solid var(--medium-grey-border);
+    padding-bottom: 5px;
+    font-size: 1.4em;
+}
+
+/* Tablas */
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+    background-color: #2a2a2a;
+}
+
+table th, table td {
+    border: 1px solid var(--medium-grey-border);
+    padding: 12px 15px;
+    text-align: left;
+    color: var(--white-text);
+}
+
+table th {
+    background-color: var(--table-header-bg);
+    color: var(--gold-accent);
+    font-weight: bold;
+    text-transform: uppercase;
+}
+
+table tr:nth-child(even) {
+    background-color: #333; /* Color para filas pares */
+}
+
+table tr:hover {
+    background-color: #444; /* Resaltar fila al pasar el ratón */
+}
+
+/* Estilos específicos para inputs dentro de tablas (Cotizador) */
+#itemsTable input[type="text"],
+#itemsTable input[type="number"] {
+    width: 100%;
+    padding: 8px;
+    border: 1px solid #666;
+    border-radius: 4px;
+    background-color: #3a3a3a;
+    color: var(--white-text);
+    font-size: 0.9em;
+}
+
+/* Botones de acción en tabla */
+.remove-item-btn, .client-actions-cell button {
+    background-color: var(--error-red);
+    padding: 8px 12px;
+    font-size: 0.9em;
+    width: auto; /* Ancho automático para no estirar */
+    margin-top: 0;
+    margin-right: 5px;
+}
+
+.remove-item-btn:hover, .client-actions-cell button:hover {
+    background-color: #a00;
+}
+
+.client-actions-cell .edit-client-btn {
+    background-color: var(--button-bg);
+}
+.client-actions-cell .edit-client-btn:hover {
+    background-color: var(--button-hover);
+}
+
+
+/* Footer de tabla (Totales en Cotizador) */
+tfoot td {
+    font-weight: bold;
+    text-align: right;
+    padding-top: 15px;
+    border-top: 2px solid var(--gold-primary);
+}
+
+tfoot #totalDisplay {
+    color: var(--gold-accent);
+    font-size: 1.2em;
+}
+
+/* Contenedores de botones */
+.buttons-container {
+    display: flex;
+    flex-wrap: wrap; /* Permite que los botones se envuelvan en pantallas pequeñas */
+    gap: 15px; /* Espacio entre los botones */
+    margin-top: 25px;
+    justify-content: center;
+}
+
+.buttons-container button,
+.buttons-container label.csv-upload-label {
+    flex-grow: 1; /* Permite que los botones crezcan */
+    min-width: 200px; /* Ancho mínimo para cada botón */
+    margin-top: 0; /* Elimina el margin-top de la regla general de button */
+}
+
+/* Estilos para el botón de cargar CSV (etiqueta) */
+label.csv-upload-label {
+    background-color: var(--dark-metal); /* Color diferente para la carga de CSV */
+    color: var(--white-text);
+    padding: 12px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 1.1em;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+    text-align: center;
+    display: inline-block; /* Para que funcione como un botón */
+}
+
+label.csv-upload-label:hover {
+    background-color: #3f6f6f;
+    transform: translateY(-2px);
+}
+
+/* Botones de cliente (nuevo/existente) */
+.btn-new-client {
+    background-color: var(--client-new-btn);
+}
+.btn-new-client:hover {
+    background-color: var(--client-new-btn-hover);
+}
+
+.btn-existing-client {
+    background-color: var(--client-existing-btn);
+}
+.btn-existing-client:hover {
+    background-color: var(--client-existing-btn-hover);
+}
+
+.btn-cancel {
+    background-color: #6c757d; /* Gris para cancelar */
+}
+
+.btn-cancel:hover {
+    background-color: #5a6268;
+}
+
+
+/* Gestión de Clientes */
+.client-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
     margin-bottom: 20px;
+    justify-content: center;
+}
+
+.client-actions button, .client-actions label {
+    flex-grow: 1;
+    min-width: 180px;
+    margin-top: 0;
+}
+
+#clientFormContainer {
+    background-color: #333;
+    padding: 20px;
+    border-radius: 8px;
+    margin-bottom: 20px;
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.4);
+}
+
+#clientFormContainer h3 {
+    text-align: center;
+    margin-bottom: 20px;
+    color: var(--gold-accent);
+}
+
+.search-input-group {
+    margin-bottom: 20px;
+}
+
+.search-input-group input {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid var(--medium-grey-border);
+    border-radius: 5px;
+    background-color: #333;
+    color: var(--white-text);
+    font-size: 1em;
+}
+
+/* Dashboard de Cliente */
+.client-info {
+    padding: 30px;
+    text-align: center;
 }
 
 .client-info p {
+    margin-top: 15px;
+    font-size: 1.1em;
     color: var(--light-text-gold);
-    line-height: 1.6;
-    margin-bottom: 20px;
 }
 
 .client-sections {
     display: flex;
-    flex-wrap: wrap; /* Permite que las secciones se envuelvan en pantallas pequeñas */
-    justify-content: center;
-    gap: 25px; /* Espacio entre las secciones */
+    flex-wrap: wrap; /* Permite que las secciones se envuelvan */
+    gap: 30px;
     margin-top: 30px;
+    justify-content: center;
 }
 
 .client-section {
-    background-color: #333;
+    background-color: #2a2a2a;
     padding: 25px;
     border-radius: 10px;
-    border: 1px solid #444;
-    text-align: left;
-    flex: 1; /* Permite que crezca y se encoja */
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+    flex: 1; /* Permite que crezca y ocupe espacio */
     min-width: 300px; /* Ancho mínimo para las secciones */
-    max-width: 45%; /* Para que dos secciones quepan en una fila en pantallas grandes */
-    box-shadow: 0 3px 10px rgba(0, 0, 0, 0.3);
+    max-width: 48%; /* Dos columnas en pantallas grandes */
+    text-align: left;
     transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
@@ -290,7 +467,9 @@ button:hover {
     color: var(--gold-primary);
     margin-top: 0;
     margin-bottom: 15px;
-    font-size: 1.6em;
+    border-bottom: 2px solid var(--dark-metal);
+    padding-bottom: 10px;
+    text-align: center;
 }
 
 .client-section ul {
@@ -300,70 +479,83 @@ button:hover {
 }
 
 .client-section ul li {
-    background-color: #3f3f3f;
+    background-color: #333;
+    margin-bottom: 8px;
     padding: 10px 15px;
-    margin-bottom: 10px;
-    border-left: 3px solid var(--gold-accent);
     border-radius: 5px;
     color: var(--white-text);
-    font-size: 0.95em;
+    display: flex;
+    align-items: center;
+    gap: 10px;
 }
 
-/* Estilos para el overlay del video de bienvenida */
+.client-section ul li::before {
+    content: '•';
+    color: var(--gold-accent);
+    font-size: 1.2em;
+    font-weight: bold;
+}
+
+.client-section p {
+    color: var(--light-text-gold);
+    margin-bottom: 10px;
+    text-align: justify;
+}
+
+/* Video Overlay */
 .video-overlay {
     position: fixed;
     top: 0;
     left: 0;
     width: 100%;
     height: 100%;
-    background-color: rgba(0, 0, 0, 0.95); /* Fondo oscuro semitransparente */
+    background-color: rgba(0, 0, 0, 0.9);
     display: flex;
     justify-content: center;
     align-items: center;
     z-index: 10000; /* Asegura que esté por encima de todo */
-    backdrop-filter: blur(8px); /* Efecto de desenfoque */
+    flex-direction: column;
 }
 
 .video-wrapper {
     position: relative;
-    max-width: 90%;
-    max-height: 90%;
-    width: 100%; /* Ajusta el ancho base del wrapper */
-    height: 0;
-    padding-bottom: 56.25%; /* 16:9 Aspect Ratio (divide 9 by 16 = 0.5625) */
+    width: 90%;
+    max-width: 800px; /* Limita el tamaño del video */
+    background-color: #000;
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: 0 0 30px rgba(255, 215, 0, 0.5); /* Sombra dorada */
 }
 
-.video-overlay video {
-    position: absolute;
-    top: 0;
-    left: 0;
+.video-wrapper video {
     width: 100%;
-    height: 100%;
-    border-radius: 10px;
-    box-shadow: 0 0 20px rgba(0, 0, 0, 0.8);
-    background-color: black; /* Fondo negro para el video */
+    height: auto;
+    display: block;
 }
 
 .skip-video-btn {
     position: absolute;
     bottom: 20px;
     right: 20px;
-    background-color: rgba(var(--gold-primary), 0.8);
-    color: var(--black-text);
+    background-color: rgba(58, 58, 58, 0.7);
+    color: var(--white-text);
+    border: 1px solid var(--gold-primary);
     padding: 10px 20px;
-    border: none;
     border-radius: 5px;
     cursor: pointer;
-    font-weight: bold;
-    z-index: 10001; /* Asegura que el botón esté sobre el video */
-    display: none; /* Oculto por defecto, se muestra con JS */
+    font-size: 1em;
+    transition: background-color 0.3s ease;
+    z-index: 10001; /* Por encima del video */
+    width: auto;
 }
 
 .skip-video-btn:hover {
     background-color: var(--gold-primary);
+    color: var(--dark-background);
 }
 
-/* Botón flotante de WhatsApp */
+
+/* WhatsApp Float Button */
 .whatsapp-float {
     position: fixed;
     width: 60px;
@@ -380,7 +572,7 @@ button:hover {
     display: flex;
     justify-content: center;
     align-items: center;
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    transition: transform 0.3s ease;
 }
 
 .whatsapp-float img {
@@ -390,347 +582,124 @@ button:hover {
 
 .whatsapp-float:hover {
     transform: scale(1.1);
-    box-shadow: 4px 4px 8px #777;
-}
-
-/* Hamburger menu icon for mobile */
-.hamburger {
-    display: none; /* Hidden by default on larger screens */
-    font-size: 2em;
-    background: none;
-    border: none;
-    color: var(--light-text-gold);
-    cursor: pointer;
-    z-index: 1001; /* Ensure it's above other elements if needed */
-}
-
-/* Nuevo estilo para el logo fijo */
-.fixed-logo {
-    position: fixed;
-    top: 15px; /* Distancia desde la parte superior */
-    right: 15px; /* Distancia desde la derecha */
-    width: 80px; /* Tamaño por defecto para pantallas grandes */
-    height: auto; /* Mantiene la relación de aspecto */
-    z-index: 1000; /* Asegura que esté por encima de la mayoría de los elementos */
-    opacity: 0.9; /* Ligera transparencia para que no sea intrusivo */
-    transition: opacity 0.3s ease-in-out; /* Suave transición al pasar el ratón */
-}
-
-.fixed-logo:hover {
-    opacity: 1; /* Opacidad completa al pasar el ratón */
-}
-
-/* Estilos de los botones en el cotizador */
-.cotizador .buttons-container {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 10px;
-    justify-content: center;
-    margin-top: 20px;
-}
-
-.cotizador .buttons-container button,
-.cotizador .buttons-container label.csv-upload-label {
-    flex: 1; /* Permite que los botones ocupen espacio equitativamente */
-    min-width: 180px; /* Ancho mínimo para que no se compriman demasiado */
-    max-width: 48%; /* Para que dos botones quepan en una fila */
-    box-sizing: border-box; /* Incluye padding y border en el ancho */
-    margin-bottom: 0; /* Ya se maneja con gap */
-}
-
-/* Estilos específicos para botones de cliente (cotizador y base de clientes) */
-.btn-new-client {
-    background-color: var(--client-new-btn);
-}
-.btn-new-client:hover {
-    background-color: var(--client-new-btn-hover);
-}
-.btn-existing-client {
-    background-color: var(--client-existing-btn);
-}
-.btn-existing-client:hover {
-    background-color: var(--client-existing-btn-hover);
-}
-.btn-cancel {
-    background-color: #6c757d; /* Gris para cancelar */
-}
-.btn-cancel:hover {
-    background-color: #5a6268;
-}
-
-/* Estilos para el botón de cargar CSV */
-.csv-upload-label {
-    background-color: var(--dark-metal); /* Color diferente para CSV */
-    color: var(--white-text);
-    padding: 14px 25px;
-    border: none;
-    border-radius: 6px;
-    cursor: pointer;
-    font-size: 1.1em;
-    font-weight: bold;
-    transition: background-color 0.3s ease, transform 0.2s ease, box-shadow 0.3s ease;
-    display: inline-block; /* Para que funcione con label */
-    text-align: center;
-}
-
-.csv-upload-label:hover {
-    background-color: #3f5f5f;
-    transform: translateY(-2px);
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.4);
-}
-
-/* Estilos para tablas */
-table {
-    width: 100%;
-    border-collapse: collapse;
-    margin-top: 20px;
-    background-color: #333;
-    border-radius: 8px;
-    overflow: hidden; /* Asegura que los bordes redondeados se apliquen a la tabla */
-    color: var(--white-text);
-}
-
-table th, table td {
-    padding: 12px 15px;
-    border: 1px solid #444;
-    text-align: left;
-}
-
-table thead th {
-    background-color: var(--table-header-bg);
-    color: var(--gold-accent);
-    font-weight: bold;
-    text-transform: uppercase;
-}
-
-table tbody tr:nth-child(even) {
-    background-color: #3a3a3a; /* Rayas para mejor legibilidad */
-}
-
-table tbody tr:hover {
-    background-color: #4b4b4b; /* Efecto hover en filas */
-}
-
-/* Estilos para inputs dentro de las tablas (cotizador) */
-table input[type="text"],
-table input[type="number"] {
-    width: calc(100% - 10px);
-    padding: 8px 5px;
-    border: 1px solid #555;
-    border-radius: 4px;
-    background-color: #444;
-    color: var(--white-text);
-}
-
-table input[type="text"]:focus,
-table input[type="number"]:focus {
-    border-color: var(--gold-primary);
-    outline: none;
-}
-
-/* Botones de eliminar en la tabla del cotizador */
-.remove-item-btn {
-    background-color: var(--error-red);
-    color: var(--white-text);
-    padding: 8px 12px;
-    font-size: 0.9em;
-    width: auto; /* Sobreescribe el 100% de los botones generales */
-    margin-bottom: 0;
-}
-.remove-item-btn:hover {
-    background-color: #B00020;
-}
-
-/* Estilos para la tabla de clientes en Base de Clientes */
-#clientsTable {
-    width: 100%;
-    margin-top: 20px;
-}
-
-#clientsTable .client-actions-cell {
-    text-align: center;
-    white-space: nowrap; /* Evita que los botones se rompan de línea */
-}
-
-#clientsTable .client-actions-cell button {
-    width: auto;
-    display: inline-block;
-    margin: 5px;
-    padding: 8px 12px;
-    font-size: 0.9em;
-}
-
-.edit-client-btn {
-    background-color: var(--gold-primary);
-    color: var(--black-text);
-}
-.edit-client-btn:hover {
-    background-color: var(--gold-accent);
-}
-
-.delete-client-btn {
-    background-color: var(--error-red);
-    color: var(--white-text);
-}
-.delete-client-btn:hover {
-    background-color: #B00020;
-}
-
-/* Contenedor del formulario de cliente (añadir/editar) */
-#clientFormContainer {
-    background-color: #333;
-    padding: 25px;
-    border-radius: 10px;
-    margin-bottom: 20px;
-    text-align: left;
-    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
-}
-
-#clientFormContainer h3 {
-    text-align: center;
-    color: var(--gold-primary);
-    margin-bottom: 20px;
-}
-
-#clientFormContainer .input-group input {
-    width: calc(100% - 22px); /* Ajuste por padding y borde */
-}
-
-#clientFormContainer .buttons-container {
-    display: flex;
-    gap: 10px;
-    justify-content: center;
-    margin-top: 20px;
-}
-
-#clientFormContainer .buttons-container button {
-    flex: 1;
-    max-width: 48%;
-}
-
-/* Input de búsqueda de clientes */
-.search-input-group {
-    margin-bottom: 20px;
-    text-align: center;
-}
-
-.search-input-group input {
-    width: calc(100% - 40px); /* Ajuste por padding */
-    padding: 12px 20px;
-    border: 1px solid var(--medium-grey-border);
-    border-radius: 25px; /* Bordes más redondeados para búsqueda */
-    background-color: #333;
-    color: var(--white-text);
-    font-size: 1em;
-    transition: border-color 0.3s ease, box-shadow 0.3s ease;
-}
-
-.search-input-group input:focus {
-    border-color: var(--gold-primary);
-    box-shadow: 0 0 8px rgba(var(--gold-primary), 0.5);
-    outline: none;
-}
-
-/* Estilos para el logo dentro del cotizador */
-.logo-inside-cotizador {
-    width: 100px; /* Tamaño del logo en el cotizador */
-    margin-bottom: 20px;
-    display: block; /* Asegura que ocupe su propia línea */
-    margin-left: auto;
-    margin-right: auto;
 }
 
 
-/* Ajustes para tablets y teléfonos grandes (hasta 768px de ancho) */
-@media (max-width: 768px) {
-    /* Login y App Content */
-    body {
-        padding: 15px;
-    }
+/* Media Queries para Responsividad */
 
+/* Tablets y pantallas pequeñas de laptop (hasta 1024px de ancho) */
+@media (max-width: 1024px) {
     .login-container {
         padding: 30px;
         max-width: 350px;
     }
 
     h2 {
-        font-size: 1.7em;
+        font-size: 1.8em;
     }
 
-    .input-group input {
-        padding: 10px;
+    .login-container .logo-login {
+        width: 120px;
     }
 
-    button {
-        padding: 12px 20px;
-        font-size: 1em;
-    }
-
-    /* Header y Navbar */
-    .header {
-        flex-direction: column;
-        align-items: flex-start;
-        padding: 10px 15px;
-    }
-
-    .navbar {
-        width: 100%;
-        justify-content: flex-end; /* Alinea el menú a la derecha cuando se abre */
+    #appContent {
+        padding: 15px;
     }
 
     .nav-links {
-        flex-direction: column;
-        width: 100%;
-        background-color: #222; /* Fondo para el menú desplegable */
-        position: absolute;
-        top: 60px; /* Debajo del header */
-        left: 0;
-        right: 0;
-        display: none; /* Oculto por defecto */
-        padding: 10px 0;
-        box-shadow: 0 2px 5px rgba(0,0,0,0.3);
+        gap: 15px;
     }
 
-    .nav-links.active {
-        display: flex; /* Muestra cuando está activo */
+    .client-section {
+        max-width: 48%; /* Mantener dos columnas si el espacio lo permite */
+        min-width: unset; /* Eliminar min-width fijo */
     }
 
-    .nav-links li {
-        margin: 10px 0;
-        width: 100%;
-        text-align: center;
+    .cotizador .buttons-container button,
+    .cotizador .buttons-container label.csv-upload-label {
+        min-width: 180px; /* Reducir min-width para que quepan más */
     }
 
-    .hamburger {
-        display: block; /* Muestra el icono de hamburguesa */
-        position: absolute; /* Posiciona la hamburguesa en la esquina */
-        top: 15px;
-        left: 15px;
-    }
-
-    /* Nuevo estilo para el logo fijo */
-    .fixed-logo {
-        top: 10px; /* Reduce la distancia desde arriba */
-        right: 10px; /* Reduce la distancia desde la derecha */
-        width: 60px; /* Tamaño más pequeño para tablets y teléfonos grandes */
+    .video-wrapper {
+        max-width: 90%;
     }
 
     /* WhatsApp Float */
     .whatsapp-float {
-        width: 50px;
-        height: 50px;
-        bottom: 20px;
-        right: 20px;
+        width: 55px;
+        height: 55px;
+        bottom: 30px;
+        right: 30px;
     }
 
     .whatsapp-float img {
-        width: 30px;
-        height: 30px;
+        width: 32px;
+        height: 32px;
     }
 
-    /* Clientes y Cotizador */
-    .admin-welcome, .admin-section, .client-info {
-        padding: 20px;
+    /* Logo Fijo */
+    .fixed-logo {
+        top: 15px;
+        right: 15px;
+        width: 70px;
+    }
+}
+
+/* Teléfonos (hasta 768px de ancho) */
+@media (max-width: 768px) {
+    body {
+        padding: 10px;
+    }
+
+    .login-container {
+        padding: 25px;
+        margin-top: 30px;
+    }
+
+    .header {
+        padding: 10px;
+    }
+
+    .navbar {
+        flex-direction: column; /* Apila el menú hamburguesa y los links */
+        align-items: flex-start;
+    }
+
+    .hamburger {
+        display: block; /* Muestra el botón hamburguesa */
+        margin-bottom: 10px;
+    }
+
+    .nav-links {
+        flex-direction: column; /* Los links se apilan verticalmente */
+        width: 100%;
+        background-color: #3a3a3a; /* Fondo para el menú desplegado */
+        position: absolute; /* Permite que el menú se superponga */
+        top: 60px; /* Debajo del header */
+        left: 0;
+        right: 0;
+        padding: 10px 0;
+        border-radius: 0 0 8px 8px;
+        display: none; /* Oculto por defecto */
+        z-index: 999; /* Por debajo del logo fijo, pero por encima del contenido */
+    }
+
+    .nav-links.active {
+        display: flex; /* Muestra el menú cuando está activo */
+    }
+
+    .nav-links li {
+        width: 100%;
+        text-align: center;
+    }
+
+    .nav-links li a {
+        display: block; /* Ocupa todo el ancho */
+        padding: 10px 0;
+    }
+
+    .admin-section, .cotizador, .client-info {
+        padding: 15px;
     }
 
     .client-sections {
@@ -758,6 +727,30 @@ table input[type="number"]:focus {
     #clientsTable .client-actions-cell button {
         padding: 6px 10px;
         font-size: 0.8em;
+    }
+
+    .video-wrapper {
+        max-width: 95%; /* Más ancho en pantallas pequeñas */
+    }
+
+    /* WhatsApp Float */
+    .whatsapp-float {
+        width: 50px;
+        height: 50px;
+        bottom: 20px;
+        right: 20px;
+    }
+
+    .whatsapp-float img {
+        width: 30px;
+        height: 30px;
+    }
+
+    /* Logo Fijo */
+    .fixed-logo {
+        top: 10px; /* Reduce la distancia desde arriba */
+        right: 10px; /* Reduce la distancia desde la derecha */
+        width: 60px; /* Tamaño más pequeño para tablets y teléfonos grandes */
     }
 }
 
@@ -798,8 +791,6 @@ table input[type="number"]:focus {
 
     /* Logo Fijo */
     .fixed-logo {
-        top: 10px; /* Reduce la distancia desde arriba */
-        right: 10px; /* Reduce la distancia desde la derecha */
-        width: 60px; /* Tamaño más pequeño para tablets y teléfonos grandes */
+        width: 50px;
     }
 }
