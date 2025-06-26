@@ -1,3 +1,4 @@
+/* styles.css */
 :root {
     /* Colores inspirados en el logo MTK - tonos dorados/bronce y oscuros */
     --gold-primary: #DAA520; /* Dorado fuerte */
@@ -12,885 +13,793 @@
     --black-text: #000000; /* Negro para texto sobre elementos claros */
     --table-header-bg: #3A3A3A; /* Fondo para encabezados de tabla */
     --white-text: #FFFFFF; /* Texto blanco para mayor contraste */
+    --success-green: #4CAF50; /* Verde para mensajes de éxito */
 
-    /* Nuevos colores para la interfaz general */
-    --metal-background: #E0E0E0; /* Fondo gris claro para secciones de contenido */
-    --white-background: #FFFFFF; /* Fondo blanco para tarjetas o contenedores */
-    --metal-accent: #607D8B; /* Gris azulado para títulos y bordes */
+    /* Nuevos colores para el botón de cliente */
+    --client-new-btn: #E53935; /* Rojo para cliente nuevo */
+    --client-new-btn-hover: #C62828;
+    --client-existing-btn: #4CAF50; /* Verde para cliente existente */
+    --client-existing-btn-hover: #388E3C; /* Verde oscuro para hover */
+    --pdf-download-btn: #007bff; /* Azul para el botón de descargar PDF */
+    --pdf-download-btn-hover: #0056b3;
 }
 
-/* Base styles */
 body {
-    font-family: Arial, sans-serif;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: var(--dark-background);
+    color: var(--light-text-gold);
     margin: 0;
     padding: 0;
-    background-color: var(--dark-background); /* Fondo inicial oscuro antes de login */
-    color: var(--white-text);
-    line-height: 1.6;
     display: flex;
-    flex-direction: column;
-    min-height: 100vh;
-}
-
-body.logged-in {
-    background-color: var(--metal-background); /* Fondo diferente cuando el usuario está logueado */
-    color: var(--dark-metal); /* Cambia el color de texto general a oscuro */
-}
-
-/* Login Overlay */
-.login-overlay {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: rgba(0, 0, 0, 0.8);
-    display: flex; /* Siempre visible por defecto */
     justify-content: center;
     align-items: center;
-    z-index: 1000;
+    min-height: 100vh;
+    box-sizing: border-box; /* Asegura que el padding no cause desbordamiento */
 }
 
-/* Ocultar login overlay cuando el body tiene la clase logged-in */
-body.logged-in .login-overlay {
-    display: none;
-}
-
+/* Contenedor principal de login */
 .login-container {
-    background-color: var(--dark-metal);
-    padding: 30px;
-    border-radius: 10px;
-    box-shadow: 0 0 15px rgba(0, 0, 0, 0.5);
+    background-color: #2a2a2a; /* Fondo más claro que el body para contraste */
+    padding: 40px;
+    border-radius: 12px;
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.5);
     text-align: center;
-    width: 90%;
-    max-width: 400px;
+    width: 100%;
+    max-width: 400px; /* Ancho máximo para el formulario de login */
+    border: 1px solid var(--medium-grey-border);
+    animation: fadeIn 1s ease-out;
 }
 
-.login-logo {
-    max-width: 120px;
-    margin-bottom: 20px;
+/* Animación de entrada */
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(-20px); }
+    to { opacity: 1; transform: translateY(0); }
 }
 
-.login-container h2 {
+.login-container .logo-login {
+    width: 120px;
+    margin-bottom: 25px;
+    animation: rotateIn 1s ease-out;
+}
+
+@keyframes rotateIn {
+    from { transform: rotateY(90deg) scale(0.8); opacity: 0; }
+    to { transform: rotateY(0deg) scale(1); opacity: 1; }
+}
+
+h2 {
     color: var(--gold-accent);
     margin-bottom: 25px;
+    font-size: 2em;
+    letter-spacing: 1px;
 }
 
 .input-group {
-    margin-bottom: 15px;
+    margin-bottom: 20px;
     text-align: left;
 }
 
 .input-group label {
     display: block;
-    margin-bottom: 5px;
+    margin-bottom: 8px;
     color: var(--light-text-gold);
+    font-weight: bold;
 }
 
-.input-group input {
-    width: 100%;
-    padding: 10px;
+.input-group input[type="text"],
+.input-group input[type="password"],
+.input-group input[type="email"],
+.input-group input[type="date"] {
+    width: calc(100% - 20px); /* Resta el padding para que no se desborde */
+    padding: 12px 10px;
     border: 1px solid var(--medium-grey-border);
-    border-radius: 5px;
-    background-color: var(--dark-background);
+    border-radius: 6px;
+    background-color: #333;
     color: var(--white-text);
-    box-sizing: border-box; /* Incluir padding y border en el ancho total */
+    font-size: 1em;
+    transition: border-color 0.3s ease, box-shadow 0.3s ease;
 }
 
-.login-button {
-    background-color: var(--gold-primary);
-    color: var(--black-text);
-    padding: 12px 25px;
+.input-group input[type="text"]:focus,
+.input-group input[type="password"]:focus,
+.input-group input[type="email"]:focus,
+.input-group input[type="date"]:focus {
+    border-color: var(--gold-primary);
+    box-shadow: 0 0 8px rgba(var(--gold-primary), 0.5);
+    outline: none;
+}
+
+button {
+    background-color: var(--button-bg);
+    color: var(--white-text);
+    padding: 14px 25px;
     border: none;
-    border-radius: 5px;
+    border-radius: 6px;
     cursor: pointer;
     font-size: 1.1em;
     font-weight: bold;
-    transition: background-color 0.3s ease, transform 0.2s ease;
+    transition: background-color 0.3s ease, transform 0.2s ease, box-shadow 0.3s ease;
     width: 100%;
-    margin-top: 15px;
+    margin-bottom: 10px; /* Espacio entre botones en contenedores */
 }
 
-.login-button:hover {
-    background-color: var(--gold-accent);
+button:hover {
+    background-color: var(--button-hover);
     transform: translateY(-2px);
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.4);
 }
 
 .error-message {
     color: var(--error-red);
     margin-top: 15px;
-    opacity: 0;
-    height: 0;
-    overflow: hidden;
-    transition: opacity 0.3s ease, height 0.3s ease;
+    font-size: 0.9em;
+    display: none; /* Oculto por defecto, se muestra con JS */
 }
 
-.error-message.show {
-    opacity: 1;
-    height: auto;
-}
-
-.success-message {
-    color: var(--gold-accent); /* Color para mensajes de éxito */
-    margin-top: 15px;
-    opacity: 0;
-    height: 0;
-    overflow: hidden;
-    transition: opacity 0.3s ease, height 0.3s ease;
-}
-
-.success-message.show {
-    opacity: 1;
-    height: auto;
-}
-
-/* Header and Navigation */
-.main-header {
+/* Estilos para el contenido principal de la aplicación */
+#appContent {
+    display: none; /* Oculto por defecto, se muestra después del login */
     width: 100%;
-    position: fixed;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    position: relative; /* Necesario para posicionar el logo fijo */
+}
+
+/* Header (cabecera con navegación y botón de logout) */
+.header {
+    background-color: #222;
+    padding: 15px 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.3);
+    position: sticky; /* Sticky header */
     top: 0;
-    left: 0;
-    right: 0;
-    z-index: 100;
+    width: 100%;
+    z-index: 999; /* Asegura que el header esté sobre el contenido */
 }
 
 .navbar {
+    flex-grow: 1; /* Permite que la barra de navegación ocupe espacio */
     display: flex;
-    justify-content: space-between; /* Distribuye el espacio entre los elementos */
-    align-items: center;
-    padding: 1rem 2rem;
-    background-color: var(--dark-metal);
-    color: var(--white-text);
-    box-shadow: 0 2px 5px rgba(0,0,0,0.2);
-}
-
-.logo-container {
-    display: flex;
-    align-items: center;
-    font-size: 1.5em;
-    font-weight: bold;
-    color: var(--white-text);
-    text-decoration: none;
-}
-
-.logo-nav {
-    height: 35px; /* Ajusta el tamaño del logo */
-    margin-right: 10px;
-}
-
-.brand-logo {
-    display: flex;
-    align-items: center;
-    color: var(--white-text);
-    text-decoration: none;
+    justify-content: center;
 }
 
 .nav-links {
     list-style: none;
-    display: flex;
+    padding: 0;
     margin: 0;
-    padding: 0;
+    display: flex;
+    gap: 25px;
 }
 
-.nav-links li {
-    margin-left: 20px;
-}
-
-.nav-links a {
-    color: var(--white-text);
+.nav-links li a {
+    color: var(--light-text-gold);
     text-decoration: none;
     font-weight: bold;
-    padding: 0.5rem 0;
-    transition: color 0.3s ease, border-bottom 0.3s ease;
-    position: relative;
-}
-
-.nav-links a::after {
-    content: '';
-    position: absolute;
-    width: 0;
-    height: 2px;
-    bottom: 0;
-    left: 0;
-    background-color: var(--gold-accent);
-    transition: width 0.3s ease-in-out;
-}
-
-.nav-links a:hover::after,
-.nav-links a.active::after {
-    width: 100%;
-}
-
-.nav-links a:hover {
-    color: var(--gold-accent);
-}
-
-.nav-links a.active {
-    color: var(--gold-accent);
-}
-
-
-/* Hamburguer menu for mobile */
-.hamburger-menu {
-    display: none; /* Hidden by default */
-    background: none;
-    border: none;
-    cursor: pointer;
-    padding: 0;
-    flex-direction: column;
-    justify-content: space-around;
-    width: 30px;
-    height: 25px;
-    z-index: 200; /* Asegura que esté sobre el nav-links en móvil */
-}
-
-.hamburger-menu .bar {
-    width: 100%;
-    height: 3px;
-    background-color: var(--white-text);
-    border-radius: 5px;
-    transition: all 0.3s ease;
-}
-
-/* Estilos para el botón de cerrar sesión */
-.logout-container {
-    margin-left: 20px; /* Espacio para separarlo de los nav-links */
-}
-
-.logout-container a {
-    color: var(--gold-accent);
-    text-decoration: none;
-    font-weight: bold;
-    padding: 0.5rem 1rem;
-    border: 1px solid var(--gold-accent);
+    padding: 10px 15px;
     border-radius: 5px;
     transition: background-color 0.3s ease, color 0.3s ease;
 }
 
-.logout-container a:hover {
-    background-color: var(--gold-accent);
-    color: var(--dark-metal);
+.nav-links li a:hover,
+.nav-links li a.active {
+    background-color: var(--gold-primary);
+    color: var(--black-text);
+}
+
+/* Estilos para el elemento "Cerrar Sesión" dentro del menú */
+.nav-links li a.logout-menu-item {
+    background-color: var(--error-red); /* Color de botón de peligro */
+    color: var(--white-text);
+    padding: 10px 15px; /* Ajustado para ser un enlace de menú */
+    border-radius: 5px;
+}
+
+.nav-links li a.logout-menu-item:hover {
+    background-color: #B00020;
+    color: var(--white-text);
 }
 
 
-/* Main content sections */
-.main-content {
-    flex-grow: 1; /* Permite que el contenido ocupe el espacio restante */
-    padding-top: 70px; /* Espacio para el header fijo */
-    background-color: var(--metal-background); /* Fondo general para el contenido logueado */
-}
-
-/* Oculta todas las secciones de contenido por defecto */
-/* NOTA: Eliminamos display: none; inline del HTML */
-.section-inicio,
-.section-cotizador,
-.section-contacto,
-.section-clientes-page { /* .section-clientes-page es para clientes.html */
-    display: none;
-    margin-bottom: 50px;
+/* Contenedor para el contenido dinámico de la aplicación */
+.content-area {
+    flex-grow: 1;
     padding: 20px;
-    background-color: var(--white-background);
-    border-radius: 8px;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-    max-width: 1000px;
-    margin-left: auto;
-    margin-right: auto;
-    box-sizing: border-box;
+    overflow-y: auto; /* Permite scroll si el contenido es largo */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start; /* Alinea el contenido al inicio verticalmente */
+    width: 100%;
 }
 
-/* Solo muestra la sección activa cuando el body tiene la clase logged-in */
-body.logged-in .section-inicio.active-section,
-body.logged-in .section-cotizador.active-section,
-body.logged-in .section-contacto.active-section {
-    display: block;
-}
-
-/* Asegura que las secciones en clientes.html se muestren si no están ocultas por el login overlay */
-/* (clientes.html no tiene login overlay, así que siempre muestra .section-clientes-page) */
-.section-clientes-page {
-    display: block; /* Muestra siempre esta sección en clientes.html */
-}
-
-
-/* Estilos específicos para la sección de inicio */
-.section-inicio {
-    padding-top: 20px; /* Ajuste para el contenido dentro de la sección */
-}
-
-.inicio-content {
-    max-width: 960px;
-    margin: 0 auto;
-    padding: 20px;
-    background-color: var(--white-background);
-    border-radius: 8px;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-    color: var(--dark-metal); /* Asegurar color de texto oscuro */
-}
-
-.logo-inicio {
-    display: block;
-    max-width: 150px;
+/* Estilos específicos para la sección de bienvenida del admin */
+.admin-welcome, .admin-section {
+    background-color: #2a2a2a;
+    padding: 30px;
+    border-radius: 12px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.4);
+    text-align: center;
+    max-width: 900px; /* Aumentado para la tabla de clientes */
     margin: 20px auto;
-}
-
-.inicio-content h1 {
-    color: var(--dark-metal);
-    text-align: center;
-    margin-bottom: 10px;
-}
-
-.inicio-content .eslogan {
-    color: var(--gold-accent);
-    text-align: center;
-    font-style: italic;
-    margin-bottom: 20px;
-    font-size: 1.1em;
-}
-
-.inicio-content .nosotros,
-.inicio-content .que-hacemos,
-.inicio-content .donde-vamos {
-    margin-bottom: 30px;
-    padding: 15px;
-    border: 1px solid var(--light-metal);
-    border-radius: 6px;
-    background-color: #f9f9f9; /* Fondo ligeramente diferente para los bloques de texto */
-}
-
-.inicio-content h2 {
-    color: var(--metal-accent);
-    margin-top: 0;
-    margin-bottom: 10px;
-    font-size: 1.4em;
-    border-bottom: 2px solid var(--gold-accent);
-    padding-bottom: 5px;
-}
-
-.inicio-content p {
-    line-height: 1.6;
-    margin-bottom: 10px;
-}
-
-.inicio-content ul {
-    padding-left: 25px;
-    margin-bottom: 10px;
-    list-style-type: disc;
-}
-
-.inicio-content li {
-    margin-bottom: 8px;
-    font-weight: bold;
-    color: var(--dark-metal);
-}
-
-.inicio-content li strong {
-    color: var(--gold-primary);
-}
-
-
-/* Cotizador Section */
-.section-cotizador {
-    padding: 20px;
-    color: var(--dark-metal);
-}
-
-.section-cotizador h2 {
-    color: var(--dark-metal);
-    text-align: center;
-    margin-bottom: 20px;
-}
-
-.client-selection {
-    display: flex;
-    justify-content: center;
-    gap: 15px;
-    margin-bottom: 30px;
-}
-
-.client-selection button {
-    padding: 10px 20px;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-    font-size: 1em;
-    font-weight: bold;
-    transition: background-color 0.3s ease;
-}
-
-.client-new-btn {
-    background-color: #E53935; /* Rojo para cliente nuevo */
-    color: var(--white-text);
-}
-
-.client-new-btn:hover {
-    background-color: #C62828;
-}
-
-.client-existing-btn {
-    background-color: #4CAF50; /* Verde para cliente existente */
-    color: var(--white-text);
-}
-
-.client-existing-btn:hover {
-    background-color: #388E3C;
-}
-
-#quoteForm {
-    background-color: var(--white-background);
-    padding: 25px;
-    border-radius: 8px;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-}
-
-.form-group {
-    margin-bottom: 15px;
-}
-
-.form-group label {
-    display: block;
-    margin-bottom: 5px;
-    font-weight: bold;
-    color: var(--metal-accent);
-}
-
-.form-group input[type="text"],
-.form-group input[type="email"],
-.form-group input[type="tel"],
-.form-group input[type="number"] {
-    width: calc(100% - 20px);
-    padding: 10px;
     border: 1px solid var(--medium-grey-border);
-    border-radius: 4px;
-    box-sizing: border-box;
-    font-size: 1em;
-    color: var(--dark-metal);
-    background-color: #fcfcfc;
 }
 
-#quoteForm h3 {
-    color: var(--dark-metal);
-    margin-top: 30px;
-    margin-bottom: 15px;
-    border-bottom: 1px solid var(--light-metal);
-    padding-bottom: 5px;
-}
-
-.table-container {
-    overflow-x: auto; /* Permite scroll horizontal en tablas grandes */
-    margin-bottom: 20px;
-}
-
-#itemsTable {
-    width: 100%;
-    border-collapse: collapse;
-    margin-top: 15px;
-}
-
-#itemsTable th, #itemsTable td {
-    border: 1px solid #ddd;
-    padding: 8px;
-    text-align: left;
-    color: var(--dark-metal);
-}
-
-#itemsTable th {
-    background-color: var(--table-header-bg);
-    color: var(--white-text);
-    font-weight: bold;
-}
-
-#itemsTable input {
-    width: calc(100% - 10px);
-    padding: 5px;
-    border: 1px solid #ccc;
-    border-radius: 3px;
-    box-sizing: border-box;
-    font-size: 0.9em;
-    color: var(--dark-metal);
-}
-
-#itemsTable .item-total-display {
-    text-align: right;
-    font-weight: bold;
-}
-
-#itemsTable .remove-btn {
-    background-color: var(--error-red);
-    color: var(--white-text);
-    border: none;
-    padding: 5px 10px;
-    border-radius: 4px;
-    cursor: pointer;
-    font-size: 0.8em;
-    transition: background-color 0.3s ease;
-}
-
-#itemsTable .remove-btn:hover {
-    background-color: #a00;
-}
-
-#quoteForm button[type="button"] { /* Botón Añadir Ítem */
-    background-color: var(--metal-accent);
-    color: var(--white-text);
-    padding: 10px 20px;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-    font-size: 1em;
-    transition: background-color 0.3s ease;
-    margin-top: 15px;
-}
-
-#quoteForm button[type="button"]:hover {
-    background-color: #526C7A;
-}
-
-.totals-summary {
-    background-color: #f0f0f0;
-    padding: 20px;
-    border-radius: 8px;
-    margin-top: 30px;
-    border: 1px solid #e0e0e0;
-}
-
-.total-row {
-    display: flex;
-    justify-content: space-between;
-    margin-bottom: 10px;
-    font-size: 1.1em;
-    color: var(--dark-metal);
-}
-
-.total-row span:last-child {
-    font-weight: bold;
-    text-align: right;
-    min-width: 80px; /* Asegura espacio para los valores */
-}
-
-.total-row.total-final {
-    font-size: 1.4em;
-    font-weight: bold;
-    border-top: 2px solid var(--dark-metal);
-    padding-top: 10px;
-    margin-top: 15px;
-    color: var(--gold-primary);
-}
-
-.buttons-container {
-    text-align: center;
-    margin-top: 30px;
-}
-
-.buttons-container button {
-    background-color: var(--gold-primary);
-    color: var(--black-text);
-    padding: 12px 25px;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-    font-size: 1.1em;
-    font-weight: bold;
-    transition: background-color 0.3s ease, transform 0.2s ease;
-}
-
-.buttons-container button:hover {
-    background-color: var(--gold-accent);
-    transform: translateY(-2px);
-}
-
-/* Contacto Section */
-.section-contacto {
-    padding: 20px;
-    color: var(--dark-metal);
-}
-
-.contacto-content {
-    max-width: 700px;
-    margin: 0 auto;
-    padding: 25px;
-    background-color: var(--white-background);
-    border-radius: 8px;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-}
-
-.contacto-content h2 {
-    color: var(--dark-metal);
-    text-align: center;
-    margin-bottom: 20px;
-}
-
-.contacto-content p {
-    margin-bottom: 10px;
-}
-
-.contacto-content address {
-    font-style: normal;
-    margin-bottom: 20px;
-    line-height: 1.5;
-}
-
-.contacto-content a {
+.admin-welcome h2, .admin-section h2 {
     color: var(--gold-accent);
-    text-decoration: none;
-}
-
-.contacto-content a:hover {
-    text-decoration: underline;
-}
-
-/* Clientes Page Styles (clientes.html) */
-.section-clientes-page {
-    padding-top: 20px; /* Ajuste para el contenido */
-    color: var(--dark-metal);
-}
-
-.clientes-content {
-    max-width: 900px;
-    margin: 0 auto;
-    padding: 25px;
-    background-color: var(--white-background);
-    border-radius: 8px;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-}
-
-.clientes-content h2 {
-    color: var(--dark-metal);
-    text-align: center;
-    margin-bottom: 20px;
-}
-
-#addClientForm {
-    background-color: #f8f8f8;
-    padding: 20px;
-    border-radius: 8px;
-    border: 1px solid #e0e0e0;
-    margin-bottom: 30px;
-}
-
-#addClientForm .form-group label {
-    color: var(--metal-accent);
-}
-
-#addClientForm input[type="text"],
-#addClientForm input[type="email"],
-#addClientForm input[type="tel"] {
-    width: calc(100% - 20px);
-    padding: 10px;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-    box-sizing: border-box;
-    font-size: 1em;
-    color: var(--dark-metal);
-}
-
-.button {
-    background-color: var(--gold-primary);
-    color: var(--black-text);
-    padding: 10px 20px;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-    font-size: 1em;
-    font-weight: bold;
-    transition: background-color 0.3s ease;
-    margin-top: 15px;
-}
-
-.button:hover {
-    background-color: var(--gold-accent);
-}
-
-#clientList h3 {
-    color: var(--dark-metal);
     margin-bottom: 15px;
 }
 
-#clientsTable {
-    width: 100%;
-    border-collapse: collapse;
+.admin-welcome p, .admin-section p {
+    color: var(--light-text-gold);
+    line-height: 1.6;
+}
+
+/* Estilos para el dashboard del cliente */
+.client-info {
+    background-color: #2a2a2a;
+    padding: 30px;
+    border-radius: 12px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.4);
+    text-align: center;
+    max-width: 900px; /* Ancho máximo para el contenido del cliente */
+    margin: 20px auto;
+    border: 1px solid var(--medium-grey-border);
+}
+
+.client-info h2 {
+    color: var(--gold-accent);
+    margin-bottom: 20px;
+}
+
+.client-info p {
+    color: var(--light-text-gold);
+    line-height: 1.6;
+    margin-bottom: 20px;
+}
+
+.client-sections {
+    display: flex;
+    flex-wrap: wrap; /* Permite que las secciones se envuelvan en pantallas pequeñas */
+    justify-content: center;
+    gap: 25px; /* Espacio entre las secciones */
+    margin-top: 30px;
+}
+
+.client-section {
+    background-color: #333;
+    padding: 25px;
+    border-radius: 10px;
+    border: 1px solid #444;
+    text-align: left;
+    flex: 1; /* Permite que crezca y se encoja */
+    min-width: 300px; /* Ancho mínimo para las secciones */
+    max-width: 45%; /* Para que dos secciones quepan en una fila en pantallas grandes */
+    box-shadow: 0 3px 10px rgba(0, 0, 0, 0.3);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.client-section:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.5);
+}
+
+.client-section h3 {
+    color: var(--gold-primary);
+    margin-top: 0;
+    margin-bottom: 15px;
+    font-size: 1.6em;
+}
+
+.client-section ul {
+    list-style: none;
+    padding: 0;
     margin-top: 15px;
 }
 
-#clientsTable th, #clientsTable td {
-    border: 1px solid #ddd;
-    padding: 10px;
-    text-align: left;
-    color: var(--dark-metal);
-}
-
-#clientsTable th {
-    background-color: var(--table-header-bg);
+.client-section ul li {
+    background-color: #3f3f3f;
+    padding: 10px 15px;
+    margin-bottom: 10px;
+    border-left: 3px solid var(--gold-accent);
+    border-radius: 5px;
     color: var(--white-text);
-    font-weight: bold;
+    font-size: 0.95em;
 }
 
-#clientsTable .edit-btn, #clientsTable .delete-btn {
-    padding: 5px 10px;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-    font-size: 0.9em;
-    margin-right: 5px;
-    transition: background-color 0.3s ease;
-}
-
-#clientsTable .edit-btn {
-    background-color: var(--metal-accent);
-    color: var(--white-text);
-}
-
-#clientsTable .edit-btn:hover {
-    background-color: #526C7A;
-}
-
-#clientsTable .delete-btn {
-    background-color: var(--error-red);
-    color: var(--white-text);
-}
-
-#clientsTable .delete-btn:hover {
-    background-color: #a00;
-}
-
-
-/* Footer */
-.main-footer {
-    width: 100%;
-    background-color: var(--dark-metal);
-    color: var(--white-text);
-    text-align: center;
-    padding: 1rem 0;
-    margin-top: auto; /* Empuja el footer al final de la página */
-    box-shadow: 0 -2px 5px rgba(0,0,0,0.2);
-}
-
-/* Floating WhatsApp Button */
-.whatsapp-floating-btn {
+/* Estilos para el overlay del video de bienvenida */
+.video-overlay {
     position: fixed;
-    bottom: 20px;
-    right: 20px;
-    background-color: #25D366; /* WhatsApp Green */
-    color: white;
-    width: 60px;
-    height: 60px;
-    border-radius: 50%;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.95); /* Fondo oscuro semitransparente */
     display: flex;
     justify-content: center;
     align-items: center;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.4);
-    z-index: 999;
-    transition: transform 0.3s ease, background-color 0.3s ease;
+    z-index: 10000; /* Asegura que esté por encima de todo */
+    backdrop-filter: blur(8px); /* Efecto de desenfoque */
 }
 
-.whatsapp-floating-btn:hover {
-    transform: scale(1.1);
-    background-color: #1DA851; /* Darker green on hover */
+.video-wrapper {
+    position: relative;
+    max-width: 90%;
+    max-height: 90%;
+    width: 100%; /* Ajusta el ancho base del wrapper */
+    height: 0;
+    padding-bottom: 56.25%; /* 16:9 Aspect Ratio (divide 9 by 16 = 0.5625) */
 }
 
-.whatsapp-floating-btn img {
-    width: 35px; /* Size of the icon inside the button */
+.video-overlay video {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    border-radius: 10px;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.8);
+    background-color: black; /* Fondo negro para el video */
+}
+
+.skip-video-btn {
+    position: absolute;
+    bottom: 20px;
+    right: 20px;
+    background-color: rgba(var(--gold-primary), 0.8);
+    color: var(--black-text);
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-weight: bold;
+    z-index: 10001; /* Asegura que el botón esté sobre el video */
+    display: none; /* Oculto por defecto, se muestra con JS */
+}
+
+.skip-video-btn:hover {
+    background-color: var(--gold-primary);
+}
+
+/* Botón flotante de WhatsApp */
+.whatsapp-float {
+    position: fixed;
+    width: 60px;
+    height: 60px;
+    bottom: 40px;
+    right: 40px;
+    background-color: #25d366;
+    color: #FFF;
+    border-radius: 50px;
+    text-align: center;
+    font-size: 30px;
+    box-shadow: 2px 2px 3px #999;
+    z-index: 1000;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.whatsapp-float img {
+    width: 35px;
     height: 35px;
 }
 
-/* Responsive adjustments */
+.whatsapp-float:hover {
+    transform: scale(1.1);
+    box-shadow: 4px 4px 8px #777;
+}
+
+/* Hamburger menu icon for mobile */
+.hamburger {
+    display: none; /* Hidden by default on larger screens */
+    font-size: 2em;
+    background: none;
+    border: none;
+    color: var(--light-text-gold);
+    cursor: pointer;
+    z-index: 1001; /* Ensure it's above other elements if needed */
+}
+
+/* Nuevo estilo para el logo fijo */
+.fixed-logo {
+    position: fixed;
+    top: 15px; /* Distancia desde la parte superior */
+    right: 15px; /* Distancia desde la derecha */
+    width: 80px; /* Tamaño por defecto para pantallas grandes */
+    height: auto; /* Mantiene la relación de aspecto */
+    z-index: 1000; /* Asegura que esté por encima de la mayoría de los elementos */
+    opacity: 0.9; /* Ligera transparencia para que no sea intrusivo */
+    transition: opacity 0.3s ease-in-out; /* Suave transición al pasar el ratón */
+}
+
+.fixed-logo:hover {
+    opacity: 1; /* Opacidad completa al pasar el ratón */
+}
+
+/* Estilos de los botones en el cotizador */
+.cotizador .buttons-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    justify-content: center;
+    margin-top: 20px;
+}
+
+.cotizador .buttons-container button,
+.cotizador .buttons-container label.csv-upload-label {
+    flex: 1; /* Permite que los botones ocupen espacio equitativamente */
+    min-width: 180px; /* Ancho mínimo para que no se compriman demasiado */
+    max-width: 48%; /* Para que dos botones quepan en una fila */
+    box-sizing: border-box; /* Incluye padding y border en el ancho */
+    margin-bottom: 0; /* Ya se maneja con gap */
+}
+
+/* Estilos específicos para botones de cliente (cotizador y base de clientes) */
+.btn-new-client {
+    background-color: var(--client-new-btn);
+}
+.btn-new-client:hover {
+    background-color: var(--client-new-btn-hover);
+}
+.btn-existing-client {
+    background-color: var(--client-existing-btn);
+}
+.btn-existing-client:hover {
+    background-color: var(--client-existing-btn-hover);
+}
+.btn-cancel {
+    background-color: #6c757d; /* Gris para cancelar */
+}
+.btn-cancel:hover {
+    background-color: #5a6268;
+}
+
+/* Estilos para el botón de cargar CSV */
+.csv-upload-label {
+    background-color: var(--dark-metal); /* Color diferente para CSV */
+    color: var(--white-text);
+    padding: 14px 25px;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 1.1em;
+    font-weight: bold;
+    transition: background-color 0.3s ease, transform 0.2s ease, box-shadow 0.3s ease;
+    display: inline-block; /* Para que funcione con label */
+    text-align: center;
+}
+
+.csv-upload-label:hover {
+    background-color: #3f5f5f;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.4);
+}
+
+/* Estilos para tablas */
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+    background-color: #333;
+    border-radius: 8px;
+    overflow: hidden; /* Asegura que los bordes redondeados se apliquen a la tabla */
+    color: var(--white-text);
+}
+
+table th, table td {
+    padding: 12px 15px;
+    border: 1px solid #444;
+    text-align: left;
+}
+
+table thead th {
+    background-color: var(--table-header-bg);
+    color: var(--gold-accent);
+    font-weight: bold;
+    text-transform: uppercase;
+}
+
+table tbody tr:nth-child(even) {
+    background-color: #3a3a3a; /* Rayas para mejor legibilidad */
+}
+
+table tbody tr:hover {
+    background-color: #4b4b4b; /* Efecto hover en filas */
+}
+
+/* Estilos para inputs dentro de las tablas (cotizador) */
+table input[type="text"],
+table input[type="number"] {
+    width: calc(100% - 10px);
+    padding: 8px 5px;
+    border: 1px solid #555;
+    border-radius: 4px;
+    background-color: #444;
+    color: var(--white-text);
+}
+
+table input[type="text"]:focus,
+table input[type="number"]:focus {
+    border-color: var(--gold-primary);
+    outline: none;
+}
+
+/* Botones de eliminar en la tabla del cotizador */
+.remove-item-btn {
+    background-color: var(--error-red);
+    color: var(--white-text);
+    padding: 8px 12px;
+    font-size: 0.9em;
+    width: auto; /* Sobreescribe el 100% de los botones generales */
+    margin-bottom: 0;
+}
+.remove-item-btn:hover {
+    background-color: #B00020;
+}
+
+/* Estilos para la tabla de clientes en Base de Clientes */
+#clientsTable {
+    width: 100%;
+    margin-top: 20px;
+}
+
+#clientsTable .client-actions-cell {
+    text-align: center;
+    white-space: nowrap; /* Evita que los botones se rompan de línea */
+}
+
+#clientsTable .client-actions-cell button {
+    width: auto;
+    display: inline-block;
+    margin: 5px;
+    padding: 8px 12px;
+    font-size: 0.9em;
+}
+
+.edit-client-btn {
+    background-color: var(--gold-primary);
+    color: var(--black-text);
+}
+.edit-client-btn:hover {
+    background-color: var(--gold-accent);
+}
+
+.delete-client-btn {
+    background-color: var(--error-red);
+    color: var(--white-text);
+}
+.delete-client-btn:hover {
+    background-color: #B00020;
+}
+
+/* Contenedor del formulario de cliente (añadir/editar) */
+#clientFormContainer {
+    background-color: #333;
+    padding: 25px;
+    border-radius: 10px;
+    margin-bottom: 20px;
+    text-align: left;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+}
+
+#clientFormContainer h3 {
+    text-align: center;
+    color: var(--gold-primary);
+    margin-bottom: 20px;
+}
+
+#clientFormContainer .input-group input {
+    width: calc(100% - 22px); /* Ajuste por padding y borde */
+}
+
+#clientFormContainer .buttons-container {
+    display: flex;
+    gap: 10px;
+    justify-content: center;
+    margin-top: 20px;
+}
+
+#clientFormContainer .buttons-container button {
+    flex: 1;
+    max-width: 48%;
+}
+
+/* Input de búsqueda de clientes */
+.search-input-group {
+    margin-bottom: 20px;
+    text-align: center;
+}
+
+.search-input-group input {
+    width: calc(100% - 40px); /* Ajuste por padding */
+    padding: 12px 20px;
+    border: 1px solid var(--medium-grey-border);
+    border-radius: 25px; /* Bordes más redondeados para búsqueda */
+    background-color: #333;
+    color: var(--white-text);
+    font-size: 1em;
+    transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.search-input-group input:focus {
+    border-color: var(--gold-primary);
+    box-shadow: 0 0 8px rgba(var(--gold-primary), 0.5);
+    outline: none;
+}
+
+/* Estilos para el logo dentro del cotizador */
+.logo-inside-cotizador {
+    width: 100px; /* Tamaño del logo en el cotizador */
+    margin-bottom: 20px;
+    display: block; /* Asegura que ocupe su propia línea */
+    margin-left: auto;
+    margin-right: auto;
+}
+
+
+/* Ajustes para tablets y teléfonos grandes (hasta 768px de ancho) */
 @media (max-width: 768px) {
+    /* Login y App Content */
+    body {
+        padding: 15px;
+    }
+
+    .login-container {
+        padding: 30px;
+        max-width: 350px;
+    }
+
+    h2 {
+        font-size: 1.7em;
+    }
+
+    .input-group input {
+        padding: 10px;
+    }
+
+    button {
+        padding: 12px 20px;
+        font-size: 1em;
+    }
+
+    /* Header y Navbar */
+    .header {
+        flex-direction: column;
+        align-items: flex-start;
+        padding: 10px 15px;
+    }
+
     .navbar {
-        flex-wrap: wrap;
-        padding: 1rem;
-    }
-
-    .logo-container {
-        font-size: 1.2em;
-        margin-right: auto; /* Empuja el logo a la izquierda */
-    }
-
-    .hamburger-menu {
-        display: flex; /* Show on mobile */
+        width: 100%;
+        justify-content: flex-end; /* Alinea el menú a la derecha cuando se abre */
     }
 
     .nav-links {
-        display: none; /* Hide by default on mobile */
         flex-direction: column;
         width: 100%;
-        background-color: var(--dark-metal);
+        background-color: #222; /* Fondo para el menú desplegable */
         position: absolute;
-        top: 60px; /* Below the header */
+        top: 60px; /* Debajo del header */
         left: 0;
-        box-shadow: 0 5px 5px rgba(0,0,0,0.2);
-        z-index: 99; /* Debajo del botón de hamburguesa pero encima del contenido */
+        right: 0;
+        display: none; /* Oculto por defecto */
+        padding: 10px 0;
+        box-shadow: 0 2px 5px rgba(0,0,0,0.3);
     }
 
     .nav-links.active {
-        display: flex; /* Muestra los enlaces cuando el menú está activo */
+        display: flex; /* Muestra cuando está activo */
     }
 
     .nav-links li {
-        margin: 10px 20px; /* Espaciado vertical para enlaces en móvil */
-        text-align: center;
-    }
-
-    .nav-links a {
-        font-size: 1.2em;
-        padding: 10px 0;
-        display: block; /* Para que el área de clic sea más grande */
-    }
-
-    .logout-container {
+        margin: 10px 0;
         width: 100%;
         text-align: center;
-        margin-top: 10px;
-        margin-left: 0;
-        order: 3; /* Asegura que el botón de logout aparezca al final */
     }
 
-    .logout-container a {
-        display: block;
-        width: calc(100% - 2rem);
-        margin: 0 auto;
+    .hamburger {
+        display: block; /* Muestra el icono de hamburguesa */
+        position: absolute; /* Posiciona la hamburguesa en la esquina */
+        top: 15px;
+        left: 15px;
     }
 
-    .main-content {
-        padding-top: 120px; /* Más espacio para el header expandido en móvil */
+    /* Nuevo estilo para el logo fijo */
+    .fixed-logo {
+        top: 10px; /* Reduce la distancia desde arriba */
+        right: 10px; /* Reduce la distancia desde la derecha */
+        width: 60px; /* Tamaño más pequeño para tablets y teléfonos grandes */
     }
 
-    .section-inicio,
-    .section-cotizador,
-    .section-clientes-page,
-    .section-contacto {
-        padding: 15px;
-    }
-
-    .inicio-content,
-    .clientes-content,
-    .contacto-content,
-    #quoteForm {
-        padding: 15px;
-    }
-
-    #itemsTable th, #itemsTable td {
-        padding: 6px;
-        font-size: 0.8em;
-    }
-
-    #itemsTable input {
-        padding: 3px;
-        font-size: 0.8em;
-    }
-
-    #clientsTable th, #clientsTable td {
-        padding: 8px;
-        font-size: 0.9em;
-    }
-    
-    /* Responsive for floating button */
-    .whatsapp-floating-btn {
+    /* WhatsApp Float */
+    .whatsapp-float {
         width: 50px;
         height: 50px;
-        bottom: 15px;
-        right: 15px;
+        bottom: 20px;
+        right: 20px;
     }
-    .whatsapp-floating-btn img {
+
+    .whatsapp-float img {
         width: 30px;
         height: 30px;
+    }
+
+    /* Clientes y Cotizador */
+    .admin-welcome, .admin-section, .client-info {
+        padding: 20px;
+    }
+
+    .client-sections {
+        flex-direction: column;
+        gap: 15px;
+    }
+
+    .client-section {
+        max-width: 100%; /* Una columna en pantallas pequeñas */
+        min-width: unset; /* Eliminar min-width */
+    }
+
+    .cotizador .buttons-container button,
+    .cotizador .buttons-container label.csv-upload-label {
+        max-width: 100%; /* Un botón por fila en pantallas pequeñas */
+        min-width: unset;
+    }
+
+    table th, table td {
+        padding: 8px 10px;
+        font-size: 0.9em;
+    }
+
+    .remove-item-btn,
+    #clientsTable .client-actions-cell button {
+        padding: 6px 10px;
+        font-size: 0.8em;
+    }
+}
+
+/* Ajustes para teléfonos pequeños (hasta 480px de ancho) */
+@media (max-width: 480px) {
+    .login-container {
+        padding: 20px;
+    }
+
+    h2 {
+        font-size: 1.5em;
+    }
+
+    .login-container .logo-login {
+        width: 100px;
+    }
+
+    .client-info {
+        padding: 20px;
+    }
+
+    .client-section {
+        padding: 15px;
+    }
+
+    .client-section h3 {
+        font-size: 1.4em;
+    }
+
+    .client-section ul li {
+        padding: 8px 10px;
+        font-size: 0.9em;
+    }
+
+    .video-wrapper {
+        max-width: 95%; /* Más ancho en pantallas pequeñas */
+    }
+
+    /* Logo Fijo */
+    .fixed-logo {
+        top: 10px; /* Reduce la distancia desde arriba */
+        right: 10px; /* Reduce la distancia desde la derecha */
+        width: 60px; /* Tamaño más pequeño para tablets y teléfonos grandes */
     }
 }

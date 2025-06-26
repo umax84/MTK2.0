@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Cotizador General Macro Tecnologías Kernel</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div class="cotizador">
+    <img src="logo_mtk.png" alt="Logo Macro Tecnologías Kernel" class="logo-inside-cotizador">
+
+    <h2>Generador de Cotizaciones</h2>
+
+    <div class="input-group">
+        <label for="clienteNombre">Nombre del Cliente:</label>
+        <input type="text" id="clienteNombre" placeholder="Nombre completo del cliente" />
+    </div>
+
+    <div class="input-group">
+        <label for="clienteEmpresa">Empresa del Cliente:</label>
+        <input type="text" id="clienteEmpresa" placeholder="Nombre de la empresa (opcional)" />
+    </div>
+
+    <div class="input-group">
+        <label for="clienteTelefono">Teléfono del Cliente:</label>
+        <input type="text" id="clienteTelefono" placeholder="Ej: +52 81 1234 5678 (opcional)" />
+    </div>
+
+    <div class="input-group">
+        <label for="clienteEmail">Correo del Cliente:</label>
+        <input type="email" id="clienteEmail" placeholder="ejemplo@correo.com (opcional)" />
+    </div>
+
+    <div class="buttons-container" style="margin-bottom: 20px;">
+        <button id="guardarClienteBtn" class="btn-new-client">Guardar Nuevo Cliente</button>
+        <label class="csv-upload-label" for="csvFileInput">Cargar Clientes desde CSV</label>
+        <input type="file" id="csvFileInput" accept=".csv" style="display:none;" />
+        <button id="descargarCsvClientesBtn" title="Descarga los clientes actualmente en un archivo CSV.">Descargar CSV de Clientes</button>
+    </div>
+
+
+    <div class="input-group">
+        <label for="cotizacionFecha">Fecha de Cotización:</label>
+        <input type="date" id="cotizacionFecha" />
+    </div>
+
+    <h3>Productos a Cotizar</h3>
+    <table id="productosTable">
+      <thead>
+        <tr>
+          <th>Descripción</th>
+          <th>Cantidad</th>
+          <th>Precio Unitario</th>
+          <th>Total</th>
+          <th></th>
+        </tr>
+      </thead>
+      <tbody>
+        </tbody>
+      <tfoot>
+        <tr>
+          <td colspan="3" style="text-align: right;">Subtotal:</td>
+          <td id="subtotalDisplay">$0.00</td>
+          <td></td>
+        </tr>
+        <tr>
+          <td colspan="3" style="text-align: right;">IVA (16%):</td>
+          <td id="ivaDisplay">$0.00</td>
+          <td></td>
+        </tr>
+        <tr>
+          <td colspan="3" style="text-align: right;">Total:</td>
+          <td id="totalDisplay">$0.00</td>
+          <td></td>
+        </tr>
+      </tfoot>
+    </table>
+    <button id="addProductoBtn">Añadir Producto</button>
+
+    <div class="buttons-container">
+        <button onclick="window.generarPDFGeneral()">Descargar Cotización en PDF</button>
+    </div>
+  </div>
+
+  </body>
+</html>

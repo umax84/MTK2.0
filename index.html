@@ -3,151 +3,34 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>MTK | Gestión de Cotizaciones</title>
+  <title>Macro Tecnologías Kernel</title>
   <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-  <div class="login-overlay" id="loginOverlay">
-    <div class="login-container">
-      <h1 class="login-title">MTK</h1> <h2>Iniciar Sesión</h2>
-      <div class="input-group">
-        <label for="loginUsername">Usuario:</label>
-        <input type="text" id="loginUsername" placeholder="Ingresa tu usuario" required>
-      </div>
-      <div class="input-group">
-        <label for="loginPassword">Contraseña:</label>
-        <input type="password" id="loginPassword" placeholder="Ingresa tu contraseña" required>
-      </div>
-      <button id="loginBtn" class="login-button">Acceder</button>
-      <p id="loginMessage" class="error-message"></p>
+  <div class="login-container" id="loginContainer">
+    <img src="logo_mtk.png" alt="Logo Macro Tecnologías Kernel" class="logo-login">
+    <h2>Iniciar Sesión</h2>
+    <div class="input-group">
+      <label for="username">Usuario:</label>
+      <input type="text" id="username" placeholder="Ingresa tu usuario" />
     </div>
+    <div class="input-group">
+      <label for="password">Contraseña:</label>
+      <input type="password" id="password" placeholder="Ingresa tu contraseña" />
+    </div>
+    <button id="loginBtn">Entrar</button>
+    <p id="loginError" class="error-message"></p>
   </div>
 
-  <header class="main-header">
-    <nav class="navbar">
-      <div class="logo-container">
-        <a href="index.html#inicio" class="brand-logo">
-          MTK Energía Solar </a>
-      </div>
-      <button class="hamburger-menu" aria-label="Abrir menú de navegación">
-        <span class="bar"></span>
-        <span class="bar"></span>
-        <span class="bar"></span>
-      </button>
-      <ul class="nav-links">
-        <li><a href="#inicio" data-section="inicio">Inicio</a></li>
-        <li><a href="#cotizador" data-section="cotizador">Cotizador</a></li>
-        <li><a href="clientes.html" data-section="clientes">Clientes</a></li>
-        <li><a href="#contacto" data-section="contacto">Contacto</a></li>
-      </ul>
-      <div class="logout-container">
-        <a href="#" id="logoutBtn">Cerrar Sesión</a>
-      </div>
-    </nav>
-  </header>
+  <div id="appContent" style="display: none;">
+  </div>
 
-  <main class="main-content">
-    <div class="section-inicio" id="inicio">
-      <div class="inicio-content">
-        <h2>Bienvenido al Sistema de Gestión de Cotizaciones MTK</h2>
-        <p>Utiliza el menú de navegación para acceder a las diferentes funciones del sistema.</p>
-        <div class="quick-access-buttons">
-          <a href="#cotizador" class="quick-btn">Generar Nueva Cotización</a>
-          <a href="clientes.html" class="quick-btn">Gestionar Clientes</a>
-          <a href="#contacto" class="quick-btn">Contactar Soporte</a>
-        </div>
-      </div>
-    </div>
-
-    <div class="section-cotizador" id="cotizador">
-      <div class="cotizador-content">
-        <h2>Generador de Cotizaciones</h2>
-        <form id="quoteForm">
-          <div class="client-selection-buttons">
-            <button type="button" id="newClientBtn" class="client-action-btn new-client-btn">Nuevo Cliente</button>
-            <button type="button" id="existingClientBtn" class="client-action-btn existing-client-btn">Cliente Existente</button>
-          </div>
-
-          <div class="input-group" id="clientNumberGroup" style="display: none;">
-            <label for="clientNumber">Número de Cliente:</label>
-            <input type="text" id="clientNumber" placeholder="Ej: CL001">
-            <button type="button" id="loadClientBtn" class="load-client-btn">Cargar Cliente</button>
-          </div>
-
-          <div class="client-info">
-            <h3>Información del Cliente</h3>
-            <div class="form-row">
-              <div class="input-group">
-                <label for="clientName">Nombre del Cliente:</label>
-                <input type="text" id="clientName" placeholder="Nombre completo" required>
-              </div>
-              <div class="input-group">
-                <label for="clientCompany">Empresa:</label>
-                <input type="text" id="clientCompany" placeholder="Nombre de la empresa">
-              </div>
-            </div>
-            <div class="form-row">
-              <div class="input-group">
-                <label for="clientEmail">Correo Electrónico:</label>
-                <input type="email" id="clientEmail" placeholder="correo@ejemplo.com">
-              </div>
-              <div class="input-group">
-                <label for="clientPhone">Teléfono:</label>
-                <input type="tel" id="clientPhone" placeholder="+52 81 1234 5678">
-              </div>
-            </div>
-          </div>
-
-          <hr>
-
-          <h3>Detalles de la Cotización</h3>
-          <table id="itemsTable">
-            <thead>
-              <tr>
-                <th>Código</th>
-                <th>Descripción</th>
-                <th>Unidad</th>
-                <th>Cantidad</th>
-                <th>Precio Unitario</th>
-                <th>Total</th>
-                <th>Acción</th>
-              </tr>
-            </thead>
-            <tbody>
-              </tbody>
-          </table>
-          <button type="button" id="addItemBtn" class="add-item-btn">Añadir Ítem</button>
-
-          <div class="summary-section">
-            <p>Subtotal: <span id="subtotalAmount">$0.00</span></p>
-            <p>IVA (16%): <span id="ivaAmount">$0.00</span></p>
-            <p class="total-amount">TOTAL: <span id="totalAmount">$0.00</span></p>
-          </div>
-
-          <div class="form-buttons-container">
-            <button type="submit" id="generateQuoteBtn" class="generate-quote-btn">Generar Cotización PDF</button>
-          </div>
-        </form>
-      </div>
-    </div>
-
-    <div class="section-clientes" id="clientes">
-        <h2>Gestión de Clientes</h2>
-        <p>Aquí podrías listar y gestionar tus clientes guardados. Para una gestión completa de clientes, visita la página de <a href="clientes.html">Clientes</a>.</p>
-    </div>
-
-    <div class="section-contacto" id="contacto">
-        <h2>Contacto</h2>
-        <p>Para más información o soporte, por favor contáctanos:</p>
-        <p>Email: <a href="mailto:soporte@mtkenergia.com">soporte@mtkenergia.com</a></p>
-        <p>Teléfono: +52 81 1234 5678</p>
-    </div>
-  </main>
+  <a href="https://wa.me/528138474143" class="whatsapp-float" target="_blank">
+    <img src="whatsapp_icon.png" alt="WhatsApp">
+  </a>
 
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.8.0/jspdf.autotable.min.js"></script>
-
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf.plugin.autotable/3.5.1/jspdf.plugin.autotable.min.js"></script>
   <script src="script.js"></script>
-  <script src="cotizador-general.js"></script>
 </body>
 </html>
