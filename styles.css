@@ -587,8 +587,8 @@ label.csv-upload-label:hover {
 
 /* Media Queries para Responsividad */
 
-/* Tablets y pantallas pequeñas de laptop (hasta 1024px de ancho) */
-@media (max-width: 1024px) {
+/* Tablets y pantallas pequeñas de laptop (hasta 768px de ancho) */
+@media (max-width: 768px) {
     .login-container {
         padding: 30px;
         max-width: 350px;
